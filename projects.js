@@ -15,7 +15,7 @@ export const projects = [
       alt: 'Graphite illustration of a paper plane banking around an oversized coffee mug.'
     },
     demo: '#flight',
-    chapterLabel: '01 / Flight notes',
+    chapterLabel: '02 / Flight notes',
     rule: 'A house is not a flight path.',
     correction: 'Depends on your scale.',
     mediaPending: true,
@@ -30,6 +30,6 @@ export const projects = [
     title: 'Two Lights One Escape',
     tools: 'Unity · C# · Blender',
     role: 'Gameplay developer · Team project',
-    contribution: 'Implemented gameplay and light-based puzzle interactions for a split-screen co-op adventure. The team placed first at GameCon 25.'
+    contribution: 'Implemented gameplay and light-based puzzle interactions for a split-screen co-op adventure. The team won at GameCon and at the project evaluation.'
   }
-];
+].sort((a,b)=>(a.id==='two-lights'?-1:b.id==='two-lights'?1:0));

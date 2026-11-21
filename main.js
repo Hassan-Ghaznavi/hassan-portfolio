@@ -1,4 +1,5 @@
-import { projects } from './projects.js?v=chapters-1';
+import { projects } from './projects.js?v=two-lights-1';
+import { buildTwoLights } from './two-lights.js';
 
 function addText(parent, tag, content, className) {
   const element = document.createElement(tag);
@@ -14,6 +15,7 @@ for (const project of projects) {
   const chapter = document.createElement('article');
   chapter.className = 'project';
   chapter.id = project.id;
+  if(project.id==='two-lights'){buildTwoLights(chapter,project);projectIndex.append(chapter);continue;}
   if (project.chapterLabel) {
     const masthead = document.createElement('header');
     masthead.className = 'project-masthead';
