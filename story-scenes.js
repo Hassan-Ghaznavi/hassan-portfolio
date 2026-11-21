@@ -19,6 +19,16 @@ export function decorateFilmScreen(screen,film){
  const label=document.createElement('label');label.className='reveal-control';label.textContent='Sketch treatment → final frame';
  const input=document.createElement('input');input.type='range';input.min='0';input.max='100';input.value='0';input.setAttribute('aria-label',film.title+' sketch to final frame');input.addEventListener('input',()=>{screen.dataset.manualReveal='true';screen.style.setProperty('--reveal',input.value+'%');});label.append(input);screen.append(label);
 }
+export function buildSourceComparison(film){
+ const details=document.createElement('details');details.className='project-source fold-notes';
+ const summary=document.createElement('summary');summary.textContent='Behind the build · source geometry';details.append(summary);
+ const frame=document.createElement('div');frame.className='compare-frame';frame.style.setProperty('--compare','50%');
+ const solid=document.createElement('img');solid.src=`assets/process/${film.id}-solid.webp`;solid.alt=film.title+' solid preview rendered from the original Blender source';solid.width=960;solid.height=540;solid.loading='lazy';
+ const wire=document.createElement('img');wire.src=`assets/process/${film.id}-wire.webp`;wire.alt=film.title+' matching wireframe from its original Blender source';wire.width=960;wire.height=540;wire.loading='lazy';wire.className='compare-overlay';
+ const divider=document.createElement('span');divider.className='compare-divider';divider.textContent='↔';divider.setAttribute('aria-hidden','true');frame.append(solid,wire,divider);
+ const label=document.createElement('label');label.className='compare-control';label.textContent='Wireframe ↔ solid source preview';const input=document.createElement('input');input.type='range';input.min='0';input.max='100';input.value='50';input.setAttribute('aria-label',film.title+' source geometry comparison');input.addEventListener('input',()=>{frame.style.setProperty('--compare',input.value+'%');input.setAttribute('aria-valuetext',input.value+' percent wireframe');});label.append(input);
+ const caption=document.createElement('p');caption.className='source-caption';caption.textContent='Original .blend source · Matched camera and frame · Viewport geometry previews';details.append(frame,label,caption);return details;
+}
 function setup(){
  document.body.classList.add('has-stories');
  const sound=document.querySelector('#sound-toggle');sound.addEventListener('click',()=>{soundEnabled=!soundEnabled;sound.setAttribute('aria-pressed',String(soundEnabled));sound.textContent=soundEnabled?'Sound on':'Sound off';if(soundEnabled)playCue();else audio?.suspend();});

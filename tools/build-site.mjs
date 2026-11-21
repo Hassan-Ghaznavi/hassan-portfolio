@@ -20,4 +20,4 @@ console.log(`Prepared website: ${fileURLToPath(target)}`);
 
 
 await mkdir(new URL('assets/process/',target),{recursive:true});
-for(const file of ['avatar-finished.webp','avatar-wire.webp','cave-sketch.svg','ocean-sketch.svg','airpods-sketch.svg']) await copyFile(new URL('assets/process/'+file,root),new URL('assets/process/'+file,target));
+for(const file of ['cave-solid.webp','cave-wire.webp','ocean-solid.webp','ocean-wire.webp','airpods-solid.webp','airpods-wire.webp','avatar-finished.webp','avatar-wire.webp','cave-sketch.svg','ocean-sketch.svg','airpods-sketch.svg']) await copyFile(new URL('assets/process/'+file,root),new URL('assets/process/'+file,target));

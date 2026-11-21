@@ -58,7 +58,7 @@ Sunken Greed is credited as a team project following Hassan's correction. Indivi
 
 story-scenes.js adds scroll-driven sketch-to-final treatments for the Blender film cards, a paper-plane route connecting Paper Plane Dash to its browser demo, pointer-responsive paper-card depth, keyboard/touch note disclosures, contextual Pencil questions/reactions, and optional synthesized sound cues. Sound starts off and needs a user gesture. No external music is used. The sketch treatments are generated from final frames; they are not claimed to be original modeling wireframes.
 
-The Behind the Build divider uses two matched renders of the actual avatar Blender source. tools/render-process-pair.py renders the pair without saving changes to the source. Only compressed WebP images and the small SVG treatments enter dist; the raw PNGs and Blender files stay local. Matching project-specific source comparisons can be added when the cave/ocean/AirPods source files or captures are provided.
+The Behind the Build divider uses two matched renders of the actual avatar Blender source. tools/render-process-pair.py renders the pair without saving changes to the source. Only compressed WebP images and the small SVG treatments enter dist; the raw PNGs and Blender files stay local. Project-specific source comparisons are now included for the cave, ocean and AirPods from the supplied original files.
 
 ## Contact note and email setup
 
@@ -73,3 +73,10 @@ Run node tools/check-contact.mjs for isolated validation and delivery-receipt ch
 For a local preview that also serves the API, rebuild dist then run node tools/serve-story-preview.mjs and open http://127.0.0.1:4175/. The ordinary Python static server does not run Vercel functions.
 
 Provider references: https://vercel.com/docs/functions/runtimes/node-js , https://resend.com/docs/api-reference/emails/send-email , https://resend.com/docs/api-reference/emails/retrieve-email .
+
+
+### Project-specific Blender source comparisons
+
+The provided D:/Documents/Blender projects folder contains the original airpods.blend, stormy ocean.blend and cave.blend files. Each Blender film card now includes its own Behind the Build comparison using matched solid and wireframe previews from those sources. These previews use source cameras and the same frame in both views, with viewport-level subdivision for readability and rendering cost. They are distinct from the finished animation and from the stylized sketch-to-final-frame reveal.
+
+tools/render-project-process.py reads the sources with Blender auto-execution disabled, prepares temporary render-only geometry and outputs comparison images without saving the original files. Flat AirPods decals and its studio floor are omitted from the wireframe presentation to avoid degenerate display geometry. Only compressed preview images enter the public build; original .blend files remain local.

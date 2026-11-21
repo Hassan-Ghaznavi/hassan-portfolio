@@ -1,4 +1,4 @@
-import { decorateFilmScreen } from './story-scenes.js';
+import { decorateFilmScreen, buildSourceComparison } from './story-scenes.js';
 import { projects } from './projects.js?v=flow-4';
 import { buildTwoLights } from './two-lights.js';
 
@@ -79,7 +79,7 @@ for (const project of projects) {
        const video=document.createElement('video');video.controls=true;video.playsInline=true;video.muted=true;video.preload='none';video.poster=poster.src;video.src=`assets/blender-motion/${film.id}.mp4`;video.setAttribute('aria-label',film.title+' Blender animation');screen.replaceChildren(video);play.hidden=true;video.addEventListener('error',()=>{screen.replaceChildren(poster);play.hidden=false;play.textContent='Retry '+film.title+' ▷';},{once:true});
        new IntersectionObserver(entries=>{if(!entries[0].isIntersecting)video.pause();},{threshold:.05}).observe(video);video.play().catch(()=>{});video.focus();
       });
-      card.append(label,heading,sketch,screen,play,note);films.append(card);
+      card.append(label,heading,sketch,screen,play,buildSourceComparison(film),note);films.append(card);
     }
     const pauseSketches=document.createElement('button');pauseSketches.type='button';pauseSketches.className='button outline sketches-control';pauseSketches.dataset.miniPause='';pauseSketches.setAttribute('aria-pressed','false');pauseSketches.textContent='Pause 3D sketches';chapter.append(pauseSketches,films);
     const gallery=document.createElement('div');gallery.className='study-gallery';
