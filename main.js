@@ -304,3 +304,12 @@ flightLink.addEventListener('click', event => {
 
 
 
+// Small vector parts animate independently; offscreen artwork consumes no animation time.
+const coverArt=document.querySelector('.cover-art');
+const artToggle=document.querySelector('.art-motion-toggle');
+let artVisible=false,artPaused=false;
+function syncCoverMotion(){coverArt.classList.toggle('art-running',artVisible&&!artPaused&&!reducedMotion.matches&&!document.hidden);}
+new IntersectionObserver(entries=>{artVisible=entries[0].isIntersecting;syncCoverMotion();}).observe(coverArt);
+artToggle.addEventListener('click',()=>{artPaused=!artPaused;artToggle.textContent=artPaused?'Play sketch':'Pause sketch';artToggle.setAttribute('aria-pressed',String(artPaused));artToggle.setAttribute('aria-label',artPaused?'Play cover animation':'Pause cover animation');syncCoverMotion();});
+reducedMotion.addEventListener('change',syncCoverMotion);
+document.addEventListener('visibilitychange',syncCoverMotion);

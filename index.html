@@ -5,9 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Hassan Ghaznavi's game development and 3D environment art portfolio.">
   <title>The Manual Is Wrong. | Hassan Ghaznavi</title>
-  <link rel="stylesheet" href="styles.css?v=scroll-2">
+  <link rel="stylesheet" href="styles.css?v=cover-3">
   <script type="importmap">{"imports":{"three":"./assets/vendor/three/build/three.module.js","three/addons/":"./assets/vendor/three/addons/"}}</script>
-  <script type="module" src="main.js?v=two-lights-1"></script>
+  <script type="module" src="main.js?v=cover-3"></script>
   <script type="module" src="avatar-preview.js?v=ink-1"></script>
   <script type="module" src="internship.js"></script>
   <script type="module" src="sketch-preview.js"></script>
@@ -31,7 +31,42 @@
         <a class="cover-secondary" href="#about">Meet the maker</a>
       </div>
       <figure class="cover-art">
-        <img class="illustration" src="assets/controller-cartoon.webp" width="1536" height="1024" alt="A penciled controller diagram with a torn corner and a sketch of its illustrator holding a red pencil.">
+        <svg class="cover-drawing" viewBox="0 0 640 500" role="img" aria-labelledby="cover-drawing-title">
+          <title id="cover-drawing-title">A hand-drawn controller, Hassan's doodle, and a pencil line becoming a flight path.</title>
+          <defs><pattern id="cover-hatch" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(25)"><path d="M0 0V8" stroke="currentColor" stroke-width=".7" opacity=".22"/></pattern></defs>
+          <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+            <path class="draft-line" d="M39 91L385 77M38 92L34 297 374 306M27 110L26 280M53 313L357 318" stroke-width="1"/>
+            <g class="drawn-controller" transform="translate(35 90) rotate(-9 170 100)" stroke-width="2.8">
+              <path fill="var(--paper)" d="M69 15Q36 13 20 52L1 147Q-4 178 18 185Q37 193 57 165L88 132 247 132 276 167Q299 193 319 180Q335 169 324 137L300 49Q288 14 260 15Z"/>
+              <path fill="url(#cover-hatch)" d="M24 66L5 149Q1 176 20 179L69 120 89 124 55 160Q30 192 17 181Q-4 175 3 146ZM275 99L319 148Q328 176 312 178L270 128Z" stroke="none"/>
+              <path d="M70 18Q159 6 260 18M16 120L30 66M282 29L299 58" opacity=".38" stroke-width="1.1"/>
+              <path fill="url(#cover-hatch)" d="M111 29L218 29 215 81 113 80Z" stroke-width="1.6"/>
+              <path class="controller-dpad" fill="var(--paper)" d="M54 45H71V63H88V80H70V97H53V79H36V62H54Z"/>
+              <g class="controller-stick"><circle cx="107" cy="109" r="27" fill="var(--paper)"/><circle cx="107" cy="107" r="19" fill="url(#cover-hatch)"/><path d="M92 103Q107 92 122 101" stroke-width="1"/></g>
+              <g class="controller-stick right"><circle cx="221" cy="109" r="27" fill="var(--paper)"/><circle cx="221" cy="107" r="19" fill="url(#cover-hatch)"/><path d="M207 103Q222 92 236 101" stroke-width="1"/></g>
+              <g fill="var(--paper)" stroke-width="1.8"><circle cx="268" cy="40" r="11"/><circle class="controller-button" cx="289" cy="62" r="11"/><circle cx="266" cy="83" r="11"/><circle cx="246" cy="62" r="11"/></g>
+              <path d="M264 35L260 44H270ZM284 57L294 67M294 57L284 67M262 79L270 87M270 79L262 87M242 58H250V66H242Z" stroke-width="1.3"/>
+              <circle cx="164" cy="115" r="7" stroke-width="1.5"/>
+              <path d="M155 93h1m7 0h1m7 0h1m-14 6h1m7 0h1" stroke-width="2.7"/>
+            </g>
+            <path class="drawn-flight-path" d="M258 276C221 335 426 329 520 169" stroke="var(--red)" stroke-width="2.5"/>
+            <path d="M504 177L521 168 518 188" stroke="var(--red)" stroke-width="2"/>
+            <g class="margin-maker" transform="translate(453 314)" stroke-width="2.5">
+              <path fill="var(--paper)" d="M-23 76Q-46 85-48 139H66Q66 88 39 78L30 71V54H-9V74Z"/>
+              <path fill="url(#cover-hatch)" d="M35 85L59 101 65 137H35ZM-44 115L-23 109-19 138H-48Z" stroke="none"/>
+              <path d="M-21 79L9 99 39 79M-9 97L-12 122M28 97L31 122M-14 123L-9 123M29 123L34 123" stroke-width="1.5"/>
+              <path fill="var(--paper)" d="M-21 6Q-33-2-33 14Q-32 25-22 25Q-18 61 9 66Q40 65 47 29Q58 31 58 16Q58 5 48 9L46-20-19-20Z"/>
+              <path fill="currentColor" d="M-24 8Q-43-5-30-21Q-40-37-20-40Q-23-58-4-49Q8-66 20-49Q40-60 43-41Q65-37 52-21L48 11 39-9Q27-2 22-21Q11-9 1-15Q-12 2-17-9Z"/>
+              <path d="M-22-30Q-11-42-3-35M12-44Q24-48 30-37M36-29L44-24" stroke="var(--paper)" opacity=".55" stroke-width="1"/>
+              <g class="maker-eyes"><ellipse cx="-7" cy="20" rx="15" ry="14"/><ellipse cx="28" cy="20" rx="15" ry="14"/><path d="M8 19H13M-22 17L-28 14M43 17L49 14"/><ellipse cx="-3" cy="19" rx="2.6" ry="4" fill="currentColor"/><ellipse cx="32" cy="19" rx="2.6" ry="4" fill="currentColor"/></g>
+              <path d="M9 26L6 34 13 35M-13 0L-1-3M25-3L37 0M-2 44Q10 38 18 44M-2 48Q10 55 23 46M-11 49L-8 53M-4 57L-1 59M6 60L9 62M17 59L20 57M28 52L31 49" stroke-width="1.7"/>
+              <g class="maker-drawing-arm"><path d="M-35 100Q-65 102-62 72L-61 56" stroke-width="12" stroke="var(--paper)"/><path d="M-35 106Q-70 107-69 72L-68 59M-35 94Q-59 98-55 72L-54 57" stroke-width="2"/><path d="M-67 59Q-77 49-64 44Q-50 44-51 55L-55 64Z" fill="var(--paper)"/><path d="M-62 47L-73 5-68 0-56 44Z" fill="var(--red)" stroke-width="1.5"/><path d="M-73 5L-74-5-68 0" fill="var(--paper)" stroke-width="1.5"/></g>
+            </g>
+          </g>
+          <text x="63" y="65" class="drawing-note">fig. 01 / perfectly good instructions.</text>
+          <path d="M371 94L396 70M385 107L415 97" fill="none" stroke="var(--red)" stroke-width="1.5"/>
+        </svg>
+        <button class="art-motion-toggle" type="button" aria-label="Pause cover animation" aria-pressed="false">Pause sketch</button>
         <div class="cover-plane" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
         <figcaption>
           <s>Use the controller to fly.</s>
