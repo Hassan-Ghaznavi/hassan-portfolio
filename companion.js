@@ -35,3 +35,4 @@ document.querySelector('#pencil-form').addEventListener('submit',event=>{
  else message('I don’t have that information in these portfolio notes. Try a project name, skills, education, or awards. The full AI / RAG connection is not enabled yet.','guide-answer');
  while(log.children.length>17)log.firstElementChild.remove();input.value='';log.scrollTop=log.scrollHeight;
 });
+document.addEventListener('pencil:ask',event=>{setOpen(true);input.value=String(event.detail||'Who is Hassan?').slice(0,250);document.querySelector('#pencil-form').requestSubmit();close.focus({preventScroll:true});});

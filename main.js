@@ -1,3 +1,4 @@
+import { decorateFilmScreen } from './story-scenes.js';
 import { projects } from './projects.js?v=flow-4';
 import { buildTwoLights } from './two-lights.js';
 
@@ -71,7 +72,7 @@ for (const project of projects) {
       const heading=document.createElement('h4');heading.textContent=film.title;
       const sketch=document.createElement('div');sketch.className='mini-sketch';sketch.dataset.miniSketch=film.motif;sketch.setAttribute('aria-hidden','true');sketch.innerHTML='<span class="sketch-placeholder">a few lines, a little depth.</span>';
       const screen=document.createElement('div');screen.className='film-screen';
-      const poster=document.createElement('img');poster.src=`assets/blender-motion/${film.id}.webp`;poster.alt=film.title+' — frame from Hassan’s Blender animation';poster.loading='lazy';poster.width=960;poster.height=540;screen.append(poster);
+      const poster=document.createElement('img');poster.src=`assets/blender-motion/${film.id}.webp`;poster.alt=film.title+' — frame from Hassan’s Blender animation';poster.loading='lazy';poster.width=960;poster.height=540;screen.append(poster);decorateFilmScreen(screen,film);
       const play=document.createElement('button');play.type='button';play.className='button ink';play.textContent='Play '+film.title+' ▷';
       const note=document.createElement('p');note.textContent=film.note;
       play.addEventListener('click',()=>{

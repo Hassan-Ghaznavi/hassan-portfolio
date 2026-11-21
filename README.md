@@ -53,3 +53,23 @@ The render room includes Cave Scene, Stormy Ocean and AirPods from the supplied 
 project-sketches.js lazy-loads mini-scenes.js. One shared Three.js renderer uses viewport scissoring to place seven independent miniatures into their cards: falling ink and ripples, coupled extruded gears, exposed fossil layers, oscillating wave bars, cave crystals, a rocking buoy, and an opening earbud case. These are original stylized presentation motifs; the project footage remains separate. Only visible scenes animate, pixel density is capped, hidden tabs suspend rendering, both sketch controls share a pause state, and reduced-motion preferences show stationary scenes. The existing illustrations remain as fallbacks where available.
 
 Sunken Greed is credited as a team project following Hassan's correction. Individual contribution details are still awaiting his description.
+
+## Connected story interactions
+
+story-scenes.js adds scroll-driven sketch-to-final treatments for the Blender film cards, a paper-plane route connecting Paper Plane Dash to its browser demo, pointer-responsive paper-card depth, keyboard/touch note disclosures, contextual Pencil questions/reactions, and optional synthesized sound cues. Sound starts off and needs a user gesture. No external music is used. The sketch treatments are generated from final frames; they are not claimed to be original modeling wireframes.
+
+The Behind the Build divider uses two matched renders of the actual avatar Blender source. tools/render-process-pair.py renders the pair without saving changes to the source. Only compressed WebP images and the small SVG treatments enter dist; the raw PNGs and Blender files stay local. Matching project-specific source comparisons can be added when the cave/ocean/AirPods source files or captures are provided.
+
+## Contact note and email setup
+
+The contact form and paper-fold preview are implemented. api/contact.mjs is a Vercel Node function using Resend through server-side fetch. Configure RESEND_API_KEY, CONTACT_TO_EMAIL, and CONTACT_FROM_EMAIL in the Vercel project, using a sender authorized by your email provider. SITE_URL should match the production origin. See .env.example. Credentials are never copied into dist or sent to the browser.
+
+Until configured, the form clearly reports that delivery is unavailable and disables Send; the fold can still be previewed without transmitting a note. Provider acceptance does not count as delivery: a signed, ten-minute receipt allows polling only that email's status. The success fold runs only after the provider reports delivered, opened or clicked. Notes remain on screen when confirmation is pending or fails.
+
+Validation covers field lengths, email format, header newlines, JSON size, same-origin submissions, a honeypot, and a minimum form-fill time. A bounded per-instance rate limiter provides basic throttling; it is not a shared distributed rate-limit store. Requests use provider idempotency keys so retries of the same accepted note do not duplicate it. No user input or provider credentials are logged by the handler.
+
+Run node tools/check-contact.mjs for isolated validation and delivery-receipt checks. The test replaces the provider fetch locally and never sends email. Real delivery verification still requires configuring the service and receiving a test message in the designated inbox.
+
+For a local preview that also serves the API, rebuild dist then run node tools/serve-story-preview.mjs and open http://127.0.0.1:4175/. The ordinary Python static server does not run Vercel functions.
+
+Provider references: https://vercel.com/docs/functions/runtimes/node-js , https://resend.com/docs/api-reference/emails/send-email , https://resend.com/docs/api-reference/emails/retrieve-email .
