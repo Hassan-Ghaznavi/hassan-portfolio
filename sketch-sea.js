@@ -59,7 +59,9 @@ export async function mountSketchSea(){
  function frame(now){raf=0;if(!visible||document.hidden){last=0;return;}if(!paused&&now-paint<70){request();return;}paint=now;
   const dt=last?Math.min((now-last)/1000,.12):0;last=now;if(!paused)time+=dt;
   const t=Math.floor(time*12)/12; // Deliberate held poses, not random camera jitter.
-  whale.position.set(Math.sin(t*.55)*.7,Math.sin(t*1.5)*.13,Math.cos(t*.55)*.65);
+  const rect=stage.getBoundingClientRect();
+  const depth=reduced.matches?0:THREE.MathUtils.clamp((innerHeight/2-rect.top-rect.height/2)/innerHeight,-.65,.65);
+  whale.position.set(Math.sin(t*.55)*.7+depth*.35,Math.sin(t*1.5)*.13+depth*.3,Math.cos(t*.55)*.65+depth*.4);
   whale.rotation.set(Math.sin(t*1.5)*.045,Math.sin(t*.7)*.30,-.06+Math.sin(t*.9)*.035);
   tail.rotation.x=Math.sin(t*3)*.35;tail.rotation.z=Math.sin(t*3)*.17;fin.rotation.z=-.65+Math.sin(t*3-1)*.13;
   whale.visible=!petMode;companion.visible=petMode&&mascotLoaded;
@@ -73,6 +75,7 @@ export async function mountSketchSea(){
  new ResizeObserver(resize).observe(stage);
  new IntersectionObserver(entries=>{visible=entries[0].isIntersecting;last=0;if(!visible&&raf){cancelAnimationFrame(raf);raf=0;}request();},{threshold:.01}).observe(stage);
  document.addEventListener('visibilitychange',()=>{last=0;request();});
+ window.addEventListener('scroll',()=>{if(visible&&!reduced.matches)request();},{passive:true});
  const pause=document.querySelector('#sketch-pause');
  function announce(){pause.textContent=paused?'Play sketch':'Pause sketch';pause.setAttribute('aria-pressed',String(paused));}
  pause.disabled=false;pause.addEventListener('click',()=>{paused=!paused;last=0;announce();request();});

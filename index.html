@@ -5,19 +5,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Hassan Ghaznavi's game development and 3D environment art portfolio.">
   <title>The Manual Is Wrong. | Hassan Ghaznavi</title>
-  <link rel="stylesheet" href="styles.css?v=portfolio-2">
+  <link rel="stylesheet" href="styles.css?v=scroll-1">
   <script type="importmap">{"imports":{"three":"./assets/vendor/three/build/three.module.js","three/addons/":"./assets/vendor/three/addons/"}}</script>
   <script type="module" src="main.js?v=two-lights-1"></script>
   <script type="module" src="avatar-preview.js?v=ink-1"></script>
   <script type="module" src="internship.js"></script>
   <script type="module" src="sketch-preview.js"></script>
+  <script type="module" src="scroll-motion.js"></script>
 </head>
 <body>
   <a class="skip-link" href="#work">Skip to selected work</a>
   <header class="site-header wrap">
     <a class="wordmark" href="#">Hassan Ghaznavi</a>
     <span class="header-rule" aria-hidden="true"></span>
-    <nav aria-label="Main"><a href="#work">Work</a><a href="#skills">Toolkit</a><a href="#about">About</a><a href="#avatar">Explore ↗</a></nav>
+    <nav aria-label="Main"><a href="#work">Work</a><a href="#about">About</a><a href="#skills">Toolkit</a><a href="#avatar">Explore ↗</a></nav>
   </header>
   <main class="wrap">
     <section class="cover" aria-labelledby="title">
@@ -43,6 +44,7 @@
     <nav class="chapter-index" aria-label="Project index">
       <a href="#two-lights"><span>01</span> Two Lights One Escape · Two wins</a>
       <a href="#paper-dash"><span>02</span> Paper Plane Dash</a>
+      <a href="#sketch-sea"><span>03</span> Sunken Greed · A sketch in motion</a>
     </nav>
 
     <section id="work" class="section">
@@ -63,9 +65,34 @@
       <p class="collection-intro">Solo development during my ongoing internship. A selection of the mechanics and worlds I built, shown through project images.</p>
       <div id="internship-collection" class="specimen-grid"></div>
     </section>
+    <section id="about" class="section about">
+      <div class="section-heading"><p class="eyebrow">The person behind the pencil</p><h2>A developer.<br>An artist.<br>Always a player.</h2></div>
+      <div class="about-copy"><p>I'm Hassan Ghaznavi, a game developer and 3D environment artist based in Karachi, Pakistan. I study Computer Science &amp; Information Technology at NED University, specializing in Gaming &amp; Animation.</p><p>My work spans gameplay systems, gesture tracking, and interactive 3D environments. I enjoy taking an idea from its first sketch to something you can actually play.</p><p>As Game Development &amp; Animation Domain Lead at Gameverse Society, I also mentor junior developers and help teams turn their ideas into games.</p><a href="https://www.linkedin.com/in/hassan-ghaznavi" target="_blank" rel="noopener noreferrer">Find me on LinkedIn ↗</a></div>
+    </section>
+
+    <section id="skills" class="section toolkit" aria-labelledby="toolkit-title">
+      <div class="section-heading"><p class="eyebrow">Tools of the trade</p><h2 id="toolkit-title">A few ways<br>to make it real.</h2></div>
+      <div class="toolkit-grid">
+        <article><span class="tool-number">01 / Play</span><h3>Gameplay &amp; systems</h3><p>Mechanics, interactive simulations, and experiences built around player input.</p><ul><li>Unity · C#</li><li>Unreal Engine 5</li><li>C++ · Python</li><li>Three.js · JavaScript</li></ul></article>
+        <article><span class="tool-number">02 / Shape</span><h3>Worlds &amp; characters</h3><p>From the silhouette of a character to the environment that gives a game its atmosphere.</p><ul><li>Blender · Autodesk Maya</li><li>3D modeling · UV mapping</li><li>Character rigging</li><li>Environment art · UI/UX</li></ul></article>
+        <article><span class="tool-number">03 / Connect</span><h3>Beyond the screen</h3><p>Gesture input, connected game data, and the services that support an interactive experience.</p><ul><li>MediaPipe · OpenCV</li><li>Supabase · Firebase</li><li>MongoDB · MS SQL Server</li><li>GitHub · Vercel · itch.io</li></ul></article>
+      </div>
+    </section>
+
+    <section id="journey" class="section journey" aria-labelledby="journey-title">
+      <div class="section-heading"><p class="eyebrow">Notes along the way</p><h2 id="journey-title">Learning. Building.<br>Passing it on.</h2></div>
+      <div class="journey-list">
+        <article><span class="eyebrow">Education</span><div><h3>NED University</h3><p>Computer Science &amp; Information Technology · Gaming &amp; Animation</p><strong>3.85 CGPA</strong></div></article>
+        <article><span class="eyebrow">Experience</span><div><h3>AIRIDEV</h3><p>Game Developer Intern · Remote</p><p>Developed 10+ games during the internship, including Cargo Square Match, a C# mobile puzzle game.</p></div></article>
+        <article><span class="eyebrow">Leadership</span><div><h3>Gameverse Society</h3><p>Game Development &amp; Animation Domain Lead</p><p>Team initiatives, domain operations, and mentoring junior game developers.</p></div></article>
+        <article><span class="eyebrow">Community</span><div><h3>Global Game Jam 2026</h3><p>Co-developed <em>Behind the Smile</em> at the CEGA Karachi site.</p></div></article>
+        <article><span class="eyebrow">Certification</span><div><h3>Unity Development · NexSkill</h3><p>Completed with an A+ rating.</p></div></article>
+      </div>
+    </section>
+
     <section id="avatar" class="section avatar-section" aria-labelledby="avatar-title">
       <div class="avatar-copy">
-        <p class="eyebrow">Drawn in the margins. Thinking outside them.</p>
+        <p class="eyebrow">The playable margins / Meet the maker</p>
         <h2 id="avatar-title">A sketch with <br>a mind of his own.</h2>
         <p>Meet my little counterpart: a game developer with a pencil, a few ideas, and questionable respect for the instructions.</p>
         <p class="avatar-note"><s>Draw inside the lines.</s><br><em>We'll see about that.</em></p>
@@ -104,32 +131,7 @@
         </div>
       </div>
       <p id="flight-help">Aim for the red target with your mouse, touch, or arrow keys. The gate waits until you line up.</p>
-      <a href="#paper-dash">See the Unreal project ↓</a>
-    </section>
-
-    <section id="about" class="section about">
-      <div class="section-heading"><p class="eyebrow">The person behind the pencil</p><h2>A developer.<br>An artist.<br>Always a player.</h2></div>
-      <div class="about-copy"><p>I'm Hassan Ghaznavi, a game developer and 3D environment artist based in Karachi, Pakistan. I study Computer Science &amp; Information Technology at NED University, specializing in Gaming &amp; Animation.</p><p>My work spans gameplay systems, gesture tracking, and interactive 3D environments. I enjoy taking an idea from its first sketch to something you can actually play.</p><p>As Game Development &amp; Animation Domain Lead at Gameverse Society, I also mentor junior developers and help teams turn their ideas into games.</p><a href="https://www.linkedin.com/in/hassan-ghaznavi" target="_blank" rel="noopener noreferrer">Find me on LinkedIn ↗</a></div>
-    </section>
-
-    <section id="skills" class="section toolkit" aria-labelledby="toolkit-title">
-      <div class="section-heading"><p class="eyebrow">Tools of the trade</p><h2 id="toolkit-title">A few ways<br>to make it real.</h2></div>
-      <div class="toolkit-grid">
-        <article><span class="tool-number">01 / Play</span><h3>Gameplay &amp; systems</h3><p>Mechanics, interactive simulations, and experiences built around player input.</p><ul><li>Unity · C#</li><li>Unreal Engine 5</li><li>C++ · Python</li><li>Three.js · JavaScript</li></ul></article>
-        <article><span class="tool-number">02 / Shape</span><h3>Worlds &amp; characters</h3><p>From the silhouette of a character to the environment that gives a game its atmosphere.</p><ul><li>Blender · Autodesk Maya</li><li>3D modeling · UV mapping</li><li>Character rigging</li><li>Environment art · UI/UX</li></ul></article>
-        <article><span class="tool-number">03 / Connect</span><h3>Beyond the screen</h3><p>Gesture input, connected game data, and the services that support an interactive experience.</p><ul><li>MediaPipe · OpenCV</li><li>Supabase · Firebase</li><li>MongoDB · MS SQL Server</li><li>GitHub · Vercel · itch.io</li></ul></article>
-      </div>
-    </section>
-
-    <section id="journey" class="section journey" aria-labelledby="journey-title">
-      <div class="section-heading"><p class="eyebrow">Notes along the way</p><h2 id="journey-title">Learning. Building.<br>Passing it on.</h2></div>
-      <div class="journey-list">
-        <article><span class="eyebrow">Education</span><div><h3>NED University</h3><p>Computer Science &amp; Information Technology · Gaming &amp; Animation</p><strong>3.85 CGPA</strong></div></article>
-        <article><span class="eyebrow">Experience</span><div><h3>AIRIDEV</h3><p>Game Developer Intern · Remote</p><p>Developed 10+ games during the internship, including Cargo Square Match, a C# mobile puzzle game.</p></div></article>
-        <article><span class="eyebrow">Leadership</span><div><h3>Gameverse Society</h3><p>Game Development &amp; Animation Domain Lead</p><p>Team initiatives, domain operations, and mentoring junior game developers.</p></div></article>
-        <article><span class="eyebrow">Community</span><div><h3>Global Game Jam 2026</h3><p>Co-developed <em>Behind the Smile</em> at the CEGA Karachi site.</p></div></article>
-        <article><span class="eyebrow">Certification</span><div><h3>Unity Development · NexSkill</h3><p>Completed with an A+ rating.</p></div></article>
-      </div>
+      <a href="#paper-dash">Back to the Unreal project ↑</a>
     </section>
 
     <section class="section closing"><p class="eyebrow">End of this page. Start of something else.</p><h2>Have a world<br>in mind?</h2><a class="button ink" href="https://www.linkedin.com/in/hassan-ghaznavi" target="_blank" rel="noopener noreferrer">Let's connect ↗</a><p class="closing-note">Karachi, Pakistan · Game development &amp; 3D environment art</p></section>

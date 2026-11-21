@@ -250,3 +250,26 @@ html { overflow-x: clip; }
 .sketch-credit summary { cursor:pointer; }
 #sketch-status { font-size:.85rem;min-height:1.6em; }
 @media(max-width:720px){ .sketch-controls a { margin-left:0; } }
+
+/* Short, held beats echo pencil animation without moving the reading surface. */
+.scroll-ready { opacity:0; transform:translateY(22px); }
+.scroll-ready.scroll-arrived { animation:margin-arrive .65s steps(8,end) var(--reveal-delay,0ms) both; }
+@keyframes margin-arrive { from { opacity:0; transform:translateY(22px); } to { opacity:1; transform:translateY(0); } }
+.section-heading h2 { position:relative; width:fit-content; }
+.section-heading h2::after { content:''; display:block; height:3px; width:min(7rem,45%); background:var(--red); margin-top:.28em; transform-origin:left; clip-path:polygon(0 30%,100% 0,98% 70%,2% 100%); }
+.scroll-ready .section-heading h2::after,.section-heading.scroll-ready h2::after { transform:scaleX(0); }
+.section-heading.scroll-arrived h2::after { animation:ink-line .65s steps(10,end) .22s both; }
+@keyframes ink-line { from { transform:scaleX(0); } to { transform:scaleX(1); } }
+.chapter-index { grid-template-columns:repeat(3,minmax(0,1fr)); }
+@media(max-width:720px) { .chapter-index { grid-template-columns:1fr; } }
+@media(prefers-reduced-motion:reduce) {
+ :root { scroll-behavior:auto; }
+ .scroll-ready,.scroll-ready.scroll-arrived { opacity:1; transform:none; animation:none; }
+ .section-heading.scroll-ready h2::after,.section-heading.scroll-arrived h2::after { transform:none; animation:none; }
+}
+@media(max-width:720px) {
+ .chapter-index { grid-auto-flow:row; }
+ .chapter-index a { text-align:left; padding:.85rem 1rem; }
+ .chapter-index span { display:inline; }
+ .chapter-index a+a { border-left:0; border-top:1px solid #8a7c6d66; }
+}
