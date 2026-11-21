@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Hassan Ghaznavi's game development and 3D environment art portfolio.">
+  <title>The Manual Is Wrong. | Hassan Ghaznavi</title>
+  <link rel="stylesheet" href="styles.css?v=portfolio-2">
+  <script type="importmap">{"imports":{"three":"./assets/vendor/three/build/three.module.js","three/addons/":"./assets/vendor/three/addons/"}}</script>
+  <script type="module" src="main.js?v=chapters-1"></script>
+  <script type="module" src="avatar-preview.js?v=ink-1"></script>
+  <script type="module" src="internship.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#work">Skip to selected work</a>
+  <header class="site-header wrap">
+    <a class="wordmark" href="#">Hassan Ghaznavi</a>
+    <span class="header-rule" aria-hidden="true"></span>
+    <nav aria-label="Main"><a href="#work">Work</a><a href="#skills">Toolkit</a><a href="#about">About</a><a href="#avatar">Explore ↗</a></nav>
+  </header>
+  <main class="wrap">
+    <section class="cover" aria-labelledby="title">
+      <div class="cover-copy">
+        <p class="eyebrow">Game Developer &amp; 3D Environment Artist</p>
+        <h1 id="title">The Manual<br>Is Wrong.</h1>
+        <p class="lede">I make games that bend the rules of play.</p>
+        <p class="cover-intro">I'm Hassan, a game developer and 3D environment artist in Karachi. I build the systems behind the play—and the worlds around it.</p>
+        <a class="button ink" href="#work">View my work <span aria-hidden="true">↘</span></a>
+        <a class="cover-secondary" href="#about">Meet the maker</a>
+      </div>
+      <figure class="cover-art">
+        <img class="illustration" src="assets/controller-cartoon.webp" width="1536" height="1024" alt="A penciled controller diagram with a torn corner and a sketch of its illustrator holding a red pencil.">
+        <div class="cover-plane" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+        <figcaption>
+          <s>Use the controller to fly.</s>
+          <strong>Try one finger.</strong>
+          <a class="button outline" href="#flight" id="try-flying">Try flying <span aria-hidden="true">▸</span></a>
+        </figcaption>
+      </figure>
+    </section>
+
+    <nav class="chapter-index" aria-label="Project index">
+      <a href="#paper-dash"><span>01</span> Paper Plane Dash</a>
+      <a href="#two-lights"><span>02</span> Two Lights One Escape</a>
+    </nav>
+
+    <section id="work" class="section">
+      <div class="section-heading"><p class="eyebrow">The project chapters</p><h2>Selected work</h2></div>
+      <div id="projects" class="projects"></div>
+    </section>
+
+    <section id="internship" class="section" aria-labelledby="internship-title">
+      <div class="section-heading"><p class="eyebrow">AIRIDEV / The development collection</p><h2 id="internship-title">Four months.<br>10+ games.<br>Many ways to play.</h2></div>
+      <p class="collection-intro">Solo development during my ongoing internship. A selection of the mechanics and worlds I built, shown through project images.</p>
+      <div id="internship-collection" class="specimen-grid"></div>
+    </section>
+    <section id="avatar" class="section avatar-section" aria-labelledby="avatar-title">
+      <div class="avatar-copy">
+        <p class="eyebrow">Drawn in the margins. Thinking outside them.</p>
+        <h2 id="avatar-title">A sketch with <br>a mind of his own.</h2>
+        <p>Meet my little counterpart: a game developer with a pencil, a few ideas, and questionable respect for the instructions.</p>
+        <p class="avatar-note"><s>Draw inside the lines.</s><br><em>We'll see about that.</em></p>
+        <p class="avatar-help" id="avatar-help">Choose Draw to uncover a project. Drag to look around.</p>
+        <div class="avatar-actions" role="group" aria-label="Avatar animation">
+          <button type="button" class="button outline" data-avatar-clip="Idle" aria-pressed="true" disabled>Idle</button>
+          <button type="button" class="button outline" data-avatar-clip="Draw" aria-pressed="false" disabled>Draw</button>
+          <button type="button" class="button outline" data-avatar-clip="Point" aria-pressed="false" disabled>Point</button>
+        </div>
+        <div class="avatar-options">
+          <button type="button" class="avatar-text-button" id="avatar-pause" disabled>Pause</button>
+          <button type="button" class="avatar-text-button" id="avatar-reset" disabled>Reset view</button>
+          <label><input id="avatar-outlines" type="checkbox" checked disabled> Ink outlines</label>
+        </div>
+        <label class="avatar-head-label" for="avatar-head">Turn his head <output id="avatar-head-value">0°</output></label>
+        <input id="avatar-head" type="range" min="-25" max="25" step="1" value="0" disabled aria-describedby="avatar-head-help">
+        <small id="avatar-head-help">A little curiosity goes a long way.</small>
+        <p id="avatar-status" class="avatar-status" role="status" aria-live="polite">The sketch is getting ready.</p>
+        <button type="button" class="button outline" id="avatar-retry" hidden>Try 3D again</button>
+      </div>
+      <div class="avatar-stage" id="avatar-stage" aria-busy="true">
+        <img id="avatar-poster" src="assets/avatar/hassan-doodle-final-v2.png" width="1200" height="1400" loading="lazy" alt="Hassan's paper-colored doodle avatar with swept hair, round glasses, and an oversized red pencil.">
+        <canvas id="avatar-canvas" hidden aria-label="Interactive 3D Hassan avatar" aria-describedby="avatar-help" tabindex="0"></canvas>
+        <span class="avatar-stage-label" aria-hidden="true">A work of doodle.</span>
+        <noscript><p>Enable JavaScript to explore the animated 3D character.</p></noscript>
+      </div>
+    </section>
+
+    <section id="flight" class="section flight">
+      <div class="section-heading"><p class="eyebrow">Browser demo inspired by Paper Plane Dash</p><h2>Fly through the gate.</h2></div>
+      <div class="flight-stage">
+        <canvas id="scene" width="960" height="480" aria-label="Paper plane flight demo" aria-describedby="flight-help"></canvas>
+        <div class="flight-panel">
+          <p id="flight-status" role="status">Ready for takeoff.</p>
+          <button class="button ink" id="flight-button" type="button">Start flight</button>
+        </div>
+      </div>
+      <p id="flight-help">Aim for the red target with your mouse, touch, or arrow keys. The gate waits until you line up.</p>
+      <a href="#paper-dash">See the Unreal project ↓</a>
+    </section>
+
+    <section id="about" class="section about">
+      <div class="section-heading"><p class="eyebrow">The person behind the pencil</p><h2>A developer.<br>An artist.<br>Always a player.</h2></div>
+      <div class="about-copy"><p>I'm Hassan Ghaznavi, a game developer and 3D environment artist based in Karachi, Pakistan. I study Computer Science &amp; Information Technology at NED University, specializing in Gaming &amp; Animation.</p><p>My work spans gameplay systems, gesture tracking, and interactive 3D environments. I enjoy taking an idea from its first sketch to something you can actually play.</p><p>As Game Development &amp; Animation Domain Lead at Gameverse Society, I also mentor junior developers and help teams turn their ideas into games.</p><a href="https://www.linkedin.com/in/hassan-ghaznavi" target="_blank" rel="noopener noreferrer">Find me on LinkedIn ↗</a></div>
+    </section>
+
+    <section id="skills" class="section toolkit" aria-labelledby="toolkit-title">
+      <div class="section-heading"><p class="eyebrow">Tools of the trade</p><h2 id="toolkit-title">A few ways<br>to make it real.</h2></div>
+      <div class="toolkit-grid">
+        <article><span class="tool-number">01 / Play</span><h3>Gameplay &amp; systems</h3><p>Mechanics, interactive simulations, and experiences built around player input.</p><ul><li>Unity · C#</li><li>Unreal Engine 5</li><li>C++ · Python</li><li>Three.js · JavaScript</li></ul></article>
+        <article><span class="tool-number">02 / Shape</span><h3>Worlds &amp; characters</h3><p>From the silhouette of a character to the environment that gives a game its atmosphere.</p><ul><li>Blender · Autodesk Maya</li><li>3D modeling · UV mapping</li><li>Character rigging</li><li>Environment art · UI/UX</li></ul></article>
+        <article><span class="tool-number">03 / Connect</span><h3>Beyond the screen</h3><p>Gesture input, connected game data, and the services that support an interactive experience.</p><ul><li>MediaPipe · OpenCV</li><li>Supabase · Firebase</li><li>MongoDB · MS SQL Server</li><li>GitHub · Vercel · itch.io</li></ul></article>
+      </div>
+    </section>
+
+    <section id="journey" class="section journey" aria-labelledby="journey-title">
+      <div class="section-heading"><p class="eyebrow">Notes along the way</p><h2 id="journey-title">Learning. Building.<br>Passing it on.</h2></div>
+      <div class="journey-list">
+        <article><span class="eyebrow">Education</span><div><h3>NED University</h3><p>Computer Science &amp; Information Technology · Gaming &amp; Animation</p><strong>3.85 CGPA</strong></div></article>
+        <article><span class="eyebrow">Experience</span><div><h3>AIRIDEV</h3><p>Game Developer Intern · Remote</p><p>Developed 10+ games during the internship, including Cargo Square Match, a C# mobile puzzle game.</p></div></article>
+        <article><span class="eyebrow">Leadership</span><div><h3>Gameverse Society</h3><p>Game Development &amp; Animation Domain Lead</p><p>Team initiatives, domain operations, and mentoring junior game developers.</p></div></article>
+        <article><span class="eyebrow">Community</span><div><h3>Global Game Jam 2026</h3><p>Co-developed <em>Behind the Smile</em> at the CEGA Karachi site.</p></div></article>
+        <article><span class="eyebrow">Certification</span><div><h3>Unity Development · NexSkill</h3><p>Completed with an A+ rating.</p></div></article>
+      </div>
+    </section>
+
+    <section class="section closing"><p class="eyebrow">End of this page. Start of something else.</p><h2>Have a world<br>in mind?</h2><a class="button ink" href="https://www.linkedin.com/in/hassan-ghaznavi" target="_blank" rel="noopener noreferrer">Let's connect ↗</a><p class="closing-note">Karachi, Pakistan · Game development &amp; 3D environment art</p></section>
+  </main>
+  <footer class="site-footer wrap"><span>Hassan Ghaznavi</span><a href="#">Back to cover ↑</a></footer>
+</body>
+</html>
+
+
+
+

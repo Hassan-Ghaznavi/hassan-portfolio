@@ -1,0 +1,30 @@
+# Build outputs, dependencies, credentials
+node_modules/
+dist/
+.vercel/
+.env*
+!.env.example
+*.keystore
+*.jks
+*.pfx
+*.pem
+*.log
+__pycache__/
+# Working assets and raw recordings remain local.
+*.blend
+*.blend1
+*.fbx
+*.mp4
+*.mov
+*.zip
+tools/content-inventory.json
+tools/content-overview.jpg
+assets/summon/
+assets/mascot/wake-frames/
+assets/avatar/*
+!assets/avatar/hassan-doodle-final-v2.png
+!assets/avatar/hassan-doodle-rigged.glb
+assets/avatar/*.json
+assets/avatar/*preview.jpg
+assets/mascot/*inspection*
+assets/controller.webp

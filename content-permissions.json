@@ -1,0 +1,9 @@
+{
+  "internship": {
+    "developmentCredit": "Solo development",
+    "publicImagesAllowed": true,
+    "publicGameplayAllowed": false,
+    "sourcePublicationAllowed": false,
+    "notes": "Images-only permission supplied by Hassan. Unity source and recordings are not included in the website build."
+  }
+}
