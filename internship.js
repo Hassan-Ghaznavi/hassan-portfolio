@@ -1,35 +1,26 @@
-const entries = [
-  ['ink-bleed','Ink Bleed','A drop changes everything.','Place ink carefully, balancing coverage against overflow.',3],
-  ['clockwork-path','Clockwork Path','Every turn has consequences.','Connect gears to transfer power with the required speed and direction.',1],
-  ['fossil-layer','Fossil Layer','Discovery needs a little restraint.','Remove supporting sediment in the right order to expose a fragile fossil.',3],
-  ['glass-resonance','Glass Resonance','Find the shape in the noise.','Balance positive and negative waves to match a target pattern.',3]
+const entries=[
+ {id:'ink-bleed',title:'Ink Bleed',note:'A drop changes everything.',description:'Place ink carefully, balancing coverage against overflow.',kind:'ink-bleed'},
+ {id:'fossil-layer',title:'Fossil Layer',note:'Leave the discovery intact.',description:'Remove supporting sediment in the right order to expose a fragile fossil.',kind:'fossil-layer'},
+ {id:'glass-resonance',title:'Glass Resonance',note:'Find the shape in the noise.',description:'Balance positive and negative waves to match a target pattern.',kind:'glass-resonance'},
+ {id:'orbit-switch',title:'Orbit Switch',note:'Timing changes your orbit.',description:'A space puzzle with orbiting worlds, stars and switching paths.',kind:'orbit'},
+ {id:'pressure-vent',title:'Pressure Vent',note:'A little balance under pressure.',description:'A network of connected valves turns pressure into a visual puzzle.',kind:'pressure'},
+ {id:'mirror-maze',title:'Mirror Maze',note:'Take a different angle.',description:'Mirrors and a light beam turn a maze into a puzzle of reflections.',kind:'mirror'},
+ {id:'brine-cure',title:'Brine Cure',note:'Small choices. Even coverage.',description:'A touch-driven puzzle about placing salt and balancing the cure.',kind:'brine'}
 ];
-const collection = document.querySelector('#internship-collection');
-for (const [id,title,note,description,count] of entries) {
-  const card = document.createElement('article');card.className='specimen';card.dataset.motionScene=id;
-  const heading = document.createElement('h3');heading.textContent=title;
-  const annotation = document.createElement('p');annotation.className='specimen-note';annotation.textContent=note;
-  const image = document.createElement('img');image.src=`assets/internship/${id}-0.webp`;image.alt=`${title} — project image 1`;image.loading='lazy';image.decoding='async';
-  const text = document.createElement('p');text.textContent=description;
-  const doodle=document.createElement('div');doodle.className='mechanic-doodle mini-sketch';doodle.dataset.miniSketch=id;doodle.setAttribute('aria-hidden','true');
-  const drawings={
-   'ink-bleed':'<path class="ink-drop" d="M65 8Q40 42 46 56Q65 77 84 56Q91 42 65 8Z" fill="#b3402e33"/><path d="M53 48Q49 58 61 61"/>',
-   'clockwork-path':'<g class="gear-doodle"><circle cx="65" cy="39" r="21"/><circle cx="65" cy="39" r="7"/><path d="M65 7V18M65 60V71M33 39H44M86 39H97M42 16L50 24M80 54L88 62M42 62L50 54M80 24L88 16" stroke-width="6"/></g>',
-   'fossil-layer':'<path d="M22 58Q45 44 65 55T112 53M17 69Q45 57 65 67T117 64M60 49Q34 25 57 13Q79 4 89 25Q98 48 76 47Q59 45 64 29Q70 17 78 31"/>',
-   'glass-resonance':'<path class="wave-doodle" d="M5 39Q20 2 35 39T65 39T95 39T125 39"/><path d="M5 49Q20 15 35 49T65 49T95 49T125 49" opacity=".25"/>'
-  };
-  doodle.innerHTML=`<svg viewBox="0 0 130 80" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">${drawings[id]}</svg>`;
-  card.append(annotation,heading,doodle,image,text);
-  if(count>1){
-    let index=0;
-    const next=document.createElement('button');next.className='button outline';next.type='button';next.textContent=`Next image · 1 / ${count}`;
-    next.setAttribute('aria-label',`Next ${title} image`);
-    next.addEventListener('click',()=>{index=(index+1)%count;image.src=`assets/internship/${id}-${index}.webp`;image.alt=`${title} — project image ${index+1}`;next.textContent=`Next image · ${index+1} / ${count}`;});
-    card.append(next);
-  }
-  collection.append(card);
-}
-if('IntersectionObserver' in window){
- const observer=new IntersectionObserver(entries=>{for(const e of entries)if(e.isIntersecting){e.target.classList.add('specimen-visible');observer.unobserve(e.target);}}, {threshold:.12});
- collection.querySelectorAll('.specimen').forEach(card=>observer.observe(card));
+const collection=document.querySelector('#internship-collection');
+const search=document.createElement('label');search.className='collection-search';search.innerHTML='Find a game<input type="search" placeholder="Try ink, mirrors, waves…" aria-controls="internship-collection"><span role="status" aria-live="polite">7 games in the collection</span>';collection.before(search);
+search.querySelector('input').addEventListener('input',event=>{const query=event.target.value.trim().toLowerCase();let count=0;collection.querySelectorAll('.specimen').forEach(card=>{card.hidden=!card.textContent.toLowerCase().includes(query);if(!card.hidden)count++;});search.querySelector('span').textContent=count?`${count} ${count===1?'game':'games'} in the collection`:'No games match. Try another word.';});
+for(const entry of entries){
+ const {id,title,note,description,kind}=entry;
+ const card=document.createElement('article');card.className='specimen';card.id=id;card.dataset.motionScene=id;
+ const label=document.createElement('p');label.className='specimen-note';label.textContent=note;
+ const heading=document.createElement('h3');heading.textContent=title;
+ const miniature=document.createElement('div');miniature.className='mechanic-doodle mini-sketch';miniature.dataset.miniSketch=kind;miniature.setAttribute('aria-hidden','true');miniature.innerHTML='<svg viewBox="0 0 200 100"><path d="M20 80Q60 25 100 60T180 35" fill="none" stroke="currentColor" stroke-width="2"/></svg>';
+ const viewer=document.createElement('div');viewer.className='game-capture';
+ const image=document.createElement('img');image.src=`assets/internship/${id}-play-0.webp`;image.alt=`${title}: actual game screen, view 1`;image.loading='lazy';image.decoding='async';image.width=640;image.height=1080;viewer.append(image);
+ const thumbs=document.createElement('div');thumbs.className='capture-thumbs';thumbs.setAttribute('role','group');thumbs.setAttribute('aria-label',title+' screenshots');
+ for(let i=0;i<3;i++){const button=document.createElement('button');button.type='button';button.setAttribute('aria-label',`${title} screenshot ${i+1}`);button.setAttribute('aria-pressed',String(i===0));const thumb=document.createElement('img');thumb.src=`assets/internship/${id}-play-${i}.webp`;thumb.alt='';thumb.loading='lazy';thumb.width=60;thumb.height=100;button.append(thumb);button.addEventListener('click',()=>{image.src=thumb.src;image.alt=`${title}: actual game screen, view ${i+1}`;thumbs.querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',String(b===button)));});thumbs.append(button);}
+ const text=document.createElement('p');text.textContent=description;
+ const credit=document.createElement('span');credit.className='capture-credit';credit.textContent='Actual game screens · Solo development';
+ card.append(label,heading,miniature,viewer,thumbs,credit,text);collection.append(card);
 }

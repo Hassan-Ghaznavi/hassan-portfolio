@@ -1,3 +1,5 @@
+import {notes} from './portfolio-notes.js';
+import {makeIndex,retrieve} from './lib/retrieval.mjs';
 const launcher=document.querySelector('#pencil-launcher');
 const panel=document.querySelector('#pencil-panel');
 const close=document.querySelector('#pencil-close');
@@ -14,25 +16,23 @@ async function setOpen(open){
 launcher.addEventListener('click',()=>setOpen(panel.hidden));
 close.addEventListener('click',()=>setOpen(false));
 panel.addEventListener('keydown',event=>{if(event.key==='Escape'){event.preventDefault();setOpen(false);}});
-const notes=[
- {terms:['award','win','won','competition','gamecon','two','lights','escape','best','standout'],text:'Two Lights One Escape won at GameCon and at the project evaluation. Hassan worked on gameplay, light-based puzzles, movement, interactions, and UI as part of the team.',href:'#two-lights',source:'Two Lights / two wins'},
- {terms:['paper','plane','dash','unreal','flight'],text:'Paper Plane Dash is an Unreal Engine 5 team project. Hassan led development of lane switching, banking, and flight-energy mechanics. Its gameplay and browser interpretation now live together in that chapter.',href:'#paper-dash',source:'Paper Plane Dash'},
- {terms:['sunken','greed','whale','underwater','swim','vr'],text:'Sunken Greed is a Unity VR team project Hassan worked on, featuring physical swimming and hands-on underwater interactions. Its chapter includes the scroll-driven whale sketch and actual gameplay.',href:'#sketch-sea',source:'Sunken Greed'},
- {terms:['intern','internship','airidev','solo','ten','10','months'],text:'During his ongoing AIRIDEV internship, Hassan developed 10+ games in four months, handling development alone. This portfolio shares approved project images; internship gameplay and source files remain private.',href:'#internship',source:'AIRIDEV collection'},
- {terms:['skill','skills','technology','technologies','unity','language','code','tools','stack'],text:'Hassan’s toolkit includes Unity, Unreal Engine 5, Blender, Maya, C#, C++, Python, JavaScript, and Three.js, alongside gesture tracking and backend tools.',href:'#skills',source:'Toolkit'},
- {terms:['education','university','cgpa','study','studies','ned','academic'],text:'Hassan studies Computer Science & Information Technology at NED University, specializing in Gaming & Animation, with a 3.85 CGPA.',href:'#journey',source:'Education & journey'},
- {terms:['smile','jam','ggj','cega'],text:'Hassan co-developed Behind the Smile during Global Game Jam 2026 at the CEGA Karachi site. You can watch the team’s project in its chapter.',href:'#behind-smile',source:'Behind the Smile'},
- {terms:['blender','render','art','environment','model','modeling','cave','ocean','airpods'],text:'The render room collects Hassan’s Cave Scene, Stormy Ocean and AirPods animations, plus his forest, perfume and Rubik’s cube renders. These are images of his 3D work, with motion added to their presentation.',href:'#blender-studies',source:'The render room'},
- {terms:['about','hassan','karachi','profile','who','contact','hire','linkedin'],text:'Hassan Ghaznavi is a game developer and 3D environment artist based in Karachi. He also leads the Game Development & Animation domain at Gameverse Society. His LinkedIn is linked in the About section.',href:'#about',source:'About Hassan'}
-];
+
 function message(text,className){const p=document.createElement('p');p.className=className;p.textContent=text;log.append(p);return p;}
-document.querySelector('#pencil-form').addEventListener('submit',event=>{
- event.preventDefault();const question=input.value.trim();if(!question)return;
- message(question,'guide-question');const tokens=question.toLowerCase().match(/[a-z0-9]+/g)||[];
- const ranked=notes.map(note=>({note,score:tokens.reduce((sum,token)=>sum+(note.terms.includes(token)?1:0),0)})).sort((a,b)=>b.score-a.score);
- const match=ranked[0];
- if(match.score){const reply=message(match.note.text,'guide-answer');const link=document.createElement('a');link.href=match.note.href;link.textContent='Read: '+match.note.source;reply.append(document.createElement('br'),link);link.addEventListener('click',()=>{if(innerWidth<720)setOpen(false);});}
- else message('I don’t have that information in these portfolio notes. Try a project name, skills, education, or awards. The full AI / RAG connection is not enabled yet.','guide-answer');
- while(log.children.length>17)log.firstElementChild.remove();input.value='';log.scrollTop=log.scrollHeight;
+const localIndex=makeIndex(notes);const state=document.querySelector('.pencil-companion');const note=document.querySelector('.guide-note');
+let aiReady=false,busy=false;
+fetch('/api/chat').then(r=>r.json()).then(data=>{aiReady=data.ready===true;note.textContent=aiReady?'AI answers grounded in Hassan’s portfolio. Sources included.':'Local portfolio notes · AI connection not configured.';}).catch(()=>{note.textContent='Local portfolio notes · AI is unavailable.';});
+function reply(text,sources=[]){const p=message(text,'guide-answer');for(const source of sources){if(!/^#[a-z0-9-]+$/.test(source.href))continue;const link=document.createElement('a');link.href=source.href;link.textContent='Read: '+source.source;p.append(document.createElement('br'),link);link.addEventListener('click',()=>{if(innerWidth<720)setOpen(false);});}}
+document.querySelector('#pencil-form').addEventListener('submit',async event=>{
+ event.preventDefault();const question=input.value.trim();if(!question||busy)return;
+ busy=true;state.dataset.state='thinking';const button=event.currentTarget.querySelector('button');button.disabled=true;message(question,'guide-question');input.value='';
+ const thinking=message('Doodle is checking his notes…','guide-thinking');log.scrollTop=log.scrollHeight;
+ try{
+  if(aiReady){const response=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({question}),signal:AbortSignal.timeout(25000)});const data=await response.json();if(!response.ok)throw Error(data.error||'AI is unavailable.');reply(data.answer,data.sources);}
+  else{const matches=retrieve(question,localIndex);if(matches.length)reply(matches[0].text,[matches[0]]);else reply('That detail isn’t in my notes yet. Try a project name, skills, education, or awards.');}
+  state.dataset.state='happy';
+ }catch{reply('My AI connection is unavailable right now. You can still explore the project chapters below.');state.dataset.state='idle';}
+ finally{thinking.remove();busy=false;button.disabled=false;while(log.children.length>19)log.firstElementChild.remove();log.scrollTop=log.scrollHeight;setTimeout(()=>{if(!busy)state.dataset.state='idle';},900);}
 });
 document.addEventListener('pencil:ask',event=>{setOpen(true);input.value=String(event.detail||'Who is Hassan?').slice(0,250);document.querySelector('#pencil-form').requestSubmit();close.focus({preventScroll:true});});
+
+document.addEventListener('doodle:celebrate',()=>{state.dataset.state='happy';setTimeout(()=>{if(!busy)state.dataset.state='idle';},1000);});

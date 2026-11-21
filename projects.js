@@ -10,10 +10,7 @@ export const projects = [
       title: 'Every detour costs energy.',
       text: 'Flight energy drains over time. Pickups refill it, so you have to steer around obstacles while choosing when to change lanes for a refill.'
     },
-    cover: {
-      src: 'assets/paper-plane-dash.webp',
-      alt: 'Graphite illustration of a paper plane banking around an oversized coffee mug.'
-    },
+    cover:{src:'assets/project-frames/paper-dash.webp',alt:'Actual Paper Plane Dash gameplay inside an oversized house.'},
     demo: '#flight',
     chapterLabel: '02 / Flight notes',
     rule: 'A house is not a flight path.',
@@ -37,7 +34,7 @@ export const projects = [
     tools:'Global Game Jam 2026 · CEGA Karachi', role:'Co-developer · Team project',
     overview:'Built together during Global Game Jam 2026.',
     contribution:'A game jam collaboration at the CEGA Karachi site. Watch our submitted project in motion.',
-    youtubeId:'jPcsgKAHYAY', motif:'smile'
+    youtubeId:'jPcsgKAHYAY', motif:'smile', cover:{src:'assets/project-frames/behind-smile.webp',alt:'Actual Behind the Smile game jam project frame.'}
   },
   {
     id:'blender-studies', collection:'more', title:'The render room',
@@ -46,7 +43,7 @@ export const projects = [
     contribution:'A collection of environment and object renders from my 3D work.',
     films:[
       {id:'cave',title:'Cave Scene',note:'A camera journey through a rocky, atmospheric cave.',motif:'crystal'},
-      {id:'ocean',title:'Stormy Ocean',note:'Rolling water, a warning light, and a storm on the horizon.',motif:'buoy'},
+      {id:'ocean',title:'Stormy Ocean',note:'Rolling water, a warning light, and a storm on the horizon.',motif:'storm'},
       {id:'airpods',title:'AirPods',note:'An animated product study with opening, floating forms and color changes.',motif:'earbuds'}
     ],
     studies:[

@@ -23,7 +23,7 @@ form.addEventListener('submit',async event=>{
    let delivery;try{const check=await fetch('/api/contact?receipt='+encodeURIComponent(data.receipt));if(!check.ok)continue;delivery=await check.json();}catch{continue;}
    if(delivery.status==='delivered'){delivered=true;break;}if(delivery.status==='failed'){failed=true;break;}
   }
-  if(delivered){status.textContent='Delivered. Your note has reached the receiving mail server.';fold(false);form.reset();requestId=crypto.randomUUID();startedAt=Date.now();send.textContent='Write another note';}
+  if(delivered){document.dispatchEvent(new CustomEvent('doodle:celebrate'));status.textContent='Delivered. Your note has reached the receiving mail server.';fold(false);form.reset();requestId=crypto.randomUUID();startedAt=Date.now();send.textContent='Write another note';}
   else if(failed){status.textContent='The mail service reported a delivery problem. Your note is still here; please use LinkedIn.';}
   else {status.textContent='Your note was accepted for sending, but delivery is not confirmed yet. It has not been folded away. Please avoid resubmitting the same note.';}
  }catch(error){status.textContent=error.message||'The connection failed. Your note is still here.';send.disabled=false;send.textContent='Try sending again ↗';}

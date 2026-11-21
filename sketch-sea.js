@@ -40,7 +40,7 @@ export async function mountSketchSea(){
  const bubbles=[];
  for(let i=0;i<7;i++){const ring=new THREE.Mesh(new THREE.TorusGeometry(.045+i*.006,.008,4,16),ink);scene.add(ring);bubbles.push(ring);}
  const track=document.querySelector('#sketch-scroll');
- let paused=reduced.matches,visible=false,raf=0,last=0,time=0,progress=.5,halfWidth=5.8;
+ let paused=reduced.matches,visible=false,raf=0,last=0,time=0,progress=.5,displayProgress=.5,halfWidth=5.8;
  function measureScroll(){
   if(reduced.matches){progress=.5;return;}
   if(paused)return;
@@ -54,13 +54,14 @@ export async function mountSketchSea(){
   const dt=last?Math.min((now-last)/1000,.05):0;last=now;if(!paused)time+=dt;
   const t=time;
   // Scroll is the journey; time only supplies a gentle swim cycle.
-  const path=progress*Math.PI*2;
+  displayProgress=paused||reduced.matches?progress:THREE.MathUtils.lerp(displayProgress,progress,1-Math.exp(-9*dt));
+  const smooth=displayProgress;const path=smooth*Math.PI*2;
   const mobile=innerWidth<=720;
   whale.scale.setScalar(mobile?.72:1);
-  whale.position.set((progress-.5)*halfWidth*1.65,Math.sin(path)*.23,Math.sin(progress*Math.PI)*.7);
+  whale.position.set((smooth-.5)*halfWidth*1.65,Math.sin(path)*.23,Math.sin(smooth*Math.PI)*.7);
   whale.rotation.set(Math.sin(t*1.4)*.025,Math.sin(path)*.27,-.08+Math.cos(path)*.10);
   tail.rotation.x=Math.sin(t*2.6+path)*.3;tail.rotation.z=Math.sin(t*2.6+path)*.14;fin.rotation.z=-.65+Math.sin(t*2.6+path-1)*.12;
-  bubbles.forEach((bubble,i)=>{bubble.position.set(-halfWidth*.8+i*halfWidth*.25-(progress-.5)*.8,((t*.25+i*.63)%3.2)-1.4,-.5);});
+  bubbles.forEach((bubble,i)=>{bubble.position.set(-halfWidth*.8+i*halfWidth*.25-(smooth-.5)*.8,((t*.25+i*.63)%3.2)-1.4,-.5);});
   effect.render(scene,camera);
   stage.dataset.pose=String(t);stage.dataset.mode='whale';stage.dataset.scrollProgress=progress.toFixed(3);stage.dataset.whaleX=whale.position.x.toFixed(3);
   if(!paused)request();

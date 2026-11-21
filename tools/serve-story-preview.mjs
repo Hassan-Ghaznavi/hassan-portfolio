@@ -2,13 +2,15 @@ import http from 'node:http';
 import {createReadStream} from 'node:fs';
 import {stat} from 'node:fs/promises';
 import {resolve,sep,extname} from 'node:path';
-import handler from '../api/contact.mjs';
+import contactHandler from '../api/contact.mjs';
+import chatHandler from '../api/chat.mjs';
 const root=resolve('dist');
-const types={'.html':'text/html; charset=utf-8','.js':'application/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.svg':'image/svg+xml','.webp':'image/webp','.png':'image/png','.glb':'model/gltf-binary','.mp4':'video/mp4'};
+const types={'.html':'text/html; charset=utf-8','.js':'application/javascript; charset=utf-8','.mjs':'application/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.svg':'image/svg+xml','.webp':'image/webp','.png':'image/png','.glb':'model/gltf-binary','.mp4':'video/mp4'};
 http.createServer(async(req,res)=>{
  try{
   const url=new URL(req.url,'http://localhost');
-  if(url.pathname==='/api/contact'){
+  if(['/api/contact','/api/chat'].includes(url.pathname)){
+   const handler=url.pathname==='/api/chat'?chatHandler:contactHandler;
    res.status=code=>{res.statusCode=code;return res;};res.json=data=>res.end(JSON.stringify(data));let body='';for await(const chunk of req){body+=chunk;if(body.length>16000){res.status(413).json({error:'Note too long.'});return;}}req.body=body;await handler(req,res);return;
   }
   const file=resolve(root,'.'+(url.pathname==='/'?'/index.html':decodeURIComponent(url.pathname)));

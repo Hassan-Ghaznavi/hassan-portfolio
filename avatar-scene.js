@@ -160,8 +160,8 @@ export async function mountAvatar() {
     function frame(time) {
       raf = 0;
       if (!visible || document.hidden) { lastTime = 0; return; }
-      // Cap the animation at 30 fps to keep mobile GPU use modest.
-      if (!paused && time - lastPaint < 32) { requestFrame(); return; }
+      // Desktop follows display frames; small screens retain a modest 30 fps budget.
+      if (!paused && innerWidth < 720 && time - lastPaint < 32) { requestFrame(); return; }
       const delta = lastTime ? Math.min((time - lastTime) / 1000, .06) : 0;
       lastTime = time; lastPaint = time;
       if (head) head.quaternion.copy(baseHead);

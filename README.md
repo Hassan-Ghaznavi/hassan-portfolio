@@ -23,11 +23,15 @@ scroll-motion.js updates visible project illustrations only on scroll and resize
 
 The whale is procedural Three.js geometry with surface hatching and outlines. Its travel is linked to scroll position within a sticky paper stage. The swim cycle runs smoothly while visible. Reduced-motion users receive a stationary scene; Pause sketch stops motion. No pencil model is mixed into this project.
 
-## Pencil companion
+## Doodle companion
 
-The bottom-left launcher is persistent and opens a non-modal guide panel. Its 3D model loads only on first opening and rendering stops while closed or the page is hidden. Escape closes the panel and returns focus to the launcher.
+The bottom-right Doodle launcher is persistent and opens a non-modal guide panel. Its 3D model loads only on first opening and rendering stops while closed or the page is hidden. Escape closes the panel and returns focus to the launcher.
 
-The current guide is a local keyword-based lookup over curated portfolio notes, with section links and an explicit unknown-answer fallback. It is **not a completed RAG system**: document chunking, embeddings/vector retrieval, server-side LLM generation and environment-variable configuration remain to be implemented. No API key belongs in frontend JavaScript.
+Doodle uses a shared curated corpus in portfolio-notes.js. Without server credentials, the client searches normalized sparse TF-IDF vectors and clearly labels the mode as Local portfolio notes. This local mode does not claim to be LLM generation.
+
+api/chat.mjs implements the full optional RAG route: approved source notes are divided into overlapping chunks, embedded with text-embedding-3-small (512 dimensions), cached in a per-instance in-memory vector index, and ranked by cosine similarity with a small lexical relevance boost. The best three chunks ground a structured Responses API answer. Only validated citations to those retrieved chunks reach the interface. Unknown details, unsupported citations and provider failures have explicit fallbacks. No private source code, visitor conversation history or raw CV is uploaded. AI requests use store:false. The in-memory index is rebuilt after a cold start; a persistent vector service would be appropriate if the corpus grows substantially.
+
+Set OPENAI_API_KEY in Vercel to enable live AI; optional RAG_CHAT_MODEL and RAG_EMBEDDING_MODEL override the defaults. The current deployment has no provider credentials, so live LLM verification remains pending. Run node tools/check-chat.mjs for mocked retrieval, grounding/citation, configuration and failure checks without paid calls. Official API references: https://developers.openai.com/api/docs/guides/embeddings and https://developers.openai.com/api/docs/guides/structured-outputs .
 
 Pencil (TPOT) by JossyBoy is used under CC BY 4.0. Original model: https://sketchfab.com/3d-models/pencil-tpot-71ff73300d84423ab71afd294b31b8c3 . Materials and whole-body animation were adapted for the portfolio. Attribution is available in the companion panel.
 
@@ -41,7 +45,7 @@ Internship work is shown through approved images only, credited as solo developm
 
 Public gameplay videos load only after a visitor requests them. The Two Lights recording is a compressed approved personal project video; the other gameplay links use YouTube embeds. New render images are compressed WebP assets.
 
-Mobile layout has been checked at 390px width. Physical-device performance still needs measurement. Full RAG integration, contact email delivery, the promotional animation, and final submission documentation remain unfinished.
+Mobile layout has been checked at 390px width. Physical-device performance still needs measurement. Live AI verification, contact email delivery, the deferred promotional animation, and final submission evidence remain unfinished.
 
 Live deployment: https://hassan-portfolio-two-rho.vercel.app/
 Repository: https://github.com/Hassan-Ghaznavi/hassan-portfolio
@@ -50,13 +54,13 @@ Repository: https://github.com/Hassan-Ghaznavi/hassan-portfolio
 
 The render room includes Cave Scene, Stormy Ocean and AirPods from the supplied project folder. Compressed silent MP4s and poster frames live in assets/blender-motion. Video sources are assigned only after Play is requested, and playback pauses when the video leaves the viewport. The three clips total approximately 3.7 MB. tools/prepare-blender-films.py reproduces these exports from the local originals.
 
-project-sketches.js lazy-loads mini-scenes.js. One shared Three.js renderer uses viewport scissoring to place seven independent miniatures into their cards: falling ink and ripples, coupled extruded gears, exposed fossil layers, oscillating wave bars, cave crystals, a rocking buoy, and an opening earbud case. These are original stylized presentation motifs; the project footage remains separate. Only visible scenes animate, pixel density is capped, hidden tabs suspend rendering, both sketch controls share a pause state, and reduced-motion preferences show stationary scenes. The existing illustrations remain as fallbacks where available.
+project-sketches.js lazy-loads mini-scenes.js. One shared Three.js renderer uses viewport scissoring to place fifteen independent miniatures into their cards: falling ink and ripples, coupled extruded gears, exposed fossil layers, oscillating wave bars, cave crystals, a storm buoy with sketched lightning, an opening earbud case, a theatre mask, twin lights, orbiting worlds, valves, reflected light, salt grains, trees, a perfume bottle and a cube. These are original stylized presentation motifs; the project footage remains separate. Only visible scenes animate, pixel density is capped, hidden tabs suspend rendering, both sketch controls share a pause state, and reduced-motion preferences show stationary scenes. The existing illustrations remain as fallbacks where available.
 
 Sunken Greed is credited as a team project following Hassan's correction. Individual contribution details are still awaiting his description.
 
 ## Connected story interactions
 
-story-scenes.js adds scroll-driven sketch-to-final treatments for the Blender film cards, a paper-plane route connecting Paper Plane Dash to its browser demo, pointer-responsive paper-card depth, keyboard/touch note disclosures, contextual Pencil questions/reactions, and optional synthesized sound cues. Sound starts off and needs a user gesture. No external music is used. The sketch treatments are generated from final frames; they are not claimed to be original modeling wireframes.
+story-scenes.js adds scroll-driven sketch-to-final treatments for the Blender film cards, a paper-plane route connecting Paper Plane Dash to its browser demo, pointer-responsive paper-card depth, keyboard/touch note disclosures, contextual Doodle questions/reactions, and optional synthesized sound cues. Sound starts off and needs a user gesture. No external music is used. The sketch treatments are generated from final frames; they are not claimed to be original modeling wireframes.
 
 The Behind the Build divider uses two matched renders of the actual avatar Blender source. tools/render-process-pair.py renders the pair without saving changes to the source. Only compressed WebP images and the small SVG treatments enter dist; the raw PNGs and Blender files stay local. Project-specific source comparisons are now included for the cave, ocean and AirPods from the supplied original files.
 
@@ -80,3 +84,19 @@ Provider references: https://vercel.com/docs/functions/runtimes/node-js , https:
 The provided D:/Documents/Blender projects folder contains the original airpods.blend, stormy ocean.blend and cave.blend files. Each Blender film card now includes its own Behind the Build comparison using matched solid and wireframe previews from those sources. These previews use source cameras and the same frame in both views, with viewport-level subdivision for readability and rendering cost. They are distinct from the finished animation and from the stylized sketch-to-final-frame reveal.
 
 tools/render-project-process.py reads the sources with Blender auto-execution disabled, prepares temporary render-only geometry and outputs comparison images without saving the original files. Flat AirPods decals and its studio floor are omitted from the wireframe presentation to avoid degenerate display geometry. Only compressed preview images enter the public build; original .blend files remain local.
+
+
+## Manual opening and refreshed collection
+
+manual.js adds a short CSS 3D book opening with Hassan’s name, a skip control, a footer replay button, session-only replay suppression, and reading progress. Reduced-motion visitors bypass the opening. Desktop avatar animation now follows display frames; mobile retains its lighter frame budget. Whale travel uses delta-time smoothing. Shared miniatures remain visibility-driven.
+
+The AIRIDEV collection now uses 21 actual game captures from approved publishing folders, with seven cards, selectable thumbnail strips and a local search. Old promotional artwork is excluded from the clean build. Paper Plane Dash and Behind the Smile use actual preview frames from their linked YouTube videos. All internship recordings and source files remain excluded.
+
+
+## Current verification and submission report
+
+output/pdf/hassan-portfolio-implementation-report.pdf is a working implementation report with module mapping, architecture, source permissions, screenshots, verification and the remaining live-service/video evidence. It is not marked as a finished semester submission. tools/build-report.py recreates it using ReportLab. output/screenshots contains the accompanying browser evidence.
+
+Run node tools/check-chat.mjs and node tools/check-contact.mjs, then node tools/build-site.mjs. The tests use mocked providers and never send real email or paid AI calls. Live service checks require configuration and must be recorded separately. For local service testing, use a private .env.local file with SITE_URL=http://127.0.0.1:4175 and start with node --env-file=.env.local tools/serve-story-preview.mjs. Never commit that file.
+
+Approved screenshot exports can be reproduced with python tools/prepare-game-captures.py. This reads screenshot files only. The production build cleans its generated dist directory before copying the explicit allowlist, so unused concept art and older promotional artwork cannot linger in a deployment.

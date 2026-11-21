@@ -58,11 +58,11 @@ for (const project of projects) {
     image.alt = project.cover.alt;
     image.loading = 'lazy';
     media.append(image);
-    addText(media, 'figcaption', 'Concept illustration', 'eyebrow');
+    addText(media, 'figcaption', 'Actual project frame', 'eyebrow');
   }
 
   if(project.motif==='smile') {
-    media.insertAdjacentHTML('beforeend',`<div class="smile-sketch" aria-hidden="true"><svg viewBox="0 0 400 280"><g fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path class="smile-mask" fill="var(--paper)" d="M100 58Q200 18 300 58L285 190Q200 270 115 190Z"/><path d="M99 83L55 63M301 83L345 63"/><path d="M145 108Q164 90 181 108M220 108Q240 90 259 108M150 157Q200 212 254 157"/><path d="M164 174Q202 185 239 173" stroke-width="1"/></g></svg><span class="eyebrow">A sketch in the margins / Game jam notes</span></div>`);
+    const stage=document.createElement('div');stage.className='mini-sketch chapter-mini';stage.dataset.miniSketch='mask';stage.setAttribute('aria-label','A three-dimensional paper theatre mask');stage.innerHTML='<svg viewBox="0 0 200 140" aria-hidden="true"><path d="M45 20Q100 0 155 20L143 100Q100 148 57 100Z"/><path d="M64 55Q78 42 90 55M110 55Q123 42 136 55M70 85Q100 120 130 85" fill="none"/></svg>';media.append(stage);
   }
   if(project.studies) {
     const films=document.createElement('div');films.className='film-grid';
@@ -70,7 +70,7 @@ for (const project of projects) {
       const card=document.createElement('article');card.className='film-card';card.id='film-'+film.id;
       const label=document.createElement('p');label.className='eyebrow';label.textContent='Blender / Animated study';
       const heading=document.createElement('h4');heading.textContent=film.title;
-      const sketch=document.createElement('div');sketch.className='mini-sketch';sketch.dataset.miniSketch=film.motif;sketch.setAttribute('aria-hidden','true');sketch.innerHTML='<span class="sketch-placeholder">a few lines, a little depth.</span>';
+      const sketch=document.createElement('div');sketch.className='mini-sketch';sketch.dataset.miniSketch=film.motif;sketch.setAttribute('aria-hidden','true');sketch.innerHTML='<svg viewBox="0 0 240 120" aria-hidden="true"><path d="M20 95Q80 60 120 88T220 86M82 75L100 24 130 72M100 24L151 48 130 72" fill="none" stroke="currentColor" stroke-width="2"/></svg>';
       const screen=document.createElement('div');screen.className='film-screen';
       const poster=document.createElement('img');poster.src=`assets/blender-motion/${film.id}.webp`;poster.alt=film.title+' — frame from Hassan’s Blender animation';poster.loading='lazy';poster.width=960;poster.height=540;screen.append(poster);decorateFilmScreen(screen,film);
       const play=document.createElement('button');play.type='button';play.className='button ink';play.textContent='Play '+film.title+' ▷';
@@ -86,6 +86,7 @@ for (const project of projects) {
     for(const study of project.studies){
       const figure=document.createElement('figure');figure.dataset.motionScene=study.id;
       const frame=document.createElement('div');frame.className='study-image';
+      const miniature=document.createElement('div');miniature.className='mini-sketch study-mini';miniature.dataset.miniSketch={forest:'forest',perfume:'bottle',cube:'cube'}[study.id];miniature.setAttribute('aria-hidden','true');figure.append(miniature);
       const image=document.createElement('img');image.src=`assets/studies/${study.id}.webp`;image.alt=study.title+' — Hassan’s 3D render';image.loading='lazy';image.decoding='async';frame.append(image);
       const caption=document.createElement('figcaption');const title=document.createElement('h4');title.textContent=study.title;const note=document.createElement('p');note.textContent=study.note;caption.append(title,note);figure.append(frame,caption);gallery.append(figure);
     }
@@ -104,14 +105,6 @@ for (const project of projects) {
       const slot=document.createElement('div');slot.className='inline-video';slot.append(player);media.append(slot);play.hidden=true;
       player.focus();
     });
-  }
-  if (project.mediaPending && !hasVideo) {
-    const placeholder = document.createElement('div');
-    placeholder.className = 'gameplay-placeholder';
-    addText(placeholder, 'span', 'Gameplay reel', 'eyebrow');
-    addText(placeholder, 'p', 'The flight, in motion.');
-    addText(placeholder, 'small', 'Gameplay footage coming soon. The artwork above is a concept illustration.');
-    media.append(placeholder);
   }
   if (project.cover || hasVideo) {
     chapter.classList.add('illustrated');
