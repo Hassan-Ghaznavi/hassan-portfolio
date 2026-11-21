@@ -239,3 +239,14 @@ html { overflow-x: clip; }
 .flagship-awards img { width:100%;height:auto;display:block; }
 .flagship-awards figcaption { font:.65rem/1.6 var(--mono);padding:.7rem .2rem .3rem; }
 @media(max-width:720px){ .flagship-story { grid-template-columns:1fr;gap:1.5rem; } .flagship-awards { grid-template-columns:1fr 1fr;gap:1rem; } .flagship-awards>div { grid-column:1/-1; } .flagship-rule em { margin:.5rem 0 0; } .light-label { top:.5rem;left:.4rem;font-size:.5rem; } .light-label.right { right:.4rem; } .light-whisper { bottom:.2rem; } }
+.sketch-intro { max-width:55ch; margin:1.5rem 0 2rem; }
+.sketch-stage { height:clamp(320px,43vw,500px); position:relative;overflow:hidden;border-block:1px solid #8a7c6d88;background:radial-gradient(ellipse at 50% 60%,#ddd2bb44,transparent 65%),repeating-linear-gradient(0deg,transparent 0 39px,#8a7c6d0c 39px 40px); }
+.sketch-stage canvas { width:100%;height:100%;min-height:0; }
+.sketch-depth { position:absolute;left:1rem;top:1rem;font:.6rem/1.8 var(--mono);letter-spacing:.1em;color:#807262;pointer-events:none; }
+.sketch-watermark { position:absolute;bottom:1rem;right:1rem;font:italic clamp(1.2rem,3vw,2rem) 'Instrument Serif',Georgia,serif;color:var(--red);pointer-events:none; }
+.sketch-controls { display:flex;flex-wrap:wrap;gap:.7rem;align-items:center;margin-top:1.3rem; }
+.sketch-controls a { font-size:.85rem;margin-left:auto; }
+.sketch-credit { font-size:.75rem;max-width:65ch;color:#65574a; }
+.sketch-credit summary { cursor:pointer; }
+#sketch-status { font-size:.85rem;min-height:1.6em; }
+@media(max-width:720px){ .sketch-controls a { margin-left:0; } }

@@ -10,6 +10,7 @@
   <script type="module" src="main.js?v=two-lights-1"></script>
   <script type="module" src="avatar-preview.js?v=ink-1"></script>
   <script type="module" src="internship.js"></script>
+  <script type="module" src="sketch-preview.js"></script>
 </head>
 <body>
   <a class="skip-link" href="#work">Skip to selected work</a>
@@ -49,6 +50,14 @@
       <div id="projects" class="projects"></div>
     </section>
 
+    <section id="sketch-sea" class="section sketch-sea" aria-labelledby="sketch-title">
+      <div class="section-heading"><p class="eyebrow">Sunken Greed / Drawn below the surface</p><h2 id="sketch-title">Even the margins<br>have a little life.</h2></div>
+      <p class="sketch-intro">A whale wanders out of an underwater world and into the margins. Meet the pencil who might have drawn it.</p>
+      <div id="sketch-stage" class="sketch-stage" aria-busy="true"><span class="sketch-depth" aria-hidden="true">FIELD NOTE / 03<br>DEPTH: A FEW PENCIL LINES</span><canvas id="sketch-canvas" aria-label="Animated 3D sketch of a whale or pencil companion"></canvas><span class="sketch-watermark" aria-hidden="true">a world between the lines.</span></div>
+      <div class="sketch-controls"><button id="sketch-pause" class="button outline" type="button" disabled>Pause sketch</button><button id="sketch-pet" class="button ink" type="button" disabled>Meet the pencil</button><button id="sketch-color" class="button outline" type="button" hidden>Bring him to color</button><a href="https://www.youtube.com/watch?v=PIvDI_sWnxU" target="_blank" rel="noopener noreferrer">Watch Sunken Greed ↗</a></div>
+      <p id="sketch-status" role="status" aria-live="polite">The sketch is getting ready.</p>
+      <details class="sketch-credit"><summary>Pencil model credit</summary><p>“Pencil (TPOT)” by <a href="https://sketchfab.com/JossyBoy">JossyBoy</a>, used under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>. <a href="https://sketchfab.com/3d-models/pencil-tpot-71ff73300d84423ab71afd294b31b8c3">Original model</a>. Materials and animation adapted for this portfolio.</p></details>
+    </section>
     <section id="internship" class="section" aria-labelledby="internship-title">
       <div class="section-heading"><p class="eyebrow">AIRIDEV / The development collection</p><h2 id="internship-title">Four months.<br>10+ games.<br>Many ways to play.</h2></div>
       <p class="collection-intro">Solo development during my ongoing internship. A selection of the mechanics and worlds I built, shown through project images.</p>
@@ -128,6 +137,7 @@
   <footer class="site-footer wrap"><span>Hassan Ghaznavi</span><a href="#">Back to cover ↑</a></footer>
 </body>
 </html>
+
 
 
 

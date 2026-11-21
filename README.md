@@ -31,3 +31,7 @@ Blender source, animation details, and rig validation are documented in `assets/
 ## Deployment preparation
 Run node tools/build-site.mjs to produce dist. Vercel uses vercel.json and serves only this explicit asset allowlist. Rebuild dist after edits when previewing that directory. Internship entries use approved images only; gameplay and Unity source must stay private. Remote GitHub repository creation is pending account access.
 
+
+## Three.js sketch study
+The sketch-sea section uses a procedural whale, object-space crosshatching, OutlineEffect, and held poses sampled at 12 fps. The pencil mascot loads only on selection. Rendering pauses offscreen and in hidden tabs; reduced-motion preference starts paused. This is a visual study: the pencil has whole-body motion only and no RAG connection yet. Attribution appears in the page. Its web GLB restores original source colors into unlit base colors.
+
