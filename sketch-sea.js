@@ -54,31 +54,43 @@ export async function mountSketchSea(){
   }catch(error){petMode=false;whale.visible=true;companion.visible=false;status.textContent='The pencil could not load. The whale is still here.';console.error(error);}
   loading=false;request();
  }
- let paused=reduced.matches,visible=true,raf=0,last=0,paint=0,time=0,previousPose=0;
+ const track=document.querySelector('#sketch-scroll');
+ let paused=reduced.matches,visible=false,raf=0,last=0,time=0,previousPose=0,progress=.5,halfWidth=5.8;
+ function measureScroll(){
+  if(reduced.matches){progress=.5;return;}
+  if(paused)return;
+  const rect=track.getBoundingClientRect();
+  const top=innerHeight*(innerWidth<=720?.15:.12);
+  progress=THREE.MathUtils.clamp((top-rect.top)/Math.max(1,rect.height-stage.clientHeight),0,1);
+ }
  function request(){if(!raf&&visible&&!document.hidden)raf=requestAnimationFrame(frame);}
- function frame(now){raf=0;if(!visible||document.hidden){last=0;return;}if(!paused&&now-paint<70){request();return;}paint=now;
-  const dt=last?Math.min((now-last)/1000,.12):0;last=now;if(!paused)time+=dt;
-  const t=Math.floor(time*12)/12; // Deliberate held poses, not random camera jitter.
-  const rect=stage.getBoundingClientRect();
-  const depth=reduced.matches?0:THREE.MathUtils.clamp((innerHeight/2-rect.top-rect.height/2)/innerHeight,-.65,.65);
-  whale.position.set(Math.sin(t*.55)*.7+depth*.35,Math.sin(t*1.5)*.13+depth*.3,Math.cos(t*.55)*.65+depth*.4);
-  whale.rotation.set(Math.sin(t*1.5)*.045,Math.sin(t*.7)*.30,-.06+Math.sin(t*.9)*.035);
-  tail.rotation.x=Math.sin(t*3)*.35;tail.rotation.z=Math.sin(t*3)*.17;fin.rotation.z=-.65+Math.sin(t*3-1)*.13;
+ function frame(now){
+  raf=0;if(!visible||document.hidden){last=0;return;}
+  const dt=last?Math.min((now-last)/1000,.05):0;last=now;if(!paused)time+=dt;
+  const t=time;
+  // Scroll is the journey; time only supplies a gentle swim cycle.
+  const path=progress*Math.PI*2;
+  const mobile=innerWidth<=720;
+  whale.scale.setScalar(mobile?.72:1);
+  whale.position.set((progress-.5)*halfWidth*1.65,Math.sin(path)*.23,Math.sin(progress*Math.PI)*.7);
+  whale.rotation.set(Math.sin(t*1.4)*.025,Math.sin(path)*.27,-.08+Math.cos(path)*.10);
+  tail.rotation.x=Math.sin(t*2.6+path)*.3;tail.rotation.z=Math.sin(t*2.6+path)*.14;fin.rotation.z=-.65+Math.sin(t*2.6+path-1)*.12;
   whale.visible=!petMode;companion.visible=petMode&&mascotLoaded;
   companion.position.set(0,Math.sin(t*2)*.07,0);companion.rotation.z=Math.sin(t*2)*.025;
-  if(mascotMixer){mascotMixer.update(paused?0:Math.max(0,t-previousPose));}previousPose=t;
-  bubbles.forEach((bubble,i)=>{bubble.visible=!petMode;bubble.position.set(-3.3+i*.48,((t*.5+i*.63)%3.2)-1.4,-.5);});
-  if(petMode)renderer.render(scene,camera);else effect.render(scene,camera);stage.dataset.pose=String(t);stage.dataset.mode=petMode?'pencil':'whale';
+  if(mascotMixer)mascotMixer.update(paused?0:Math.max(0,t-previousPose));previousPose=t;
+  bubbles.forEach((bubble,i)=>{bubble.visible=!petMode;bubble.position.set(-halfWidth*.8+i*halfWidth*.25-(progress-.5)*.8,((t*.25+i*.63)%3.2)-1.4,-.5);});
+  if(petMode)renderer.render(scene,camera);else effect.render(scene,camera);
+  stage.dataset.pose=String(t);stage.dataset.mode=petMode?'pencil':'whale';stage.dataset.scrollProgress=progress.toFixed(3);stage.dataset.whaleX=whale.position.x.toFixed(3);
   if(!paused)request();
  }
- function resize(){const r=stage.getBoundingClientRect(),a=r.width/r.height;const h=a<1.1?3.2:2.5;camera.left=-h*a;camera.right=h*a;camera.top=h;camera.bottom=-h;camera.updateProjectionMatrix();effect.setSize(r.width,r.height);request();}
+ function resize(){const r=stage.getBoundingClientRect(),a=r.width/r.height;const h=a<1.1?3.2:2.5;halfWidth=h*a;camera.left=-halfWidth;camera.right=halfWidth;camera.top=h;camera.bottom=-h;camera.updateProjectionMatrix();effect.setSize(r.width,r.height);measureScroll();request();}
  new ResizeObserver(resize).observe(stage);
- new IntersectionObserver(entries=>{visible=entries[0].isIntersecting;last=0;if(!visible&&raf){cancelAnimationFrame(raf);raf=0;}request();},{threshold:.01}).observe(stage);
+ new IntersectionObserver(entries=>{visible=entries[0].isIntersecting;last=0;if(!visible&&raf){cancelAnimationFrame(raf);raf=0;}measureScroll();request();},{threshold:.01}).observe(stage);
  document.addEventListener('visibilitychange',()=>{last=0;request();});
- window.addEventListener('scroll',()=>{if(visible&&!reduced.matches)request();},{passive:true});
+ window.addEventListener('scroll',()=>{if(visible&&!reduced.matches&&!paused){measureScroll();request();}},{passive:true});
  const pause=document.querySelector('#sketch-pause');
  function announce(){pause.textContent=paused?'Play sketch':'Pause sketch';pause.setAttribute('aria-pressed',String(paused));}
- pause.disabled=false;pause.addEventListener('click',()=>{paused=!paused;last=0;announce();request();});
+ pause.disabled=false;pause.addEventListener('click',()=>{paused=!paused;last=0;measureScroll();announce();request();});
  const switcher=document.querySelector('#sketch-pet');switcher.disabled=false;
  switcher.addEventListener('click',()=>{petMode=!petMode;switcher.textContent=petMode?'Back to the whale':'Meet the pencil';document.querySelector('#sketch-color').hidden=!petMode;status.textContent=petMode?'Pencil companion study · chatbot connection comes later.':'Sunken Greed · a hand-drawn take on an underwater world.';if(petMode)loadMascot();request();});
  document.querySelector('#sketch-color').addEventListener('click',event=>{colored=!colored;petMaterials.forEach(({material,color})=>{if(colored)material.color.copy(color);else material.color.set(color.r+color.g+color.b>.36?0xe7ddc9:0x302b26);});event.currentTarget.textContent=colored?'Back to graphite':'Bring him to color';request();});
