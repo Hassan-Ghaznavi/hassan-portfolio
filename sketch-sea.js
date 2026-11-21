@@ -1,5 +1,4 @@
 import * as THREE from 'three';
-import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { OutlineEffect } from 'three/addons/effects/OutlineEffect.js';
 export async function mountSketchSea(){
  const stage=document.querySelector('#sketch-stage'),canvas=document.querySelector('#sketch-canvas'),status=document.querySelector('#sketch-status');
@@ -40,22 +39,8 @@ export async function mountSketchSea(){
  for(let i=0;i<5;i++)line([[1.4-i*.10,-.28,.53],[.9-i*.12,-.48,.52],[.25-i*.10,-.53,.46]]);
  const bubbles=[];
  for(let i=0;i<7;i++){const ring=new THREE.Mesh(new THREE.TorusGeometry(.045+i*.006,.008,4,16),ink);scene.add(ring);bubbles.push(ring);}
- const companion=new THREE.Group();scene.add(companion);companion.visible=false;
- let mascotMixer,mascotLoaded=false,petMode=false,colored=false,loading=false;
- const petMaterials=[];
- async function loadMascot(){
-  if(mascotLoaded||loading)return;loading=true;
-  try{
-   const gltf=await new GLTFLoader().loadAsync('./assets/mascot/pencil-web.glb');
-   const model=gltf.scene;const box=new THREE.Box3().setFromObject(model),size=box.getSize(new THREE.Vector3()),center=box.getCenter(new THREE.Vector3());
-   const normalizer=new THREE.Group();normalizer.scale.setScalar(3.7/size.y);model.position.sub(center);normalizer.add(model);companion.add(normalizer);
-   model.traverse(o=>{if(!o.isMesh)return;const color=o.material.color.clone();const gray=color.r*.299+color.g*.587+color.b*.114;const material=new THREE.MeshBasicMaterial({color:colored?color:(gray>.12?0xe7ddc9:0x302b26)});material.userData.outlineParameters={thickness:.002};petMaterials.push({material,color});o.material=material;});
-   mascotMixer=new THREE.AnimationMixer(model);gltf.animations.forEach(clip=>mascotMixer.clipAction(clip).play());mascotLoaded=true;
-  }catch(error){petMode=false;whale.visible=true;companion.visible=false;status.textContent='The pencil could not load. The whale is still here.';console.error(error);}
-  loading=false;request();
- }
  const track=document.querySelector('#sketch-scroll');
- let paused=reduced.matches,visible=false,raf=0,last=0,time=0,previousPose=0,progress=.5,halfWidth=5.8;
+ let paused=reduced.matches,visible=false,raf=0,last=0,time=0,progress=.5,halfWidth=5.8;
  function measureScroll(){
   if(reduced.matches){progress=.5;return;}
   if(paused)return;
@@ -75,12 +60,9 @@ export async function mountSketchSea(){
   whale.position.set((progress-.5)*halfWidth*1.65,Math.sin(path)*.23,Math.sin(progress*Math.PI)*.7);
   whale.rotation.set(Math.sin(t*1.4)*.025,Math.sin(path)*.27,-.08+Math.cos(path)*.10);
   tail.rotation.x=Math.sin(t*2.6+path)*.3;tail.rotation.z=Math.sin(t*2.6+path)*.14;fin.rotation.z=-.65+Math.sin(t*2.6+path-1)*.12;
-  whale.visible=!petMode;companion.visible=petMode&&mascotLoaded;
-  companion.position.set(0,Math.sin(t*2)*.07,0);companion.rotation.z=Math.sin(t*2)*.025;
-  if(mascotMixer)mascotMixer.update(paused?0:Math.max(0,t-previousPose));previousPose=t;
-  bubbles.forEach((bubble,i)=>{bubble.visible=!petMode;bubble.position.set(-halfWidth*.8+i*halfWidth*.25-(progress-.5)*.8,((t*.25+i*.63)%3.2)-1.4,-.5);});
-  if(petMode)renderer.render(scene,camera);else effect.render(scene,camera);
-  stage.dataset.pose=String(t);stage.dataset.mode=petMode?'pencil':'whale';stage.dataset.scrollProgress=progress.toFixed(3);stage.dataset.whaleX=whale.position.x.toFixed(3);
+  bubbles.forEach((bubble,i)=>{bubble.position.set(-halfWidth*.8+i*halfWidth*.25-(progress-.5)*.8,((t*.25+i*.63)%3.2)-1.4,-.5);});
+  effect.render(scene,camera);
+  stage.dataset.pose=String(t);stage.dataset.mode='whale';stage.dataset.scrollProgress=progress.toFixed(3);stage.dataset.whaleX=whale.position.x.toFixed(3);
   if(!paused)request();
  }
  function resize(){const r=stage.getBoundingClientRect(),a=r.width/r.height;const h=a<1.1?3.2:2.5;halfWidth=h*a;camera.left=-halfWidth;camera.right=halfWidth;camera.top=h;camera.bottom=-h;camera.updateProjectionMatrix();effect.setSize(r.width,r.height);measureScroll();request();}
@@ -91,9 +73,6 @@ export async function mountSketchSea(){
  const pause=document.querySelector('#sketch-pause');
  function announce(){pause.textContent=paused?'Play sketch':'Pause sketch';pause.setAttribute('aria-pressed',String(paused));}
  pause.disabled=false;pause.addEventListener('click',()=>{paused=!paused;last=0;measureScroll();announce();request();});
- const switcher=document.querySelector('#sketch-pet');switcher.disabled=false;
- switcher.addEventListener('click',()=>{petMode=!petMode;switcher.textContent=petMode?'Back to the whale':'Meet the pencil';document.querySelector('#sketch-color').hidden=!petMode;status.textContent=petMode?'Pencil companion study · chatbot connection comes later.':'Sunken Greed · a hand-drawn take on an underwater world.';if(petMode)loadMascot();request();});
- document.querySelector('#sketch-color').addEventListener('click',event=>{colored=!colored;petMaterials.forEach(({material,color})=>{if(colored)material.color.copy(color);else material.color.set(color.r+color.g+color.b>.36?0xe7ddc9:0x302b26);});event.currentTarget.textContent=colored?'Back to graphite':'Bring him to color';request();});
  reduced.addEventListener('change',()=>{if(reduced.matches)paused=true;announce();request();});
  canvas.addEventListener('webglcontextlost',event=>{event.preventDefault();visible=false;if(raf)cancelAnimationFrame(raf);status.textContent='The 3D sketch was interrupted. Reload to restore it.';});
  stage.setAttribute('aria-busy','false');status.textContent='Sunken Greed · a hand-drawn take on an underwater world.';announce();resize();

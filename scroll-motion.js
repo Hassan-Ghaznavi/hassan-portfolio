@@ -34,3 +34,25 @@ window.addEventListener('hashchange', () => {
   target?.querySelectorAll('.scroll-ready').forEach(node=>node.classList.add('scroll-arrived'));
   target?.classList.add('scroll-arrived');
 });
+
+// Scrub the illustrations with document scroll; no permanent animation loop.
+let sceneFrame=0;
+const visibleScenes=new Set();
+function paintScenes(){
+ sceneFrame=0;
+ for(const node of visibleScenes){
+  const rect=node.getBoundingClientRect();
+  const progress=Math.max(0,Math.min(1,(innerHeight-rect.top)/(innerHeight+rect.height)));
+  node.style.setProperty('--scene-progress',reduced.matches?'.5':String(progress));
+  node.style.setProperty('--scene-shift',reduced.matches?'0px':`${(progress-.5)*20}px`);
+  node.dataset.motionProgress=progress.toFixed(3);
+ }
+}
+function requestScenes(){if(!sceneFrame)sceneFrame=requestAnimationFrame(paintScenes);}
+function setupScenes(){
+ if(!('IntersectionObserver' in window))return;
+ const scenes=new IntersectionObserver(entries=>{for(const entry of entries){if(entry.isIntersecting)visibleScenes.add(entry.target);else visibleScenes.delete(entry.target);}requestScenes();},{rootMargin:'100px'});
+ document.querySelectorAll('[data-motion-scene]').forEach(node=>scenes.observe(node));
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',setupScenes,{once:true});else setupScenes();
+window.addEventListener('scroll',requestScenes,{passive:true});window.addEventListener('resize',requestScenes);reduced.addEventListener('change',requestScenes);

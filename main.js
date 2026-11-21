@@ -1,4 +1,4 @@
-import { projects } from './projects.js?v=two-lights-1';
+import { projects } from './projects.js?v=flow-4';
 import { buildTwoLights } from './two-lights.js';
 
 function addText(parent, tag, content, className) {
@@ -10,11 +10,13 @@ function addText(parent, tag, content, className) {
 }
 
 const projectIndex = document.querySelector('#projects');
+const moreProjects = document.querySelector('#more-projects');
 
 for (const project of projects) {
   const chapter = document.createElement('article');
   chapter.className = 'project';
   chapter.id = project.id;
+  const destination=project.collection==='more'?moreProjects:projectIndex;
   if(project.id==='two-lights'){buildTwoLights(chapter,project);projectIndex.append(chapter);continue;}
   if (project.chapterLabel) {
     const masthead = document.createElement('header');
@@ -48,6 +50,7 @@ for (const project of projects) {
   const hasVideo = /^[\w-]{11}$/.test(project.youtubeId ?? '');
   const media = document.createElement('figure');
   media.className = 'project-media';
+  media.dataset.motionScene=project.id;
   if (project.cover) {
     const image = document.createElement('img');
     image.src = project.cover.src;
@@ -57,6 +60,20 @@ for (const project of projects) {
     addText(media, 'figcaption', 'Concept illustration', 'eyebrow');
   }
 
+  if(project.motif==='smile') {
+    media.insertAdjacentHTML('beforeend',`<div class="smile-sketch" aria-hidden="true"><svg viewBox="0 0 400 280"><g fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path class="smile-mask" fill="var(--paper)" d="M100 58Q200 18 300 58L285 190Q200 270 115 190Z"/><path d="M99 83L55 63M301 83L345 63"/><path d="M145 108Q164 90 181 108M220 108Q240 90 259 108M150 157Q200 212 254 157"/><path d="M164 174Q202 185 239 173" stroke-width="1"/></g></svg><span class="eyebrow">A sketch in the margins / Game jam notes</span></div>`);
+  }
+  if(project.studies) {
+    const gallery=document.createElement('div');gallery.className='study-gallery';
+    for(const study of project.studies){
+      const figure=document.createElement('figure');figure.dataset.motionScene=study.id;
+      const frame=document.createElement('div');frame.className='study-image';
+      const image=document.createElement('img');image.src=`assets/studies/${study.id}.webp`;image.alt=study.title+' — Hassan’s 3D render';image.loading='lazy';image.decoding='async';frame.append(image);
+      const caption=document.createElement('figcaption');const title=document.createElement('h4');title.textContent=study.title;const note=document.createElement('p');note.textContent=study.note;caption.append(title,note);figure.append(frame,caption);gallery.append(figure);
+    }
+    chapter.append(gallery);chapter.classList.add('render-collection');
+  }
+  if(project.id==='paper-dash') media.insertAdjacentHTML('beforeend',`<svg class="project-paper-plane" viewBox="0 0 180 100" aria-hidden="true"><path d="M5 44L173 5 64 91 59 58Z" fill="var(--paper)" stroke="currentColor" stroke-width="2"/><path d="M59 58L173 5 79 69 64 91" fill="#d9cab3" stroke="currentColor" stroke-width="1.5"/></svg>`);
   if (hasVideo) {
     const play = addText(media, 'button', 'Watch gameplay', 'button ink');
     play.type = 'button';
@@ -66,7 +83,7 @@ for (const project of projects) {
       player.title = project.title + ' gameplay video';
       player.allow = 'autoplay; encrypted-media; picture-in-picture';
       player.allowFullscreen = true;
-      media.replaceChildren(player);
+      const slot=document.createElement('div');slot.className='inline-video';slot.append(player);media.append(slot);play.hidden=true;
       player.focus();
     });
   }
@@ -95,8 +112,13 @@ for (const project of projects) {
     });
     chapter.append(notes);
   }
-  projectIndex.append(chapter);
+  if(project.id==='paper-dash')chapter.append(document.querySelector('#flight'));
+  destination.append(chapter);
 }
+
+document.querySelectorAll('[data-youtube]').forEach(button=>button.addEventListener('click',()=>{
+ const player=document.createElement('iframe');player.src='https://www.youtube-nocookie.com/embed/'+button.dataset.youtube+'?autoplay=1';player.title=button.dataset.videoTitle;player.allow='autoplay; encrypted-media; picture-in-picture';player.allowFullscreen=true;button.nextElementSibling.replaceChildren(player);button.hidden=true;
+}));
 
 if ('IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
   const observer = new IntersectionObserver(entries => {
@@ -219,7 +241,12 @@ if (context) {
     button.hidden = false;
   }
 
+  let flightVisible=true,flightFrame=0;
+  function requestFlight(){if(running&&flightVisible&&!document.hidden&&!flightFrame)flightFrame=requestAnimationFrame(frame);}
+  new IntersectionObserver(entries=>{flightVisible=entries[0].isIntersecting;lastTime=0;if(!flightVisible&&flightFrame){cancelAnimationFrame(flightFrame);flightFrame=0;}requestFlight();}).observe(canvas);
+  document.addEventListener('visibilitychange',()=>{lastTime=0;if(document.hidden&&flightFrame){cancelAnimationFrame(flightFrame);flightFrame=0;}requestFlight();});
   function frame(time) {
+    flightFrame=0;if(!running||!flightVisible||document.hidden){lastTime=0;return;}
     const delta = lastTime ? Math.min(.05, (time - lastTime) / 1000) : 0;
     lastTime = time;
     const horizontal = Number(keys.has('ArrowRight')) - Number(keys.has('ArrowLeft'));
@@ -243,7 +270,7 @@ if (context) {
     }
     draw();
     if (distance === planeDepth) finish();
-    else requestAnimationFrame(frame);
+    else requestFlight();
   }
 
   button.addEventListener('click', () => {
@@ -258,7 +285,7 @@ if (context) {
     canvas.classList.add('playing');
     canvas.focus({ preventScroll: true });
     canvas.scrollIntoView({ block: 'center', behavior: 'instant' });
-    requestAnimationFrame(frame);
+    requestFlight();
   });
 
   function steer(event) {

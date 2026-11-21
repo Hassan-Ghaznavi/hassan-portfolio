@@ -4,10 +4,10 @@ const root = new URL('../', import.meta.url);
 const target = new URL('../dist/', import.meta.url);
 await mkdir(target, { recursive: true });
 // Explicit deployment allowlist: raw files and recordings never enter the site.
-for (const file of ['index.html','styles.css','main.js','projects.js','two-lights.js','internship.js','avatar-preview.js','avatar-scene.js','sketch-preview.js','sketch-sea.js','scroll-motion.js']) {
+for (const file of ['index.html','styles.css','main.js','projects.js','two-lights.js','internship.js','avatar-preview.js','avatar-scene.js','sketch-preview.js','sketch-sea.js','scroll-motion.js','companion.js','companion-scene.js']) {
   await copyFile(new URL(file,root),new URL(file,target));
 }
-for (const dir of ['assets/vendor','assets/internship','assets/two-lights']) {
+for (const dir of ['assets/vendor','assets/internship','assets/two-lights','assets/studies']) {
   await cp(new URL(dir,root),new URL(dir,target),{recursive:true});
 }
 await mkdir(new URL('assets/avatar/',target),{recursive:true});
