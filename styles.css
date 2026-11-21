@@ -15,8 +15,12 @@
 * { box-sizing: border-box; }
 body {
   margin: 0;
-  background: radial-gradient(ellipse at 45% 10%, #fff8eb 0%, transparent 60%),
-              repeating-linear-gradient(117deg, #59402706 0 1px, transparent 1px 4px);
+  background-color:var(--paper);
+  background-image:url('assets/paper-grain.webp'),
+    radial-gradient(ellipse at 22% 8%,#fff9ed 0%,transparent 48%),
+    radial-gradient(ellipse at 92% 45%,#e2cfa72e 0%,transparent 55%);
+  background-size:256px 256px,100% 2200px,100% 2800px;
+  background-repeat:repeat,repeat-y,repeat-y;
 }
 a { color: inherit; text-underline-offset: .24em; }
 a:hover { color: var(--red); }
@@ -311,4 +315,8 @@ html { overflow-x: clip; }
  .cover-art svg *, .cover-art .cover-plane { animation:none !important; }
  .drawn-flight-path { stroke-dashoffset:0; }
  .art-motion-toggle { display:none; }
+}
+
+@media print {
+ body { background:var(--paper); }
 }

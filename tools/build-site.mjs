@@ -13,7 +13,7 @@ for (const dir of ['assets/vendor','assets/internship','assets/two-lights']) {
 await mkdir(new URL('assets/avatar/',target),{recursive:true});
 await mkdir(new URL('assets/mascot/',target),{recursive:true});
 await copyFile(new URL('assets/mascot/pencil-web.glb',root),new URL('assets/mascot/pencil-web.glb',target));
-for (const file of ['assets/controller-cartoon.webp','assets/paper-plane-dash.webp','assets/avatar/hassan-doodle-rigged.glb','assets/avatar/hassan-doodle-final-v2.png']) {
+for (const file of ['assets/paper-grain.webp','assets/controller-cartoon.webp','assets/paper-plane-dash.webp','assets/avatar/hassan-doodle-rigged.glb','assets/avatar/hassan-doodle-final-v2.png']) {
   await copyFile(new URL(file,root),new URL(file,target));
 }
 console.log(`Prepared website: ${fileURLToPath(target)}`);
