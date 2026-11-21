@@ -5,14 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Hassan Ghaznavi's game development and 3D environment art portfolio.">
   <title>The Manual Is Wrong. | Hassan Ghaznavi</title>
-  <link rel="stylesheet" href="styles.css?v=flow-4">
+  <link rel="stylesheet" href="styles.css?v=depth-5">
   <script type="importmap">{"imports":{"three":"./assets/vendor/three/build/three.module.js","three/addons/":"./assets/vendor/three/addons/"}}</script>
-  <script type="module" src="main.js?v=flow-4"></script>
+  <script type="module" src="main.js?v=depth-5"></script>
   <script type="module" src="avatar-preview.js?v=ink-1"></script>
   <script type="module" src="internship.js"></script>
   <script type="module" src="sketch-preview.js"></script>
   <script type="module" src="scroll-motion.js?v=flow-4"></script>
   <script type="module" src="companion.js"></script>
+  <script type="module" src="project-sketches.js"></script>
 </head>
 <body>
   <a class="skip-link" href="#work">Skip to selected work</a>
@@ -103,16 +104,17 @@
 
     <section id="sketch-sea" class="section sketch-sea" aria-labelledby="sketch-title">
       <div class="section-heading"><p class="eyebrow">Sunken Greed / Drawn below the surface</p><h2 id="sketch-title">Sunken Greed.<br>Below the surface.</h2></div>
-      <p class="sketch-intro">A solo Unity VR project built around physical swimming, interactive objects, and underwater exploration. Scroll to follow a sketched visitor from that world.</p>
+      <p class="sketch-intro">A Unity VR team project featuring physical swimming, interactive objects, and underwater exploration. Scroll to follow a sketched visitor from that world.</p>
       <div id="sketch-scroll" class="sketch-scroll"><div id="sketch-stage" class="sketch-stage" aria-busy="true"><span class="sketch-depth" aria-hidden="true">FIELD NOTE / 03<br>DEPTH: A FEW PENCIL LINES</span><canvas id="sketch-canvas" aria-label="Scroll-driven 3D sketch of a whale"></canvas><span class="sketch-watermark" aria-hidden="true">a world between the lines.</span></div></div>
       <div class="sketch-controls"><button id="sketch-pause" class="button outline" type="button" disabled>Pause sketch</button><a href="https://www.youtube.com/watch?v=PIvDI_sWnxU" target="_blank" rel="noopener noreferrer">Watch Sunken Greed ↗</a></div>
       <p id="sketch-status" role="status" aria-live="polite">The sketch is getting ready.</p>
-      <div class="sea-project-notes"><p><span class="eyebrow">My role</span><br>Solo developer · Unity · C# · VR</p><p>Physical swimming and hands-on interactions bring the player into the world. The whale above is a sketch interpretation; watch the actual project below.</p><button type="button" class="button ink" data-youtube="PIvDI_sWnxU" data-video-title="Sunken Greed gameplay">Watch gameplay ▷</button><div class="inline-video"></div></div>
+      <div class="sea-project-notes"><p><span class="eyebrow">Project context</span><br>Team project · Unity · C# · VR</p><p>Physical swimming and hands-on interactions bring the player into the world. The whale above is a sketch interpretation; watch the actual project below.</p><button type="button" class="button ink" data-youtube="PIvDI_sWnxU" data-video-title="Sunken Greed gameplay">Watch gameplay ▷</button><div class="inline-video"></div></div>
     </section>
     <section id="more-work" class="section" aria-labelledby="more-title"><div class="section-heading"><p class="eyebrow">More worlds / More ways to play</p><h2 id="more-title">From a game jam<br>to the render room.</h2></div><div id="more-projects" class="projects"></div></section>
     <section id="internship" class="section" aria-labelledby="internship-title">
       <div class="section-heading"><p class="eyebrow">AIRIDEV / The development collection</p><h2 id="internship-title">Four months.<br>10+ games.<br>Many ways to play.</h2></div>
       <p class="collection-intro">Solo development during my ongoing internship. A selection of the mechanics and worlds I built, shown through project images.</p>
+      <button type="button" id="sketches-pause" data-mini-pause class="button outline" aria-pressed="false">Pause 3D sketches</button>
       <div id="internship-collection" class="specimen-grid"></div>
     </section>
     <section id="about" class="section about">

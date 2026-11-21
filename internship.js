@@ -11,7 +11,7 @@ for (const [id,title,note,description,count] of entries) {
   const annotation = document.createElement('p');annotation.className='specimen-note';annotation.textContent=note;
   const image = document.createElement('img');image.src=`assets/internship/${id}-0.webp`;image.alt=`${title} — project image 1`;image.loading='lazy';image.decoding='async';
   const text = document.createElement('p');text.textContent=description;
-  const doodle=document.createElement('div');doodle.className='mechanic-doodle';doodle.setAttribute('aria-hidden','true');
+  const doodle=document.createElement('div');doodle.className='mechanic-doodle mini-sketch';doodle.dataset.miniSketch=id;doodle.setAttribute('aria-hidden','true');
   const drawings={
    'ink-bleed':'<path class="ink-drop" d="M65 8Q40 42 46 56Q65 77 84 56Q91 42 65 8Z" fill="#b3402e33"/><path d="M53 48Q49 58 61 61"/>',
    'clockwork-path':'<g class="gear-doodle"><circle cx="65" cy="39" r="21"/><circle cx="65" cy="39" r="7"/><path d="M65 7V18M65 60V71M33 39H44M86 39H97M42 16L50 24M80 54L88 62M42 62L50 54M80 24L88 16" stroke-width="6"/></g>',

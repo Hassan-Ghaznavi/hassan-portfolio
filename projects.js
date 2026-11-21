@@ -44,6 +44,11 @@ export const projects = [
     tools:'Blender · 3D studies', role:'3D modeling & environment art',
     overview:'A different side of the work: atmosphere, materials, and composition.',
     contribution:'A collection of environment and object renders from my 3D work.',
+    films:[
+      {id:'cave',title:'Cave Scene',note:'A camera journey through a rocky, atmospheric cave.',motif:'crystal'},
+      {id:'ocean',title:'Stormy Ocean',note:'Rolling water, a warning light, and a storm on the horizon.',motif:'buoy'},
+      {id:'airpods',title:'AirPods',note:'An animated product study with opening, floating forms and color changes.',motif:'earbuds'}
+    ],
     studies:[
       {id:'forest',title:'Forest environment',note:'Light, foliage, and atmosphere.'},
       {id:'perfume',title:'Product study',note:'A bottle, a surface, a lighting setup.'},

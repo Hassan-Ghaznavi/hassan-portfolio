@@ -64,6 +64,23 @@ for (const project of projects) {
     media.insertAdjacentHTML('beforeend',`<div class="smile-sketch" aria-hidden="true"><svg viewBox="0 0 400 280"><g fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path class="smile-mask" fill="var(--paper)" d="M100 58Q200 18 300 58L285 190Q200 270 115 190Z"/><path d="M99 83L55 63M301 83L345 63"/><path d="M145 108Q164 90 181 108M220 108Q240 90 259 108M150 157Q200 212 254 157"/><path d="M164 174Q202 185 239 173" stroke-width="1"/></g></svg><span class="eyebrow">A sketch in the margins / Game jam notes</span></div>`);
   }
   if(project.studies) {
+    const films=document.createElement('div');films.className='film-grid';
+    for(const film of project.films||[]){
+      const card=document.createElement('article');card.className='film-card';card.id='film-'+film.id;
+      const label=document.createElement('p');label.className='eyebrow';label.textContent='Blender / Animated study';
+      const heading=document.createElement('h4');heading.textContent=film.title;
+      const sketch=document.createElement('div');sketch.className='mini-sketch';sketch.dataset.miniSketch=film.motif;sketch.setAttribute('aria-hidden','true');sketch.innerHTML='<span class="sketch-placeholder">a few lines, a little depth.</span>';
+      const screen=document.createElement('div');screen.className='film-screen';
+      const poster=document.createElement('img');poster.src=`assets/blender-motion/${film.id}.webp`;poster.alt=film.title+' — frame from Hassan’s Blender animation';poster.loading='lazy';poster.width=960;poster.height=540;screen.append(poster);
+      const play=document.createElement('button');play.type='button';play.className='button ink';play.textContent='Play '+film.title+' ▷';
+      const note=document.createElement('p');note.textContent=film.note;
+      play.addEventListener('click',()=>{
+       const video=document.createElement('video');video.controls=true;video.playsInline=true;video.muted=true;video.preload='none';video.poster=poster.src;video.src=`assets/blender-motion/${film.id}.mp4`;video.setAttribute('aria-label',film.title+' Blender animation');screen.replaceChildren(video);play.hidden=true;video.addEventListener('error',()=>{screen.replaceChildren(poster);play.hidden=false;play.textContent='Retry '+film.title+' ▷';},{once:true});
+       new IntersectionObserver(entries=>{if(!entries[0].isIntersecting)video.pause();},{threshold:.05}).observe(video);video.play().catch(()=>{});video.focus();
+      });
+      card.append(label,heading,sketch,screen,play,note);films.append(card);
+    }
+    const pauseSketches=document.createElement('button');pauseSketches.type='button';pauseSketches.className='button outline sketches-control';pauseSketches.dataset.miniPause='';pauseSketches.setAttribute('aria-pressed','false');pauseSketches.textContent='Pause 3D sketches';chapter.append(pauseSketches,films);
     const gallery=document.createElement('div');gallery.className='study-gallery';
     for(const study of project.studies){
       const figure=document.createElement('figure');figure.dataset.motionScene=study.id;

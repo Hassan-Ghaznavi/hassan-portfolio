@@ -45,3 +45,11 @@ Mobile layout has been checked at 390px width. Physical-device performance still
 
 Live deployment: https://hassan-portfolio-two-rho.vercel.app/
 Repository: https://github.com/Hassan-Ghaznavi/hassan-portfolio
+
+## Blender films and 3D project miniatures
+
+The render room includes Cave Scene, Stormy Ocean and AirPods from the supplied project folder. Compressed silent MP4s and poster frames live in assets/blender-motion. Video sources are assigned only after Play is requested, and playback pauses when the video leaves the viewport. The three clips total approximately 3.7 MB. tools/prepare-blender-films.py reproduces these exports from the local originals.
+
+project-sketches.js lazy-loads mini-scenes.js. One shared Three.js renderer uses viewport scissoring to place seven independent miniatures into their cards: falling ink and ripples, coupled extruded gears, exposed fossil layers, oscillating wave bars, cave crystals, a rocking buoy, and an opening earbud case. These are original stylized presentation motifs; the project footage remains separate. Only visible scenes animate, pixel density is capped, hidden tabs suspend rendering, both sketch controls share a pause state, and reduced-motion preferences show stationary scenes. The existing illustrations remain as fallbacks where available.
+
+Sunken Greed is credited as a team project following Hassan's correction. Individual contribution details are still awaiting his description.

@@ -31,3 +31,6 @@ assets/avatar/*.json
 assets/avatar/*preview.jpg
 assets/mascot/*inspection*
 assets/controller.webp
+
+# Approved personal Blender animation exports
+!assets/blender-motion/*.mp4
