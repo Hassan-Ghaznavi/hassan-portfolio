@@ -75,7 +75,7 @@ function setup(){
   const pr=paper.getBoundingClientRect(),mr=media.getBoundingClientRect(),fr=flight.getBoundingClientRect();
   const start=mr.top+scrollY-innerHeight*.45,end=fr.top+scrollY-innerHeight*.35;
   const p=Math.max(0,Math.min(1,(scrollY-start)/Math.max(1,end-start)));
-  route.hidden=reduced.matches||pr.top>innerHeight||pr.bottom<0||scrollY<start-100||fr.bottom<0;
+  route.hidden=p>=.94||reduced.matches||pr.top>innerHeight||pr.bottom<0||scrollY<start-100||fr.bottom<0;
   if(!route.hidden){
    const a={x:mr.left+mr.width*.72,y:mr.top+Math.min(mr.height*.22,150)},d={x:fr.left+fr.width*.55,y:fr.top+Math.min(fr.height*.45,260)},b={x:innerWidth*.91,y:innerHeight*.16},c={x:innerWidth*.20,y:innerHeight*.66};
    const q=1-p,x=q*q*q*a.x+3*q*q*p*b.x+3*q*p*p*c.x+p*p*p*d.x,y=q*q*q*a.y+3*q*q*p*b.y+3*q*p*p*c.y+p*p*p*d.y;

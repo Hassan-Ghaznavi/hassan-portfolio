@@ -100,7 +100,7 @@ export function mountMiniScenes(regions){
   renderer.setScissorTest(false);renderer.clear();renderer.setScissorTest(true);
   for(const entry of entries){
    if(!entry.visible)continue;const r=entry.node.getBoundingClientRect();if(r.bottom<=0||r.top>=innerHeight||!r.width||!r.height)continue;
-   const p=reduced.matches?.5:Math.max(0,Math.min(1,(innerHeight-r.top)/(innerHeight+r.height)));
+   const p=(reduced.matches||matchMedia('(pointer:coarse)').matches)?.5:Math.max(0,Math.min(1,(innerHeight-r.top)/(innerHeight+r.height)));
    entry.animate(reduced.matches?0:time,p);const follow=1-Math.exp(-9*Math.max(dt,.016));entry.rig.rotation.y=THREE.MathUtils.lerp(entry.rig.rotation.y,reduced.matches?0:entry.pointer.x*.4,follow);entry.rig.rotation.x=THREE.MathUtils.lerp(entry.rig.rotation.x,reduced.matches?0:entry.pointer.y*.2,follow);entry.camera.aspect=r.width/r.height;entry.camera.updateProjectionMatrix();
    renderer.setViewport(r.left,innerHeight-r.bottom,r.width,r.height);renderer.setScissor(Math.max(0,r.left),Math.max(0,innerHeight-r.bottom),Math.min(r.width,innerWidth-r.left),Math.min(r.bottom,innerHeight)-Math.max(r.top,0));renderer.clearDepth();renderer.render(entry.scene,entry.camera);entry.node.classList.add('mini-ready');entry.node.dataset.sketchTime=time.toFixed(2);
   }
