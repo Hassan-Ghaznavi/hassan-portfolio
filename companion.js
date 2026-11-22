@@ -20,17 +20,19 @@ panel.addEventListener('keydown',event=>{if(event.key==='Escape'){event.preventD
 function message(text,className){const p=document.createElement('p');p.className=className;p.textContent=text;log.append(p);return p;}
 const localIndex=makeIndex(notes);const state=document.querySelector('.pencil-companion');const note=document.querySelector('.guide-note');
 let aiReady=false,busy=false;
-fetch('/api/chat').then(r=>r.json()).then(data=>{aiReady=data.ready===true;note.textContent=aiReady?'Gemini AI · Portfolio sources included. Your questions are sent to Google.':'Local portfolio notes · AI connection not configured.';}).catch(()=>{note.textContent='Local portfolio notes · AI is unavailable.';});
+const readiness=fetch('/api/chat',{cache:'no-store',signal:AbortSignal.timeout(8000)}).then(r=>r.json()).then(data=>{aiReady=data.ready===true;}).catch(()=>{});
+note.textContent='Ask about Hassan’s work, skills or story. Questions may be processed by Google.';
 function reply(text,sources=[]){const p=message(text,'guide-answer');for(const source of sources){if(!/^#[a-z0-9-]+$/.test(source.href))continue;const link=document.createElement('a');link.href=source.href;link.textContent='Read: '+source.source;p.append(document.createElement('br'),link);link.addEventListener('click',()=>{if(innerWidth<720)setOpen(false);});}}
 document.querySelector('#pencil-form').addEventListener('submit',async event=>{
  event.preventDefault();const question=input.value.trim();if(!question||busy)return;
  busy=true;state.dataset.state='thinking';const button=event.currentTarget.querySelector('button');button.disabled=true;message(question,'guide-question');input.value='';
  const thinking=message('Doodle is checking his notes…','guide-thinking');log.scrollTop=log.scrollHeight;
  try{
-  if(aiReady){const response=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({question}),signal:AbortSignal.timeout(25000)});const data=await response.json();if(!response.ok){const failure=Error('AI unavailable');failure.status=response.status;throw failure;}reply(data.answer,data.sources);}
+  await readiness;
+  if(aiReady){const response=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({question}),signal:AbortSignal.timeout(55000)});const data=await response.json();if(!response.ok){const failure=Error('AI unavailable');failure.status=response.status;throw failure;}reply(data.answer,data.sources);}
   else{const matches=retrieve(question,localIndex);if(matches.length)reply(matches[0].text,[matches[0]]);else reply('That detail isn’t in my notes yet. Try a project name, skills, education, or awards.');}
   state.dataset.state='happy';
- }catch(error){reply(error.status===429?'My free AI quota is taking a break. Try again later; I won’t switch to a paid service.':'My AI connection is unavailable right now. You can still explore the project chapters below.');state.dataset.state='idle';}
+ }catch(error){const matches=retrieve(question,localIndex);reply(matches.length?'I couldn’t reach my assistant just now. Here’s what my saved notes say: '+matches[0].text: (error.status===429?'I’m taking a short break. Please try again later.':'I couldn’t connect just now. Please try again, or ask about a project by name.'),matches.length?[matches[0]]:[]);state.dataset.state='idle';}
  finally{thinking.remove();busy=false;button.disabled=false;while(log.children.length>19)log.firstElementChild.remove();log.scrollTop=log.scrollHeight;setTimeout(()=>{if(!busy)state.dataset.state='idle';},900);}
 });
 document.addEventListener('pencil:ask',event=>{setOpen(true);input.value=String(event.detail||'Who is Hassan?').slice(0,250);document.querySelector('#pencil-form').requestSubmit();close.focus({preventScroll:true});});
