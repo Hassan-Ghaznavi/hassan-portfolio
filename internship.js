@@ -18,10 +18,15 @@ intro.append(copy,book);host.prepend(intro);
 const pages=document.createElement('div');pages.id='internship-pages';pages.className='internship-pages';pages.hidden=true;
 const toolbar=document.createElement('div');toolbar.className='book-toolbar';toolbar.innerHTML='<div><p class="eyebrow">Inside the field book</p><h3>Seven experiments in play.</h3></div>';
 const close=document.createElement('button');close.type='button';close.className='button outline';close.textContent='Close the book';toolbar.append(close);pages.append(toolbar,host.querySelector('#sketches-pause'),collection);host.append(pages);
+const bookmarks=document.createElement('nav');bookmarks.className='book-bookmarks';bookmarks.setAttribute('aria-label','AIRIDEV project bookmarks');
+for(const entry of entries){const link=document.createElement('a');link.href='#'+entry.id;link.textContent=entry.title;link.setAttribute('aria-label','Jump to '+entry.title);bookmarks.append(link);}
+toolbar.after(bookmarks);
+function markBookmark(id){bookmarks.querySelectorAll('a').forEach(link=>{if(link.hash==='#'+id)link.setAttribute('aria-current','location');else link.removeAttribute('aria-current');});}
+function introduce(entry){markBookmark(entry.id);document.dispatchEvent(new CustomEvent('doodle:book',{detail:{open:true,id:entry.id,title:entry.title,note:entry.note}}));}
 const end=document.createElement('button');end.type='button';end.className='button outline book-end';end.textContent='Close the book';pages.append(end);
-function setBook(open,scroll=false){if(open)pages.querySelectorAll('img[data-src]').forEach(image=>{image.src=image.dataset.src;delete image.dataset.src;});pages.hidden=!open;book.setAttribute('aria-expanded',String(open));book.setAttribute('aria-label',open?'Close the AIRIDEV project book':'Open the AIRIDEV project book');book.classList.toggle('book-is-open',open);book.querySelector('.book-action').textContent=open?'Collection is open':'Open the collection';if(scroll&&open)pages.scrollIntoView({block:'start',behavior:reduced.matches?'instant':'smooth'});if(!open){book.focus({preventScroll:true});book.scrollIntoView({block:'center',behavior:reduced.matches?'instant':'smooth'});}}
+function setBook(open,scroll=false){const changed=pages.hidden===open;if(changed)document.dispatchEvent(new CustomEvent('doodle:book',{detail:{open}}));if(open)pages.querySelectorAll('img[data-src]').forEach(image=>{image.src=image.dataset.src;delete image.dataset.src;});pages.hidden=!open;book.setAttribute('aria-expanded',String(open));book.setAttribute('aria-label',open?'Close the AIRIDEV project book':'Open the AIRIDEV project book');book.classList.toggle('book-is-open',open);book.querySelector('.book-action').textContent=open?'Collection is open':'Open the collection';if(scroll&&open)pages.scrollIntoView({block:'start',behavior:reduced.matches?'instant':'smooth'});if(!open){book.focus({preventScroll:true});book.scrollIntoView({block:'center',behavior:reduced.matches?'instant':'smooth'});}}
 book.addEventListener('click',()=>setBook(pages.hidden,true));close.addEventListener('click',()=>setBook(false));end.addEventListener('click',()=>setBook(false));
-function revealLinkedProject(){const id=decodeURIComponent(location.hash.slice(1));if(entries.some(e=>e.id===id)){setBook(true);resetSearch();requestAnimationFrame(()=>document.getElementById(id)?.scrollIntoView({block:'start',behavior:'instant'}));}}
+function revealLinkedProject(){const id=decodeURIComponent(location.hash.slice(1));if(entries.some(e=>e.id===id)){setBook(true);resetSearch();markBookmark(id);requestAnimationFrame(()=>document.getElementById(id)?.scrollIntoView({block:'start',behavior:'instant'}));}}
 window.addEventListener('hashchange',revealLinkedProject);
 
 const search=document.createElement('label');search.className='collection-search';search.innerHTML='Find a game<input type="search" placeholder="Try ink, mirrors, waves…" aria-controls="internship-collection"><span role="status" aria-live="polite">'+entries.length+' games in the collection</span>';collection.before(search);
@@ -45,4 +50,6 @@ function resetSearch(){search.querySelector('input').value='';collection.querySe
 revealLinkedProject();
 
 // Reopen even when a citation repeats the current hash after the book was closed.
-document.addEventListener('click',event=>{const link=event.target.closest('a[href^="#"]');if(!link)return;const id=link.getAttribute('href').slice(1);if(entries.some(e=>e.id===id)){setBook(true);resetSearch();requestAnimationFrame(()=>document.getElementById(id)?.scrollIntoView({block:'start',behavior:reduced.matches?'instant':'smooth'}));}});
+document.addEventListener('click',event=>{const link=event.target.closest('a[href^="#"]');if(!link)return;const id=link.getAttribute('href').slice(1);if(entries.some(e=>e.id===id)){setBook(true);resetSearch();markBookmark(id);requestAnimationFrame(()=>document.getElementById(id)?.scrollIntoView({block:'start',behavior:reduced.matches?'instant':'smooth'}));}});
+
+bookmarks.addEventListener('click',event=>{const link=event.target.closest('a');if(!link)return;const entry=entries.find(e=>link.hash==='#'+e.id);if(entry)introduce(entry);});

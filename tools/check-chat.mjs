@@ -4,10 +4,11 @@ import {notes} from '../portfolio-notes.js';
 import {makeIndex,retrieve} from '../lib/retrieval.mjs';
 const index=makeIndex(notes);assert.match(retrieve('Sunken Greed contribution',index)[0].text,/asset integration/);assert.match(retrieve('Which game won twice?',index)[0].text,/GameCon/);assert.equal(retrieve('What is Hassan salary?',index).length,0);assert.equal(retrieve('Tell me about Mirror Maze',index)[0].href,'#mirror-maze');
 async function request(method,body,headers={}){let status;let result;const res={setHeader(){},status(value){status=value;return this;},json(value){result=value;}};await handler({method,body,headers:{origin:'https://hassan-portfolio-two-rho.vercel.app','content-type':'application/json',...headers}},res);return {status,result};}
-delete process.env.OPENAI_API_KEY;assert.equal((await request('GET')).result.ready,false);assert.equal((await request('POST',{question:'Which game won twice?'})).status,503);
-process.env.OPENAI_API_KEY='test-key-not-a-real-key';let generationCalls=0,unsupported=false,unknown=false;
+delete process.env.GEMINI_API_KEY;assert.equal((await request('GET')).result.ready,false);assert.equal((await request('POST',{question:'Which game won twice?'})).status,503);
+process.env.GEMINI_API_KEY='test-key-not-a-real-key';assert.equal((await request('GET')).result.ready,false);process.env.GEMINI_FREE_TIER_CONFIRMED='true';let generationCalls=0,unsupported=false,unknown=false;
 const originalFetch=globalThis.fetch;
-globalThis.fetch=async(url,options)=>{const body=JSON.parse(options.body);if(url.endsWith('/embeddings')){return {ok:true,json:async()=>({data:body.input.map((text,i)=>{const vector=Array(512).fill(0);vector[unknown?510:0]=1;return {index:i,embedding:vector};})})};}generationCalls++;assert.equal(body.store,false);assert.match(body.instructions,/only questions about Hassan/);assert.equal(body.text.format.strict,true);const context=JSON.parse(body.input);return {ok:true,json:async()=>({output:[{type:'message',content:[{type:'output_text',text:JSON.stringify({answer:'Two Lights One Escape won twice.',sourceIds:unsupported?['invented']: [context.sources[0].id]})}]}]})};};
+globalThis.fetch=async(url,options)=>{const body=JSON.parse(options.body);assert.match(url,/^https:\/\/generativelanguage.googleapis.com/);assert.equal(options.headers['x-goog-api-key'],'test-key-not-a-real-key');if(url.endsWith(':batchEmbedContents')){return {ok:true,json:async()=>({embeddings:body.requests.map((item,i)=>{assert.equal(item.outputDimensionality,768);const vector=Array(768).fill(0);vector[unknown?767:0]=1;return {values:vector};})})};}generationCalls++;assert.match(body.systemInstruction.parts[0].text,/only questions about Hassan/);assert.equal(body.generationConfig.responseMimeType,'application/json');const context=JSON.parse(body.contents[0].parts[0].text);return {ok:true,json:async()=>({candidates:[{content:{parts:[{text:JSON.stringify({answer:'Two Lights One Escape won twice.',sourceIds:unsupported?['invented']: [context.sources[0].id]})}]}}]})};};
+
 try{
  assert.equal((await request('POST',{question:'Which game won twice?'},{origin:'https://evil.example'})).status,403);
  assert.equal((await request('POST',{question:'x'})).status,400);
@@ -15,5 +16,6 @@ try{
  unsupported=true;const rejected=await request('POST',{question:'Which game won twice?'});assert.equal(rejected.result.sources.length,0);assert.match(rejected.result.answer,/not in my portfolio/);
  unknown=true;const missing=await request('POST',{question:'What is his salary?'});assert.equal(missing.result.sources.length,0);assert.equal(generationCalls,2);
  globalThis.fetch=async()=>{throw Error('network unavailable');};assert.equal((await request('POST',{question:'Which game won twice?'})).status,502);
+ globalThis.fetch=async()=>({ok:false,status:429});assert.equal((await request('POST',{question:'Which game won twice?'})).status,429);
  console.log('Doodle checks passed: retrieval, unknown facts, configuration, origin, validation, embedding index, cited generation, invalid citations and provider failure. No live AI calls.');
-}finally{globalThis.fetch=originalFetch;delete process.env.OPENAI_API_KEY;}
+}finally{globalThis.fetch=originalFetch;delete process.env.GEMINI_API_KEY;delete process.env.GEMINI_FREE_TIER_CONFIRMED;}

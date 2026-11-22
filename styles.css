@@ -612,3 +612,30 @@ canvas.mini-scenes-layer { position:fixed; inset:0; width:100%; height:100%; min
 @media(max-width:720px) { .internship-intro { grid-template-columns:1fr; gap:1.8rem; } .collection-book { width:240px; height:330px; } .book-title { font-size:2.65rem; } .book-toolbar { align-items:flex-start; flex-direction:column; gap:.8rem; } .internship-pages { margin-top:2rem; } .about .margin-annotation { display:none; } }
 @media(prefers-reduced-motion:reduce) { .book-face { transition:none; transform:none!important; } .internship-pages:not([hidden]),.margin-arrived svg { animation:none; } }
 @media print { .internship-pages[hidden] { display:block!important; } .collection-book,.book-toolbar button,.book-end { display:none; } }
+
+.book-bookmarks { display:flex; flex-wrap:wrap; gap:.5rem; margin:0 0 1.7rem; padding:.75rem 0 1rem; border-bottom:1px dashed #8a7c6d66; }
+.book-bookmarks a { position:relative; display:inline-block; padding:.7rem .9rem .85rem; background:#e5d4b8; border:1px solid #8a7c6d77; border-radius:3px 3px 0 0; text-decoration:none; font:.78rem/1.3 var(--mono); transition:transform .2s,background-color .2s; }
+.book-bookmarks a:nth-child(3n+2) { background:#e8e3ce; }
+.book-bookmarks a:nth-child(3n) { background:#efded1; }
+.book-bookmarks a:hover { transform:translateY(-3px); color:var(--ink); }
+.book-bookmarks a[aria-current] { background:var(--red); color:var(--paper); border-color:var(--red); }
+.doodle-book-aside { position:absolute; bottom:calc(100% + 10px); right:0; width:min(245px,calc(100vw - 40px)); padding:1rem; background:#fff7e8 url('assets/paper-grain.webp'); border:1px solid #8a7c6d99; box-shadow:3px 4px 0 #d7c7ac; }
+.doodle-book-aside p { margin:0 0 .65rem; padding-right:.65rem; font:italic 1.2rem/1.25 'Instrument Serif',serif; }
+.doodle-book-aside>button:not(.doodle-aside-close) { background:transparent; border:0; padding:.35rem 0; color:var(--red); text-decoration:underline; font:.75rem var(--mono); cursor:pointer; }
+.doodle-aside-close { position:absolute; right:3px; top:0; padding:.2rem .45rem; border:0; background:transparent; font-size:1.2rem; cursor:pointer; }
+.doodle-noticing .pencil-context { display:none; }
+.doodle-noticing .pencil-wave { animation:doodle-point .9s ease-in-out 2; }
+.pencil-companion:has(.pencil-panel:not([hidden])) .doodle-book-aside { display:none; }
+@keyframes doodle-point { 0%,100% { transform:rotate(0); } 45% { transform:translateY(-5px) rotate(-9deg); } }
+@media(max-width:720px) { .book-bookmarks { gap:.45rem; } .book-bookmarks a { font-size:.72rem; padding:.65rem .7rem; } }
+@media(prefers-reduced-motion:reduce) { .doodle-noticing .pencil-wave { animation:none; } .book-bookmarks a { transition:none; transform:none; } }
+
+.story-reveal { touch-action:pan-y; }
+.story-reveal:has(.reveal-sketch) { cursor:ew-resize; }
+.reveal-eraser { display:none; position:absolute; left:var(--eraser-x,50%); top:var(--eraser-y,50%); width:36px; height:23px; border:1.5px solid var(--ink); border-radius:4px; background:linear-gradient(90deg,#dba997 0 62%,#f5ead8 62%); box-shadow:3px 5px 0 #38291b22; transform:translate(-50%,-50%) rotate(-25deg); pointer-events:none; }
+.is-rubbing .reveal-eraser { display:block; }
+.story-reveal .reveal-control { cursor:default; }
+
+.book-bookmarks a { min-height:44px; display:inline-flex; align-items:center; }
+.doodle-aside-close { width:36px; height:36px; }
+.doodle-book-aside p { padding-right:1.2rem; }

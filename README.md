@@ -29,9 +29,9 @@ The bottom-right Doodle launcher is persistent and opens a non-modal guide panel
 
 Doodle uses a shared curated corpus in portfolio-notes.js. Without server credentials, the client searches normalized sparse TF-IDF vectors and clearly labels the mode as Local portfolio notes. This local mode does not claim to be LLM generation.
 
-api/chat.mjs implements the full optional RAG route: approved source notes are divided into overlapping chunks, embedded with text-embedding-3-small (512 dimensions), cached in a per-instance in-memory vector index, and ranked by cosine similarity with a small lexical relevance boost. The best three chunks ground a structured Responses API answer. Only validated citations to those retrieved chunks reach the interface. Unknown details, unsupported citations and provider failures have explicit fallbacks. No private source code, visitor conversation history or raw CV is uploaded. AI requests use store:false. The in-memory index is rebuilt after a cold start; a persistent vector service would be appropriate if the corpus grows substantially.
+api/chat.mjs implements the full optional RAG route: approved source notes are divided into overlapping chunks, embedded with gemini-embedding-001 (768 dimensions), cached in a per-instance in-memory vector index, and ranked by cosine similarity with a small lexical relevance boost. The best three chunks ground a structured Gemini answer. Only validated citations to those retrieved chunks reach the interface. Unknown details, unsupported citations and provider failures have explicit fallbacks. No private source code, visitor conversation history or raw CV is uploaded. Only the current question and public source chunks are sent to Google. Free-tier content may be used by Google to improve its products; the chat interface identifies Google as the provider. The in-memory index is rebuilt after a cold start; a persistent vector service would be appropriate if the corpus grows substantially.
 
-Set OPENAI_API_KEY in Vercel to enable live AI; optional RAG_CHAT_MODEL and RAG_EMBEDDING_MODEL override the defaults. The current deployment has no provider credentials, so live LLM verification remains pending. Run node tools/check-chat.mjs for mocked retrieval, grounding/citation, configuration and failure checks without paid calls. Official API references: https://developers.openai.com/api/docs/guides/embeddings and https://developers.openai.com/api/docs/guides/structured-outputs .
+Set GEMINI_API_KEY and GEMINI_FREE_TIER_CONFIRMED=true in Vercel only after verifying that its Google project is on the unbilled Free tier. The backend uses the allowlisted gemini-3.5-flash-lite and gemini-embedding-001 models; it has no paid-provider fallback. Quota exhaustion returns a recoverable error. The current deployment has no provider credentials, so live LLM verification remains pending. Run node tools/check-chat.mjs for mocked retrieval, grounding/citation, configuration and failure checks without paid calls. Official API references: https://ai.google.dev/api/embeddings and https://ai.google.dev/api/generate-content .
 
 Pencil (TPOT) by JossyBoy is used under CC BY 4.0. Original model: https://sketchfab.com/3d-models/pencil-tpot-71ff73300d84423ab71afd294b31b8c3 . Materials and whole-body animation were adapted for the portfolio. Attribution is available in the companion panel.
 
@@ -112,13 +112,14 @@ margin-notes.js adds small section-specific vector diagrams to the wider heading
 
 Open https://vercel.com/hassan-ghaznavis-projects/hassan-portfolio/settings/environment-variables and add the following server-side values for Production (and Preview if needed), then redeploy:
 
-- OPENAI_API_KEY: your own active API key; the current RAG implementation uses OpenAI embeddings and Responses. Never paste the key into chat or frontend files.
+- GEMINI_API_KEY: a dedicated key for your unbilled Google AI Studio project. Never paste the key into chat or frontend files.
+- GEMINI_FREE_TIER_CONFIRMED: true only after verifying the project is on Free tier without linked paid billing. This flag gates all outgoing model requests; it does not change Google billing settings.
 - RESEND_API_KEY: your Resend sending key.
 - CONTACT_TO_EMAIL: the receiving inbox Hassan supplied privately. It is saved in the ignored local configuration, not this repository or archive.
 - CONTACT_FROM_EMAIL: a sender permitted by the email provider. A receiving Gmail address is not automatically a verified sending identity.
 - SITE_URL: https://hassan-portfolio-two-rho.vercel.app
 
-The backend code cannot obtain provider credentials from a Vercel login. Provider account creation, API access and any billing must be configured by the account owner. Do not enable paid usage until you have reviewed the provider settings. Official setup references: https://resend.com/docs/send-with-nodejs , https://developers.openai.com/api/docs/quickstart and https://vercel.com/docs/environment-variables .
+The backend code cannot obtain provider credentials from a Vercel login. Provider account creation, API access and any billing must be configured by the account owner. Do not enable paid usage until you have reviewed the provider settings. Official setup references: https://resend.com/docs/send-with-nodejs , https://ai.google.dev/gemini-api/docs/quickstart and https://vercel.com/docs/environment-variables .
 
 After redeploying, verify /api/chat reports ready:true and ask Doodle about Two Lights, Sunken Greed contributions and a deliberately unknown fact. Verify /api/contact reports ready:true; send a clearly labeled delivery test to the configured inbox and retain the received message and delivery result as submission evidence. No successful delivery or live LLM test is claimed until those checks pass.
 
@@ -128,3 +129,12 @@ After redeploying, verify /api/chat reports ready:true and ask Doodle about Two 
 After rebuilding dist and the report, run python tools/package-submission.py. It writes output/hassan-portfolio-source.zip from an explicit allowlist, with a SHA-256 manifest and ZIP integrity check. The archive includes the current frontend/backend, approved web assets, screenshots, report, original rigged avatar .blend and exported GLB. It excludes local inbox configuration, API credentials, raw internship source and recordings. START-HERE.txt records the remaining live-service, physical-device and deferred video requirements. This is the current source package, not a claim of completed service verification.
 
 The latest Blender source/export round-trip check passed for Idle, Draw and Point, all skinned primitives and 18 joints. The rigged source is not modified by validation. Book interaction was checked with keyboard input at desktop, 768px tablet and 390px mobile widths, including search, screenshots, close/focus restoration and repeated same-hash citations.
+
+
+## Project bookmarks and Doodle reactions
+
+Each project has a keyboard-accessible bookmark at the top of the open field book. The selected bookmark is marked with aria-current. Activating one clears an incompatible search and opens its project. Doodle offers a short contextual introduction and an optional Ask button, with an eight-second dismissal and a manual close. These reactions use local facts and make no automatic AI calls. Reduced motion removes the gesture. Doodle celebrates only the contact system’s confirmed delivery event.
+
+The AI provider was changed to Gemini at Hassan’s explicit free-only request. Do not add billing, automatic recharge or a paid fallback. Provider quotas and availability remain outside the portfolio’s control; always verify the project’s actual billing tier before enabling credentials.
+
+The film-card sketch reveals also support a horizontal rub gesture with an eraser marker. The native labeled slider remains available for keyboard and touch users; vertical page scrolling remains enabled. This reveals real project frames under the sketch treatment.

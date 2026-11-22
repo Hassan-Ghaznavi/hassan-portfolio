@@ -18,6 +18,13 @@ export function decorateFilmScreen(screen,film){
  const seam=document.createElement('span');seam.className='reveal-seam';seam.setAttribute('aria-hidden','true');screen.append(seam);
  const label=document.createElement('label');label.className='reveal-control';label.textContent='Sketch treatment → final frame';
  const input=document.createElement('input');input.type='range';input.min='0';input.max='100';input.value='0';input.setAttribute('aria-label',film.title+' sketch to final frame');input.addEventListener('input',()=>{screen.dataset.manualReveal='true';screen.style.setProperty('--reveal',input.value+'%');});label.append(input);screen.append(label);
+ label.firstChild.textContent='Rub to reveal / or use the slider';
+ const eraser=document.createElement('span');eraser.className='reveal-eraser';eraser.setAttribute('aria-hidden','true');screen.append(eraser);
+ function rub(event){if(!screen.classList.contains('is-rubbing')||!screen.querySelector('.reveal-sketch'))return;const bounds=screen.getBoundingClientRect();const value=Math.max(0,Math.min(100,(event.clientX-bounds.left)/bounds.width*100));screen.dataset.manualReveal='true';screen.style.setProperty('--reveal',value+'%');screen.style.setProperty('--eraser-x',(event.clientX-bounds.left)+'px');screen.style.setProperty('--eraser-y',(event.clientY-bounds.top)+'px');input.value=String(Math.round(value));}
+ screen.addEventListener('pointerdown',event=>{if(event.target.closest('input,button,label,video')||!screen.querySelector('.reveal-sketch'))return;screen.classList.add('is-rubbing');screen.setPointerCapture(event.pointerId);playCue('pencil');rub(event);});
+ screen.addEventListener('pointermove',rub);for(const type of ['pointerup','pointercancel','lostpointercapture'])screen.addEventListener(type,()=>screen.classList.remove('is-rubbing'));
+ screen.addEventListener('dragstart',event=>event.preventDefault());
+
 }
 export function buildSourceComparison(film){
  const details=document.createElement('details');details.className='project-source fold-notes';
