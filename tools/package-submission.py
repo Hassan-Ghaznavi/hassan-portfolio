@@ -8,7 +8,7 @@ files=[]
 for p in (root/'dist/assets').rglob('*'):
  if p.is_file():files.append((p,'source/'+str(p.relative_to(root/'dist')).replace('\\','/')))
 for p in root.glob('*.js'):files.append((p,'source/'+p.name))
-for name in ['index.html','styles.css','README.md','vercel.json','.env.example','content-permissions.json']:
+for name in ['index.html','styles.css','README.md','vercel.json','.gitattributes','.env.example','content-permissions.json']:
  files.append((root/name,'source/'+name))
 for folder in ['api','lib']:
  for p in (root/folder).glob('*.mjs'):files.append((p,'source/'+str(p.relative_to(root)).replace('\\','/')))
