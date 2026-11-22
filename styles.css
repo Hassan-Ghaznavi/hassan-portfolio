@@ -575,3 +575,40 @@ canvas.mini-scenes-layer { position:fixed; inset:0; width:100%; height:100%; min
 
 .manual-intro { overflow:hidden; }
 @media(max-width:720px) { .pencil-panel { position:fixed; left:max(16px,env(safe-area-inset-left)); right:max(16px,env(safe-area-inset-right)); width:auto; bottom:96px; margin:0; max-height:calc(100svh - 120px); } }
+
+/* The internship lives inside a field book until a visitor chooses to explore. */
+.internship-intro { display:grid; grid-template-columns:minmax(0,1.1fr) minmax(240px,.8fr); align-items:center; gap:clamp(2rem,7vw,6rem); }
+.internship-intro .collection-intro { margin:1.6rem 0 0; max-width:42ch; }
+.collection-book { position:relative; width:270px; height:355px; justify-self:center; padding:0; border:0; background:transparent; color:var(--ink); perspective:900px; cursor:pointer; margin:1.5rem 1rem; }
+.book-page-stack { position:absolute; inset:9px -10px -7px 9px; background:repeating-linear-gradient(0deg,#c1af91 0 1px,#f5ebd8 1px 4px); border:1px solid #8a7c6d; box-shadow:12px 18px 22px #38291b18; transform:rotate(3deg); }
+.book-face { position:absolute; inset:0; display:flex; flex-direction:column; text-align:left; padding:27px 25px 22px 32px; border:1px solid #8a7c6d; border-left:12px solid #a92e21; background:#e6d7b9 url('assets/paper-grain.webp'); transform-origin:left; transform:rotateY(-8deg) rotate(-3deg); transition:transform .65s cubic-bezier(.2,.75,.2,1),box-shadow .4s; box-shadow:inset 8px 0 12px #38291b0e,3px 5px 0 #f6eddc; }
+.book-label { font:.66rem/1.7 var(--mono); letter-spacing:.08em; }
+.book-title { display:block; margin:17px 0 5px; font:800 2.9rem/.92 'Barlow Condensed',sans-serif; }
+.book-face svg { width:100%; height:95px; margin:2px 0 8px; fill:none; stroke:var(--red); stroke-width:1.8; stroke-linecap:round; }
+.book-meta { font:.65rem/1.9 var(--mono); color:#65574a; }
+.book-action { font:italic 1.25rem 'Instrument Serif',serif; color:var(--red); margin-top:auto; text-decoration:underline; text-underline-offset:.2em; }
+.collection-book:hover .book-face,.collection-book:focus-visible .book-face { transform:rotateY(-22deg) rotate(-2deg); }
+.collection-book.book-is-open .book-face { transform:rotateY(-34deg) rotate(-2deg); }
+.internship-pages { margin-top:3rem; padding-top:2rem; border-top:1px solid var(--line); scroll-margin-top:1.5rem; }
+.book-toolbar { display:flex; justify-content:space-between; align-items:center; gap:1.5rem; margin-bottom:1.5rem; }
+.book-toolbar h3 { font:800 clamp(1.8rem,4vw,2.7rem)/1 'Barlow Condensed',sans-serif; margin:.4rem 0; }
+.book-toolbar .eyebrow { margin:0; color:var(--red); }
+.book-toolbar button { flex-shrink:0; }
+.internship-pages:not([hidden]) { animation:pages-open .55s cubic-bezier(.2,.75,.2,1) both; }
+.book-end { display:flex; margin:2rem auto 0; }
+@keyframes pages-open { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:none; } }
+/* Annotations have a job: connect a section to its idea, with room left to read. */
+.has-margin-note { position:relative; padding-right:260px; min-height:170px; }
+.margin-annotation { position:absolute; right:1rem; top:0; width:220px; margin:0; color:#6e6251; transform:rotate(4deg); pointer-events:none; }
+.margin-annotation svg { width:100%; height:145px; }
+.margin-annotation .accent { stroke:var(--red); }
+.margin-annotation figcaption { font:italic 1.15rem/1.25 'Instrument Serif',serif; color:var(--red); text-align:center; }
+.margin-arrived svg { stroke-dasharray:500; stroke-dashoffset:0; animation:margin-draw 1.2s ease-out both; }
+@keyframes margin-draw { from { stroke-dashoffset:500; opacity:.2; } to { stroke-dashoffset:0; opacity:1; } }
+.about .has-margin-note { padding-right:0; }
+.about .margin-annotation { position:relative; top:auto; right:auto; width:245px; margin:2rem auto 0; transform:rotate(-4deg); }
+.section { padding-block:clamp(3rem,6.5vw,5.5rem); }
+@media(max-width:900px) { .has-margin-note { padding-right:0; min-height:0; } .margin-annotation { display:none; } .about .margin-annotation { display:block; width:180px; margin:1.2rem 0 0; } }
+@media(max-width:720px) { .internship-intro { grid-template-columns:1fr; gap:1.8rem; } .collection-book { width:240px; height:330px; } .book-title { font-size:2.65rem; } .book-toolbar { align-items:flex-start; flex-direction:column; gap:.8rem; } .internship-pages { margin-top:2rem; } .about .margin-annotation { display:none; } }
+@media(prefers-reduced-motion:reduce) { .book-face { transition:none; transform:none!important; } .internship-pages:not([hidden]),.margin-arrived svg { animation:none; } }
+@media print { .internship-pages[hidden] { display:block!important; } .collection-book,.book-toolbar button,.book-end { display:none; } }

@@ -18,7 +18,7 @@ small=ParagraphStyle('small',parent=style,fontSize=8,leading=12,textColor=muted)
 page=0;y=0
 def begin(label,title):
  global page,y
- page+=1;c.setFillColor(HexColor('#f5ebdc'));c.rect(0,0,W,H,fill=1,stroke=0);c.setStrokeColor(HexColor('#c6b69e'));c.line(44,H-44,W-44,H-44);c.setFillColor(red);c.setFont('Bold',8);c.drawString(44,H-34,'HASSAN GHAZNAVI / WEB3D PORTFOLIO');c.setFillColor(muted);c.setFont('Body',8);c.drawRightString(W-44,26,f'{page:02d}');c.drawString(44,26,'Implementation report | 21 November 2026');y=H-80;para(label.upper(),small);c.setFillColor(ink);c.setFont('Bold',27);c.drawString(44,y-26,title);y-=54
+ page+=1;c.setFillColor(HexColor('#f5ebdc'));c.rect(0,0,W,H,fill=1,stroke=0);c.setStrokeColor(HexColor('#c6b69e'));c.line(44,H-44,W-44,H-44);c.setFillColor(red);c.setFont('Bold',8);c.drawString(44,H-34,'HASSAN GHAZNAVI / WEB3D PORTFOLIO');c.setFillColor(muted);c.setFont('Body',8);c.drawRightString(W-44,26,f'{page:02d}');c.drawString(44,26,'Implementation report | 22 November 2026');y=H-80;para(label.upper(),small);c.setFillColor(ink);c.setFont('Bold',27);c.drawString(44,y-26,title);y-=54
 
 def para(text,sty=style):
  global y
@@ -52,15 +52,15 @@ heading('Avatar and rig')
 para('The custom Blender avatar is integrated as a GLB with Idle, Draw and Point clips, head rotation, orbit controls, pause, reset and outlines. The Draw animation traces ink from the pencil. The original Blender source remains local and must be included separately in the student submission.')
 heading('Source comparisons and authentic media')
 para('Matched solid and wireframe views come from the original avatar, cave, ocean and AirPods Blender files. Source files are opened with auto-execution disabled and never saved by the preview scripts. Preview subdivision and geometry display are simplified for readability; they are not final-film renders.')
-para('The internship collection shows 21 approved game screenshots across seven games, with selectable thumbnails and local search. Internship gameplay, Unity source and credentials are excluded from the public build.');end()
+para('A compact interactive field book opens the internship collection: 21 approved game screenshots across seven games, with selectable thumbnails, local search, and deep-link support. Internship gameplay, Unity source and credentials are excluded from the public build.');end()
 begin('Visual evidence','From paper to motion')
 image('render-room.jpg',285)
-para('The render room: three project-specific miniatures above actual animation frames. The storm scene includes geometric paper clouds, rain marks and a red lightning bolt.',small)
-image('internship-gallery.jpg',240)
-para('The internship collection uses actual game screens. The illustrated miniatures explain the associated mechanics and do not present themselves as recorded gameplay.',small);end()
+para('The render room: project-specific miniatures above actual animation frames. The storm scene includes paper clouds, rain marks and a red lightning bolt.',small)
+image('internship-book.jpg',240)
+para('The AIRIDEV field book keeps the default page compact. Opening it reveals actual screenshots and project miniatures; media sources are assigned only on first opening.',small);end()
 begin('Module 4','Doodle and the notes')
 heading('Source corpus')
-para('portfolio-notes.js contains approved profile facts and project descriptions derived from the information supplied by Hassan. Team attribution is preserved. Specific Sunken Greed contribution details remain unconfirmed and must not be invented.')
+para('portfolio-notes.js contains approved profile facts and project descriptions derived from the information supplied by Hassan. Team attribution is preserved. Hassan confirmed asset integration, shared programming and story development for Sunken Greed.')
 heading('Retrieval and generation pipeline')
 para('<b>1. Chunk:</b> divide documents into windows of up to 140 words with a 100-word stride, retaining section links and source titles.<br/><b>2. Embed:</b> when configured, use text-embedding-3-small with 512 dimensions; keep a vector index cached within the warm server function.<br/><b>3. Retrieve:</b> embed the question, compute cosine similarity and combine a small lexical relevance boost; select three source chunks.<br/><b>4. Generate:</b> send only the retrieved public notes and current question to the Responses API, with store:false and a strict answer/citation schema.<br/><b>5. Ground:</b> accept source IDs only from retrieved chunks. Reject unsupported citation output and return an unknown-answer fallback when evidence is missing.')
 heading('Current live configuration')
@@ -81,7 +81,7 @@ begin('Submission status','Finish the last pages')
 heading('Implemented and available')
 para('Frontend source; Vercel API routes; responsive professional portfolio; interactive Three.js elements; custom rigged avatar and exported GLB; public live deployment and GitHub repository; original Blender source comparisons; actual project imagery; Doodle guide; promotional-video-independent opening animation; setup README and test tools.')
 heading('Still required before final submission')
-para('<b>Live RAG:</b> configure a provider key, verify grounded answers with real questions, record retrieval/citation examples and unknown-answer behavior.<br/><b>Email:</b> configure sender and destination, verify successful delivery and capture evidence.<br/><b>Promotional video:</b> 30-60 second MP4 and native After Effects .aep. Deferred by the student.<br/><b>Source package:</b> include the finalized avatar .blend and GLB, then verify animation controls in the submitted copy.<br/><b>Content:</b> confirm personal contributions for team projects; add approved achievement evidence where desired.<br/><b>Final audit:</b> test on a physical phone and desktop, check media loading and error states, then update this working report to reflect the completed modules.')
+para('<b>Live RAG:</b> configure a provider key, verify grounded answers with real questions, record retrieval/citation examples and unknown-answer behavior.<br/><b>Email:</b> configure sender and destination, verify successful delivery and capture evidence.<br/><b>Promotional video:</b> 30-60 second MP4 and native After Effects .aep. Deferred by the student.<br/><b>Source package:</b> the current source archive includes the rigged .blend and GLB, with a passed source/export animation comparison.<br/><b>Content:</b> Sunken Greed contribution is now confirmed; add further approved achievement evidence where desired.<br/><b>Final audit:</b> test on a physical phone and desktop, check media loading and error states, then update this working report to reflect the completed modules.')
 heading('Reproduce and expand')
 para('Run node tools/build-site.mjs, then node tools/serve-story-preview.mjs and open http://127.0.0.1:4175/. The ordinary static Python server does not execute API routes. Vercel uses the same explicit build allowlist. Rebuild before previewing source changes.')
 para('Add projects to projects.js, approved corpus notes to portfolio-notes.js, and screenshots to the collection entries. Add only approved media to the build allowlist. New procedural motifs can join mini-scenes.js without adding a renderer for every card.')

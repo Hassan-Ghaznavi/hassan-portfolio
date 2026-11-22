@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import handler from '../api/chat.mjs';
 import {notes} from '../portfolio-notes.js';
 import {makeIndex,retrieve} from '../lib/retrieval.mjs';
-const index=makeIndex(notes);assert.match(retrieve('Which game won twice?',index)[0].text,/GameCon/);assert.equal(retrieve('What is Hassan salary?',index).length,0);assert.equal(retrieve('Tell me about Mirror Maze',index)[0].href,'#mirror-maze');
+const index=makeIndex(notes);assert.match(retrieve('Sunken Greed contribution',index)[0].text,/asset integration/);assert.match(retrieve('Which game won twice?',index)[0].text,/GameCon/);assert.equal(retrieve('What is Hassan salary?',index).length,0);assert.equal(retrieve('Tell me about Mirror Maze',index)[0].href,'#mirror-maze');
 async function request(method,body,headers={}){let status;let result;const res={setHeader(){},status(value){status=value;return this;},json(value){result=value;}};await handler({method,body,headers:{origin:'https://hassan-portfolio-two-rho.vercel.app','content-type':'application/json',...headers}},res);return {status,result};}
 delete process.env.OPENAI_API_KEY;assert.equal((await request('GET')).result.ready,false);assert.equal((await request('POST',{question:'Which game won twice?'})).status,503);
 process.env.OPENAI_API_KEY='test-key-not-a-real-key';let generationCalls=0,unsupported=false,unknown=false;

@@ -56,7 +56,7 @@ The render room includes Cave Scene, Stormy Ocean and AirPods from the supplied 
 
 project-sketches.js lazy-loads mini-scenes.js. One shared Three.js renderer uses viewport scissoring to place fifteen independent miniatures into their cards: falling ink and ripples, coupled extruded gears, exposed fossil layers, oscillating wave bars, cave crystals, a storm buoy with sketched lightning, an opening earbud case, a theatre mask, twin lights, orbiting worlds, valves, reflected light, salt grains, trees, a perfume bottle and a cube. These are original stylized presentation motifs; the project footage remains separate. Only visible scenes animate, pixel density is capped, hidden tabs suspend rendering, both sketch controls share a pause state, and reduced-motion preferences show stationary scenes. The existing illustrations remain as fallbacks where available.
 
-Sunken Greed is credited as a team project following Hassan's correction. Individual contribution details are still awaiting his description.
+Sunken Greed is credited as a team project following Hassan's correction. Hassan confirmed asset integration, shared programming, and story development as his contributions.
 
 ## Connected story interactions
 
@@ -100,3 +100,31 @@ output/pdf/hassan-portfolio-implementation-report.pdf is a working implementatio
 Run node tools/check-chat.mjs and node tools/check-contact.mjs, then node tools/build-site.mjs. The tests use mocked providers and never send real email or paid AI calls. Live service checks require configuration and must be recorded separately. For local service testing, use a private .env.local file with SITE_URL=http://127.0.0.1:4175 and start with node --env-file=.env.local tools/serve-story-preview.mjs. Never commit that file.
 
 Approved screenshot exports can be reproduced with python tools/prepare-game-captures.py. This reads screenshot files only. The production build cleans its generated dist directory before copying the explicit allowlist, so unused concept art and older promotional artwork cannot linger in a deployment.
+
+
+## Internship field book and editorial margins
+
+The AIRIDEV chapter starts with a compact CSS 3D field book. Opening it reveals the searchable gallery; Close returns focus to the cover. Project hash links and Doodle citations automatically reveal their target, including a repeated link to the current hash. Reduced motion removes the opening transition. Print styles expand the collection. Add new entries and approved screenshot files in internship.js, then update the deployment allowlist. Cover and search counts derive from the entries.
+
+margin-notes.js adds small section-specific vector diagrams to the wider headings and the About margin. They draw once on entry, have no perpetual render loop, are decorative for assistive technology, and withdraw on narrower screens. Section spacing is tightened rather than filling every gap with extra animation.
+
+## Enable live services
+
+Open https://vercel.com/hassan-ghaznavis-projects/hassan-portfolio/settings/environment-variables and add the following server-side values for Production (and Preview if needed), then redeploy:
+
+- OPENAI_API_KEY: your own active API key; the current RAG implementation uses OpenAI embeddings and Responses. Never paste the key into chat or frontend files.
+- RESEND_API_KEY: your Resend sending key.
+- CONTACT_TO_EMAIL: the receiving inbox Hassan supplied privately. It is saved in the ignored local configuration, not this repository or archive.
+- CONTACT_FROM_EMAIL: a sender permitted by the email provider. A receiving Gmail address is not automatically a verified sending identity.
+- SITE_URL: https://hassan-portfolio-two-rho.vercel.app
+
+The backend code cannot obtain provider credentials from a Vercel login. Provider account creation, API access and any billing must be configured by the account owner. Do not enable paid usage until you have reviewed the provider settings. Official setup references: https://resend.com/docs/send-with-nodejs , https://developers.openai.com/api/docs/quickstart and https://vercel.com/docs/environment-variables .
+
+After redeploying, verify /api/chat reports ready:true and ask Doodle about Two Lights, Sunken Greed contributions and a deliberately unknown fact. Verify /api/contact reports ready:true; send a clearly labeled delivery test to the configured inbox and retain the received message and delivery result as submission evidence. No successful delivery or live LLM test is claimed until those checks pass.
+
+
+## Source archive
+
+After rebuilding dist and the report, run python tools/package-submission.py. It writes output/hassan-portfolio-source.zip from an explicit allowlist, with a SHA-256 manifest and ZIP integrity check. The archive includes the current frontend/backend, approved web assets, screenshots, report, original rigged avatar .blend and exported GLB. It excludes local inbox configuration, API credentials, raw internship source and recordings. START-HERE.txt records the remaining live-service, physical-device and deferred video requirements. This is the current source package, not a claim of completed service verification.
+
+The latest Blender source/export round-trip check passed for Idle, Draw and Point, all skinned primitives and 18 joints. The rigged source is not modified by validation. Book interaction was checked with keyboard input at desktop, 768px tablet and 390px mobile widths, including search, screenshots, close/focus restoration and repeated same-hash citations.
