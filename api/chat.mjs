@@ -15,6 +15,7 @@ export default async function handler(req,res){
  const origins=new Set(['https://hassan-portfolio-two-rho.vercel.app',process.env.SITE_URL,process.env.VERCEL_URL?'https://'+process.env.VERCEL_URL:null].filter(Boolean));
  if(!origins.has(req.headers.origin))return send(403,{error:'Please ask Doodle through the portfolio.'});
  if(!String(req.headers['content-type']||'').includes('application/json'))return send(415,{error:'JSON input is required.'});
+ if(Number(req.headers['content-length']||0)>2400)return send(413,{error:'The question is too long.'});
  let body;try{body=typeof req.body==='string'?JSON.parse(req.body):req.body;if(JSON.stringify(body).length>2400)throw Error();}catch{return send(400,{error:'The question could not be read.'});}
  const question=typeof body?.question==='string'?body.question.trim():'';if(question.length<2||question.length>500)return send(400,{error:'Ask a question between 2 and 500 characters.'});
  if(!configured())return send(503,{error:'AI is not configured. Local portfolio notes remain available.'});

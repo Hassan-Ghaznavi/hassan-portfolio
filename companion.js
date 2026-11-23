@@ -58,3 +58,11 @@ document.addEventListener('doodle:book',event=>{
  state.classList.add('doodle-noticing');aside.hidden=false;clearTimeout(asideTimer);asideTimer=setTimeout(hideAside,8000);
 });
 aside.addEventListener('focusin',()=>clearTimeout(asideTimer));aside.addEventListener('focusout',()=>{asideTimer=setTimeout(hideAside,8000);});
+
+// Optional browser speech: never request microphone access or call a paid API.
+if('speechSynthesis' in window){
+ const read=document.createElement('button');read.type='button';read.className='button outline';read.textContent='Read latest answer';
+ const stop=document.createElement('button');stop.type='button';stop.className='button outline';stop.textContent='Stop reading';
+ read.addEventListener('click',()=>{const answer=log.querySelector('.guide-answer:last-of-type')||[...log.querySelectorAll('.guide-answer')].pop();if(!answer)return;speechSynthesis.cancel();speechSynthesis.speak(new SpeechSynthesisUtterance(answer.textContent));});
+ stop.addEventListener('click',()=>speechSynthesis.cancel());panel.append(read,stop);close.addEventListener('click',()=>speechSynthesis.cancel());
+}
