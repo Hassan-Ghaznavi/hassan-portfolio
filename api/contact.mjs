@@ -1,3 +1,4 @@
+import {sharedLimited} from '../lib/shared-limit.mjs';
 import {createHmac,createHash,timingSafeEqual} from 'node:crypto';
 const attempts=new Map();
 const EMAIL=/^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -34,6 +35,7 @@ export default async function handler(req,res){
  const name=clean('name'),email=clean('email'),subject=clean('subject'),message=clean('message'),requestId=clean('requestId');
  if(name.length<2||name.length>80||!EMAIL.test(email)||email.length>254||subject.length<3||subject.length>120||message.length<10||message.length>4000||/[\r\n]/.test(name+email+subject)||!/^[-a-z0-9]{20,80}$/i.test(requestId))return reply(400,{error:'Check your name, email, subject and message.'});
  if(!Number.isFinite(body.startedAt)||Date.now()-body.startedAt<2000||Date.now()-body.startedAt>86400000)return reply(400,{error:'Please take a moment to review the note, then try again.'});
+ try{if(await sharedLimited(req,'contact',4))return reply(429,{error:'Too many requests. Please try again later.'});}catch{return reply(503,{error:'Please try again shortly.'});}
  if(limited(req))return reply(429,{error:'Too many notes. Please try again in ten minutes.'});
  try{
   const idempotency=createHash('sha256').update(JSON.stringify({requestId,name,email,subject,message})).digest('hex');

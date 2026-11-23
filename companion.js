@@ -29,7 +29,7 @@ document.querySelector('#pencil-form').addEventListener('submit',async event=>{
  const thinking=message('Doodle is checking his notes…','guide-thinking');log.scrollTop=log.scrollHeight;
  try{
   await readiness;
-  if(aiReady){const response=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({question}),signal:AbortSignal.timeout(55000)});const data=await response.json();if(!response.ok){const failure=Error('AI unavailable');failure.status=response.status;throw failure;}reply(data.answer,data.sources);}
+  if(aiReady){const response=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({question,language:language.value}),signal:AbortSignal.timeout(55000)});const data=await response.json();if(!response.ok){const failure=Error('AI unavailable');failure.status=response.status;throw failure;}reply(data.answer,data.sources);}
   else{const matches=retrieve(question,localIndex);if(matches.length)reply(matches[0].text,[matches[0]]);else reply('That detail isn’t in my notes yet. Try a project name, skills, education, or awards.');}
   state.dataset.state='happy';
  }catch(error){const matches=retrieve(question,localIndex);reply(matches.length?'I couldn’t reach my assistant just now. Here’s what my saved notes say: '+matches[0].text: (error.status===429?'I’m taking a short break. Please try again later.':'I couldn’t connect just now. Please try again, or ask about a project by name.'),matches.length?[matches[0]]:[]);state.dataset.state='idle';}
@@ -66,3 +66,5 @@ if('speechSynthesis' in window){
  read.addEventListener('click',()=>{const answer=log.querySelector('.guide-answer:last-of-type')||[...log.querySelectorAll('.guide-answer')].pop();if(!answer)return;speechSynthesis.cancel();speechSynthesis.speak(new SpeechSynthesisUtterance(answer.textContent));});
  stop.addEventListener('click',()=>speechSynthesis.cancel());panel.append(read,stop);close.addEventListener('click',()=>speechSynthesis.cancel());
 }
+
+const language=document.createElement('select');language.setAttribute('aria-label','Answer language');language.innerHTML='<option value="en">English answers</option><option value="ur">اردو جوابات</option>';panel.insertBefore(language,document.querySelector('#pencil-form'));
