@@ -12,7 +12,7 @@ function setup() {
       observer.unobserve(target);
     }
   }, {threshold: .12, rootMargin: '0px 0px -24px 0px'});
-  const selectors = '.section-heading, .flagship-header, .project-masthead, .flagship-story > div, .flagship-awards, .toolkit-grid article, .journey-list article, .about-copy, .avatar-copy, .closing > h2';
+  const selectors = '.section-heading, .flagship-header, .project-masthead, .flagship-story > div, .flagship-awards, .toolkit-grid article, .journey-list article, .about-copy, .avatar-copy, .closing > h2, .film-card, .specimen, .study-gallery > figure, .project-media';
   document.querySelectorAll(selectors).forEach(node => {
     // Already visible content never disappears while the module initializes.
     if (node.getBoundingClientRect().top < innerHeight * .94) return;

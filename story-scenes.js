@@ -93,7 +93,7 @@ function setup(){
  const visibility=new IntersectionObserver(entries=>{for(const entry of entries)entry.target.dataset.storyVisible=String(entry.isIntersecting);active=watched.some(node=>node.dataset.storyVisible==='true');schedule();},{rootMargin:'150px'});watched.forEach(node=>visibility.observe(node));
  window.addEventListener('scroll',schedule,{passive:true});window.addEventListener('resize',schedule);reduced.addEventListener('change',schedule);document.addEventListener('visibilitychange',schedule);
  // Keyboard/touch disclosure keeps the same notes available without hover.
- document.querySelectorAll('.film-card,.specimen,.study-gallery > figure').forEach(card=>{
+ document.querySelectorAll('.film-card,.specimen,.study-gallery > figure,.project-media').forEach(card=>{
   card.classList.add('depth-card');
   const paragraph=card.querySelector(':scope > p:last-child')||card.querySelector(':scope > p:not(.specimen-note)');
   if(paragraph&&!paragraph.classList.contains('eyebrow')&&card.matches('.film-card,.specimen')){const details=document.createElement('details');details.className='fold-notes';const summary=document.createElement('summary');summary.textContent=card.matches('.specimen')?'Unfold the mechanic':'Unfold the study notes';details.append(summary,paragraph.cloneNode(true));paragraph.replaceWith(details);}

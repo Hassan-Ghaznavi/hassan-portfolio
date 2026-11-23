@@ -3,8 +3,8 @@ const form=document.querySelector('#contact-form'),paper=document.querySelector(
 let startedAt=Date.now(),requestId=crypto.randomUUID(),busy=false,accepted=false;
 const reduced=matchMedia('(prefers-reduced-motion: reduce)');
 function fold(isPreview){
- playCue('fold');paper.classList.add('folding');
- setTimeout(()=>{paper.classList.remove('folding');if(isPreview)status.textContent='Fold preview only. Your note has not been sent.';},reduced.matches?100:1700);
+ playCue('fold');preview.disabled=true;paper.classList.add('folding');
+ setTimeout(()=>{paper.classList.remove('folding');preview.disabled=false;if(isPreview)status.textContent='Fold preview only. Your note has not been sent.';},reduced.matches?100:1700);
 }
 preview.addEventListener('click',()=>{if(!busy&&!paper.classList.contains('folding')){status.textContent='Previewing the paper fold. Nothing is being sent.';fold(true);}});
 async function connection(){
