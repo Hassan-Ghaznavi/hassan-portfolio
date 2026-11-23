@@ -1,3 +1,4 @@
+import {attachVideoClose} from './video-controls.js';
 export function buildTwoLights(chapter, project) {
   chapter.classList.add('flagship');
   chapter.innerHTML = `
@@ -63,9 +64,7 @@ export function buildTwoLights(chapter, project) {
     const watch=event.currentTarget;const player=document.createElement('video');player.controls=true;player.playsInline=true;player.preload='none';player.poster='assets/two-lights/gameplay-65.webp';player.src='assets/two-lights/gameplay.mp4';player.setAttribute('aria-label','Two Lights One Escape gameplay');
     chapter.querySelector('.flagship-player').replaceChildren(player);watch.hidden=true;
     player.addEventListener('error',()=>{watch.hidden=false;watch.textContent='Retry gameplay';});
-    if('IntersectionObserver' in window){
-      const observer=new IntersectionObserver(entries=>{if(!entries[0].isIntersecting)player.pause();},{threshold:.01});observer.observe(player);
-    }
+    attachVideoClose(player,watch);
     player.play().catch(()=>{});player.focus();
   });
 }

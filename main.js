@@ -1,3 +1,4 @@
+import {attachVideoClose} from './video-controls.js';
 import { decorateFilmScreen, buildSourceComparison } from './story-scenes.js?v=single-story-6';
 import { projects } from './projects.js?v=flow-4';
 import { buildTwoLights } from './two-lights.js';
@@ -76,8 +77,9 @@ for (const project of projects) {
       const play=document.createElement('button');play.type='button';play.className='button ink';play.textContent='Play '+film.title+' ▷';
       const note=document.createElement('p');note.textContent=film.note;
       play.addEventListener('click',()=>{
+       const artwork=[...screen.childNodes];
        const video=document.createElement('video');video.controls=true;video.playsInline=true;video.muted=false;video.preload='none';video.poster=poster.src;video.src=`assets/blender-motion/${film.id}.mp4`;video.setAttribute('aria-label',film.title+' Blender animation');screen.replaceChildren(video);play.hidden=true;video.addEventListener('error',()=>{screen.replaceChildren(poster);play.hidden=false;play.textContent='Retry '+film.title+' ▷';},{once:true});
-       new IntersectionObserver(entries=>{if(!entries[0].isIntersecting)video.pause();},{threshold:.05}).observe(video);video.play().catch(()=>{});video.focus();
+       attachVideoClose(video,play,()=>screen.replaceChildren(...artwork));video.play().catch(()=>{});video.focus();
       });
       card.append(label,heading,sketch,screen,play,buildSourceComparison(film),note);films.append(card);
     }
@@ -102,7 +104,7 @@ for (const project of projects) {
       player.title = project.title + ' gameplay video';
       player.allow = 'autoplay; encrypted-media; picture-in-picture';
       player.allowFullscreen = true;
-      const slot=document.createElement('div');slot.className='inline-video';slot.append(player);media.append(slot);play.hidden=true;
+      const slot=document.createElement('div');slot.className='inline-video';slot.append(player);media.append(slot);play.hidden=true;attachVideoClose(player,play,()=>slot.remove());
       player.focus();
     });
   }
@@ -128,7 +130,7 @@ for (const project of projects) {
 }
 
 document.querySelectorAll('[data-youtube]').forEach(button=>button.addEventListener('click',()=>{
- const player=document.createElement('iframe');player.src='https://www.youtube-nocookie.com/embed/'+button.dataset.youtube+'?autoplay=1';player.title=button.dataset.videoTitle;player.allow='autoplay; encrypted-media; picture-in-picture';player.allowFullscreen=true;button.nextElementSibling.replaceChildren(player);button.hidden=true;
+ const player=document.createElement('iframe');player.src='https://www.youtube-nocookie.com/embed/'+button.dataset.youtube+'?autoplay=1';player.title=button.dataset.videoTitle;player.allow='autoplay; encrypted-media; picture-in-picture';player.allowFullscreen=true;button.nextElementSibling.replaceChildren(player);button.hidden=true;attachVideoClose(player,button);
 }));
 
 if ('IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
@@ -351,12 +353,3 @@ new IntersectionObserver(entries=>{artVisible=entries[0].isIntersecting;syncCove
 artToggle.addEventListener('click',()=>{artPaused=!artPaused;artToggle.textContent=artPaused?'Play sketch':'Pause sketch';artToggle.setAttribute('aria-pressed',String(artPaused));artToggle.setAttribute('aria-label',artPaused?'Play cover animation':'Pause cover animation');syncCoverMotion();});
 reducedMotion.addEventListener('change',syncCoverMotion);
 document.addEventListener('visibilitychange',syncCoverMotion);
-
-const closers=new WeakSet();
-new MutationObserver(()=>document.querySelectorAll('video,iframe').forEach(player=>{
- if(closers.has(player))return;closers.add(player);
- const host=player.parentElement,buttons=[...host.parentElement.querySelectorAll('button')].filter(b=>/Play|Watch/i.test(b.textContent));
- const previous=[...host.childNodes].filter(n=>n!==player);
- const close=document.createElement('button');close.type='button';close.className='button outline';close.textContent='Collapse video';player.after(close);
- close.addEventListener('click',()=>{if(player.pause)player.pause();const film=player.closest('.film-card');if(film){const img=document.createElement('img');img.src=player.poster;img.alt='Project frame';host.replaceChildren(img);film.querySelector('button.ink').hidden=false;}else{player.remove();close.remove();buttons.forEach(b=>b.hidden=false);const section=host.closest('.project');section?.querySelectorAll('button').forEach(b=>{if(/Watch|Play/i.test(b.textContent))b.hidden=false;});}close.remove();});
-})).observe(document.body,{childList:true,subtree:true});
