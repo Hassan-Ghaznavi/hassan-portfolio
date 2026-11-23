@@ -722,3 +722,17 @@ canvas.mini-scenes-layer { position:fixed; inset:0; width:100%; height:100%; min
 .compare-frame { cursor:ew-resize; }
 
 .video-collapse { display:block; margin:.65rem 0; min-height:44px; }
+
+.cv-download { margin-top:1rem; gap:.7rem; display:inline-flex; align-items:center; }
+.cv-download small { font:.65rem var(--mono); opacity:.8; }
+.chapter-finder { width:min(560px,calc(100vw - 32px)); max-height:85dvh; padding:1.5rem; border:1px solid var(--line); background:var(--paper); color:var(--ink); box-shadow:8px 10px 0 #8a7c6d44,0 25px 90px #0005; }
+.chapter-finder::backdrop { background:#15120ed9; }
+.chapter-finder>button { float:right; }
+.chapter-finder h2 { font-size:2.5rem; clear:both; }
+.chapter-finder input { width:100%; padding:.8rem; border:1px solid var(--line); font:inherit; }
+.chapter-finder nav { display:grid; margin:1rem 0; }
+.chapter-finder nav a { padding:.75rem; border-bottom:1px solid #8a7c6d55; text-decoration:none; transition:padding-left .15s,background-color .15s; }
+.chapter-finder nav a[hidden] { display:none; }
+.chapter-finder nav a:hover,.chapter-finder nav a:focus-visible { padding-left:1rem; background:#8a7c6d22; }
+.chapter-finder small { display:block; font-size:.75rem; margin-top:.2rem; }
+@media(prefers-reduced-motion:reduce) { .chapter-finder nav a { transition:none; } }

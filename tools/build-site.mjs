@@ -7,10 +7,10 @@ if(fileURLToPath(target)!==fileURLToPath(new URL('../dist/',import.meta.url)))th
 await rm(target,{recursive:true,force:true});
 await mkdir(target, { recursive: true });
 // Explicit deployment allowlist: raw files and recordings never enter the site.
-for (const file of ['video-controls.js','preferences.js','index.html','styles.css','main.js','projects.js','two-lights.js','internship.js','avatar-preview.js','avatar-scene.js','sketch-preview.js','sketch-sea.js','scroll-motion.js','companion.js','companion-scene.js','project-sketches.js','mini-scenes.js','story-scenes.js','contact.js','manual.js','margin-notes.js','portfolio-notes.js']) {
+for (const file of ['chapter-finder.js','video-controls.js','preferences.js','index.html','styles.css','main.js','projects.js','two-lights.js','internship.js','avatar-preview.js','avatar-scene.js','sketch-preview.js','sketch-sea.js','scroll-motion.js','companion.js','companion-scene.js','project-sketches.js','mini-scenes.js','story-scenes.js','contact.js','manual.js','margin-notes.js','portfolio-notes.js']) {
   await copyFile(new URL(file,root),new URL(file,target));
 }
-for (const dir of ['assets/vendor','assets/two-lights','assets/studies','assets/blender-motion']) {
+for (const dir of ['assets/documents','assets/vendor','assets/two-lights','assets/studies','assets/blender-motion']) {
   await cp(new URL(dir,root),new URL(dir,target),{recursive:true});
 }
 await mkdir(new URL('assets/avatar/',target),{recursive:true});
