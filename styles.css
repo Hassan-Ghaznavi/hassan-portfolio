@@ -651,3 +651,17 @@ canvas.mini-scenes-layer { position:fixed; inset:0; width:100%; height:100%; min
 :root[data-theme="dark"] .film-screen,:root[data-theme="dark"] .mini-sketch { background:#e8dcc7; color:#24211e; }
 .site-header nav { flex-wrap:wrap; }
 .guide-answer { unicode-bidi:plaintext; }
+
+/* Photographs must not multiply into the dark paper surface. */
+:root[data-theme="dark"] .project-media img,
+:root[data-theme="dark"] .illustration { mix-blend-mode:normal; }
+:root[data-theme="dark"] .pencil-messages,
+:root[data-theme="dark"] .guide-question,
+:root[data-theme="dark"] .guide-answer,
+:root[data-theme="dark"] #pencil-close { color:#f0e5d3; }
+:root[data-theme="dark"] .guide-note,
+:root[data-theme="dark"] .collection-search span,
+:root[data-theme="dark"] .margin-annotation { color:#d4c5af; }
+:root[data-theme="dark"] .book-face,
+:root[data-theme="dark"] .book-bookmarks a { color:#211b17; }
+:root[data-theme="dark"] .pencil-input input { background:#302b25; color:#f0e5d3; }
