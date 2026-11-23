@@ -1,4 +1,4 @@
-import { decorateFilmScreen, buildSourceComparison } from './story-scenes.js';
+import { decorateFilmScreen, buildSourceComparison } from './story-scenes.js?v=single-story-6';
 import { projects } from './projects.js?v=flow-4';
 import { buildTwoLights } from './two-lights.js';
 

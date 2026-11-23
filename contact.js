@@ -1,4 +1,4 @@
-import {playCue} from './story-scenes.js';
+import {playCue} from './story-scenes.js?v=single-story-6';
 const form=document.querySelector('#contact-form'),paper=document.querySelector('#contact-paper'),status=document.querySelector('#contact-status'),send=document.querySelector('#contact-send'),preview=document.querySelector('#contact-preview');
 let startedAt=Date.now(),requestId=crypto.randomUUID(),busy=false,accepted=false;
 const reduced=matchMedia('(prefers-reduced-motion: reduce)');

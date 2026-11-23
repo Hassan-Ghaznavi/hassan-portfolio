@@ -37,6 +37,8 @@ export function buildSourceComparison(film){
  const caption=document.createElement('p');caption.className='source-caption';caption.textContent='Original .blend source · Matched camera and frame · Viewport geometry previews';details.append(frame,label,caption);return details;
 }
 function setup(){
+ if(document.documentElement.dataset.storyMounted==='true')return;
+ document.documentElement.dataset.storyMounted='true';
  document.body.classList.add('has-stories');
  const sound=document.querySelector('#sound-toggle');sound.addEventListener('click',()=>{soundEnabled=!soundEnabled;sound.setAttribute('aria-pressed',String(soundEnabled));sound.textContent=soundEnabled?'Sound on':'Sound off';if(soundEnabled)playCue();else audio?.suspend();});
  // The floating plane follows one path from the project illustration to its demo.
@@ -105,6 +107,16 @@ function setup(){
  // This comparison is rendered from the real avatar mesh with a matched camera.
  const compare=document.createElement('div');compare.className='process-comparison';compare.id='behind-build';compare.innerHTML=`<div><p class="eyebrow">Behind the build / Actual Blender geometry</p><h3>A few lines.<br>A little structure.</h3><p>Drag to compare the avatar's real mesh topology with its shaded model. Both views use the same source file, camera, and pose.</p></div><figure><div class="compare-frame" style="--compare:50%"><img src="assets/process/avatar-finished.webp" width="700" height="800" loading="lazy" alt="Shaded view of the original Hassan avatar model"><img class="compare-overlay" src="assets/process/avatar-wire.webp" width="700" height="800" loading="lazy" alt="Matching wireframe rendered from the actual avatar geometry"><span class="compare-divider" aria-hidden="true">↔</span><span class="compare-label left">Wireframe</span><span class="compare-label right">Shaded</span></div><label class="compare-control">Reveal the topology<input type="range" min="0" max="100" value="50" aria-label="Avatar wireframe comparison"></label><figcaption>Original Blender source · Shared geometry and camera</figcaption></figure>`;
  document.querySelector('#avatar').append(compare);const range=compare.querySelector('input');range.addEventListener('input',()=>{compare.querySelector('.compare-frame').style.setProperty('--compare',range.value+'%');range.setAttribute('aria-valuetext',range.value+' percent wireframe');});
+ const frame=compare.querySelector('.compare-frame');
+ frame.style.touchAction='pan-y';
+ function scrub(event){const r=frame.getBoundingClientRect();range.value=String(Math.round(Math.max(0,Math.min(100,(event.clientX-r.left)/r.width*100))));range.dispatchEvent(new Event('input',{bubbles:true}));}
+ frame.addEventListener('pointerdown',event=>{if(event.button!==0)return;frame.setPointerCapture(event.pointerId);scrub(event);});
+ frame.addEventListener('pointermove',event=>{if(frame.hasPointerCapture(event.pointerId))scrub(event);});
+ frame.addEventListener('pointerup',event=>{if(frame.hasPointerCapture(event.pointerId))frame.releasePointerCapture(event.pointerId);});
+ frame.addEventListener('dragstart',event=>event.preventDefault());
+ const modes=document.createElement('div');modes.className='comparison-modes';
+ for(const [label,value] of [['Shaded',0],['Compare',50],['Wireframe',100]]){const button=document.createElement('button');button.type='button';button.className='button outline';button.textContent=label;button.addEventListener('click',()=>{range.value=String(value);range.dispatchEvent(new Event('input',{bubbles:true}));});modes.append(button);}compare.querySelector('figure').append(modes);
+
  schedule();
 }
 if(document.readyState==='complete')setup();else document.addEventListener('DOMContentLoaded',setup,{once:true});
