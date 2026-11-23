@@ -37,5 +37,5 @@ export default async function handler(req,res){
   const sources=context.filter(c=>result.sourceIds.includes(c.id)).map(({href,source})=>({href,source}));
   // Reject a purported factual answer without a valid retrieved citation.
   return send(200,sources.length?{answer:result.answer,sources}:{answer:'That detail is not in my portfolio notes yet.',sources:[]});
- }catch(error){if(error.status===429)return send(429,{error:'Doodle has reached the free AI quota. Please try again later; no paid fallback is enabled.'});return send(502,{error:'Doodle’s AI connection is temporarily unavailable. Please try again.'});}
+ }catch(error){console.warn('Doodle request failed',{status:Number.isInteger(error.status)?error.status:null,kind:['TimeoutError','AbortError','SyntaxError'].includes(error.name)?error.name:'ProviderOrResponseError'});if(error.status===429)return send(429,{error:'Doodle has reached the free AI quota. Please try again later; no paid fallback is enabled.'});return send(502,{error:'Doodle’s AI connection is temporarily unavailable. Please try again.'});}
 }
