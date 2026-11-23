@@ -644,7 +644,15 @@ canvas.mini-scenes-layer { position:fixed; inset:0; width:100%; height:100%; min
 
 /* Night paper retains the warm editorial palette and original project colours. */
 :root[data-theme="dark"] { color-scheme:dark; --paper:#24211e; --ink:#f0e5d3; --red:#ff9a80; --line:#a79a88; }
-:root[data-theme="dark"] body { background-image:radial-gradient(ellipse at top,#39332c,transparent 65%); }
+:root[data-theme="dark"] body {
+ background-color:#24211e;
+ background-image:linear-gradient(#24211ee6,#24211ee6),url('assets/paper-grain.webp');
+ background-size:auto,256px 256px;
+ background-repeat:no-repeat,repeat;
+}
+:root[data-theme="dark"] .eyebrow { text-shadow:0 1px 8px #ff9a8018; }
+:root[data-theme="dark"] .pencil-panel { background-image:linear-gradient(#302b25ed,#302b25ed),url('assets/paper-grain.webp'); }
+
 :root[data-theme="dark"] .button.ink { background:#eadcc6; color:#24211e; }
 :root[data-theme="dark"] input,:root[data-theme="dark"] textarea,:root[data-theme="dark"] select { background:#302b25; color:#f0e5d3; }
 :root[data-theme="dark"] .pencil-panel,:root[data-theme="dark"] .pencil-launcher,:root[data-theme="dark"] .guide-answer,:root[data-theme="dark"] .doodle-book-aside { background:#302b25; color:#f0e5d3; }
