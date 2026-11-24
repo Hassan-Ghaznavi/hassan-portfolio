@@ -779,3 +779,27 @@ canvas.mini-scenes-layer { position:fixed; inset:0; width:100%; height:100%; min
 @media(max-width:720px) { .study-gallery .study-spread { grid-template-columns:1fr; gap:1rem; padding:1.5rem 0; } .study-spread .study-mini { height:240px; grid-column:1; grid-row:1; } .study-spread .study-image { grid-column:1; grid-row:3; } .study-gallery .study-spread .study-image img { height:auto; max-height:340px; } .study-spread figcaption { grid-column:1; grid-row:4; } .study-scrub { grid-column:1; grid-row:2; } }
 
 .doodle-retry { margin-top:.6rem; padding:.4rem .6rem; color:var(--red); background:transparent; border:1px solid var(--line); font:inherit; cursor:pointer; }
+
+/* Mounted photographs and pencil margins, without cropping project evidence. */
+:root { --mount-edge:#8a7c6d66; --mount-shadow:#64503a20; --tape:#d3b98966; }
+:root[data-theme="dark"] { --mount-edge:#b5a08666; --mount-shadow:#0005; --tape:#b9955b44; }
+.study-image,.film-screen,.compare-frame,.light-stage,.flagship-player video,.inline-video iframe {
+ border-radius:9px 14px 11px 13px; box-shadow:0 2px 0 var(--mount-edge),0 8px 18px var(--mount-shadow);
+}
+.project-media>img,.flagship-awards img,.game-capture img { border-radius:7px 11px 8px 10px; }
+.project-media>img { border:1px solid var(--mount-edge); }
+.flagship-awards figure { position:relative; border:1px solid var(--mount-edge); border-radius:3px 8px 5px 7px; }
+.flagship-awards figure::before { content:''; position:absolute; top:-8px; left:calc(50% - 24px); width:48px; height:17px; background:var(--tape); border-inline:1px dashed var(--mount-edge); transform:rotate(-5deg); pointer-events:none; }
+:root[data-theme="dark"] .flagship-awards figure { background:#332d25; color:var(--ink); }
+.study-spread .study-image { position:relative; border-radius:9px 14px 11px 13px; }
+.study-spread .study-image::after { content:''; position:absolute; inset:5px; border:1px solid var(--mount-edge); border-radius:6px 10px 8px 9px; pointer-events:none; opacity:.55; }
+.section-heading { position:relative; padding-left:1.1rem; border-left:2px solid var(--red); }
+.section-heading::before { content:''; position:absolute; width:6px; height:6px; border:1px solid var(--line); border-radius:50%; left:-4px; top:-13px; background:var(--paper); box-shadow:0 3px 0 var(--mount-shadow); pointer-events:none; }
+.study-spread figcaption { padding-bottom:.7rem; border-bottom:1px dashed var(--mount-edge); }
+.study-spread figcaption h4 { text-decoration:underline; text-decoration-color:var(--mount-edge); text-decoration-thickness:1px; text-underline-offset:.18em; }
+.project-notes details,.fold-notes { border-radius:2px 6px 4px 3px; }
+.project-notes details[open],.fold-notes[open] { background:linear-gradient(90deg,transparent 0 13px,var(--mount-edge) 13px 14px,transparent 14px),repeating-linear-gradient(transparent 0 27px,var(--mount-shadow) 27px 28px); padding:.7rem .8rem .8rem 1.4rem; }
+#contact-form { border-radius:5px 10px 7px 9px; }
+.capture-thumbs button { border-radius:5px 8px 6px 7px; }
+@media(max-width:720px) { .section-heading { padding-left:.85rem; } .flagship-awards figure::before { width:34px; left:calc(50% - 17px); height:13px; top:-6px; } }
+@media print { .flagship-awards figure::before,.section-heading::before { display:none; } }

@@ -1,0 +1,395 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><title>Hassan Portfolio Evaluation Guide</title><style>body{font:16px/1.65 system-ui;color:#26211c;background:#eee8de;margin:0}main{max-width:960px;margin:auto;background:#fffdf7;padding:3rem}section{break-before:page;border-top:1px solid #baa98e;padding:2rem 0}h1{font-size:2rem}h2{font-size:1.25rem}table{border-collapse:collapse;width:100%;font-size:.95rem}td,th{padding:.65rem;border:1px solid #c9bca8;text-align:left;vertical-align:top}th,pre{background:#eee8de}pre{white-space:pre-wrap;padding:1rem}a{color:#a33325}@media print{body,main{background:white}main{padding:0}section{border:0}}</style><main><h1>Hassan Portfolio Evaluation Guide</h1><p>25 November 2026 | The Manual Is Wrong</p><nav><ol>
+<li><a href="#chapter-1">Your project in one minute</a></li>
+<li><a href="#chapter-2">How the semester requirements map to the build</a></li>
+<li><a href="#chapter-3">Architecture and request flow</a></li>
+<li><a href="#chapter-4">Folders and where to find them</a></li>
+<li><a href="#chapter-5">Frontend file map</a></li>
+<li><a href="#chapter-6">Asset locations and original work</a></li>
+<li><a href="#chapter-7">The sketchbook interface</a></li>
+<li><a href="#chapter-8">Three.js explained for your evaluation</a></li>
+<li><a href="#chapter-9">Scroll scenes and performance</a></li>
+<li><a href="#chapter-10">The avatar and Doodle are different assets</a></li>
+<li><a href="#chapter-11">Doodle RAG step by step</a></li>
+<li><a href="#chapter-12">RAG grounding and failure recovery</a></li>
+<li><a href="#chapter-13">Email from form to confirmed receipt</a></li>
+<li><a href="#chapter-14">Environment and production deployment</a></li>
+<li><a href="#chapter-15">Security controls A to H</a></li>
+<li><a href="#chapter-16">Security controls I to Q</a></li>
+<li><a href="#chapter-17">Security controls R to Z</a></li>
+<li><a href="#chapter-18">Privacy and remaining security work</a></li>
+<li><a href="#chapter-19">Run and inspect the project locally</a></li>
+<li><a href="#chapter-20">How to expand and maintain the portfolio</a></li>
+<li><a href="#chapter-21">A focused evaluation demonstration</a></li>
+<li><a href="#chapter-22">Questions your examiner may ask</a></li>
+<li><a href="#chapter-23">Troubleshooting during evaluation</a></li>
+<li><a href="#chapter-24">Evidence and final submission checklist</a></li>
+</ol></nav>
+<section id="chapter-1"><h1>Your project in one minute</h1>
+<p>Hassan Ghaznavi | The Manual Is Wrong | Evaluation handbook | 25 November 2026</p>
+<p>This guide explains the actual portfolio source, the files to open during evaluation, how its 3D and backend features work, and the security controls and limits. It is a preparation handbook, not a claim that every semester deliverable is finished.</p>
+<h2>A short introduction you can say</h2>
+<p>My portfolio is an interactive sketchbook for my game development and 3D environment work. I built a readable scrolling website with optional Three.js scenes, a rigged Blender avatar, project videos, a retrieval-augmented assistant named Doodle, and a server-side email form. Vercel serves both the frontend and API functions. Public project notes ground the assistant, while private environment variables protect provider credentials.</p>
+<h2>The links and the authoritative source</h2>
+<p>Live: https://hassan-portfolio-two-rho.vercel.app/<br/>Repository: https://github.com/Hassan-Ghaznavi/hassan-portfolio<br/>Local project: C:/Users/hp/OneDrive/Documents/ChatGPT/WEB3DP Portfolio</p>
+<p>The inspected source includes the scroll-study update at commit 199d746 plus the sketchbook framing and documentation changes prepared with this guide. Backend statements below come from the local handlers and libraries; provider account settings are not re-audited here.</p>
+<h2>Three distinctions to remember</h2>
+<ul>
+<li>A WebGL scene is real 3D; a screenshot, SVG drawing or CSS book is a different presentation technique.</li>
+<li>Gemini generation, server keyword retrieval and browser saved-note replies are three distinct paths.</li>
+<li>Implemented protection is not a guarantee of perfect security or permanent provider availability.</li>
+</ul>
+<h2>Find the answer quickly</h2>
+<p>Pages 4-6: folders and files. Pages 8-10: Three.js and avatar. Pages 11-12: RAG. Pages 13-14: email and deployment. Pages 15-18: security and privacy. Pages 19-20: setup and expansion. Pages 21-24: demonstration, questions and submission. The HTML companion has a clickable contents list.</p>
+</section>
+<section id="chapter-2"><h1>How the semester requirements map to the build</h1>
+<table><tr><th>Requirement</th><th>Implementation and evidence</th></tr>
+<tr><td>Module 1 Web portfolio</td><td>Profile, About, skills, projects, achievements, journey and contact; responsive layouts; navigation, CV download and interactive scenes. index.html, main.js and styles.css.</td></tr>
+<tr><td>Module 2 Blender avatar</td><td>Final rigged .blend and exported GLB; Idle, Draw and Point; head rotation, orbit, pause and outlines. assets/avatar and avatar-scene.js.</td></tr>
+<tr><td>Module 3 After Effects</td><td>Final 30-60 second promotional MP4 and native .aep remain deferred with the collaborator. The CSS manual opening does not replace this requirement.</td></tr>
+<tr><td>Module 4 RAG chatbot</td><td>Curated notes, overlapping chunks, Gemini embeddings, cosine ranking and grounded generation with linked source IDs. API and browser fallback paths are implemented.</td></tr>
+<tr><td>Module 5 Email</td><td>Validated form, Resend server route, signed delivery receipt and status polling. A successful delivery was recorded earlier; the guide does not send a new test.</td></tr>
+<tr><td>Module 6 Submission</td><td>Public Vercel URL and GitHub repository, README, PDF reports, screenshots and a source packaging script. Existing release v0.9.0 is a fixed older snapshot.</td></tr>
+</table>
+<h2>Extra credit already represented</h2>
+<p>Light and night themes; pointer-responsive 3D and paper depth; animated avatar actions; project/collection search; chapter finder; keyboard and reduced-motion support; Doodle source links; optional read-aloud answers. Read-aloud is speech output, not microphone-based voice input. Urdu support was deliberately removed.</p>
+<p>Analytics, a task ordering system, microphone chat and CAPTCHA are not implemented. Physical-device performance acceptance and the final AE deliverables still need to be retained as submission evidence.</p>
+</section>
+<section id="chapter-3"><h1>Architecture and request flow</h1>
+<p>Browser → Vercel API → Google Gemini / Resend / Redis. Responses return through the API.</p>
+<h2>What happens when the site opens</h2>
+<p>The browser receives index.html, styles.css and ES modules. An import map resolves the bundled Three.js runtime. Project modules create their sections from local data. IntersectionObserver delays expensive viewers until nearby or visible; videos load only after a visitor requests playback.</p>
+<h2>What is deployed as the backend</h2>
+<p>api/chat.mjs and api/contact.mjs are serverless Node handlers deployed by Vercel from the repository. They are not copied into the static dist folder. Vercel routes /api/chat and /api/contact to those handlers. There is no separate always-running Express server or separate backend URL.</p>
+<h2>What is not a portfolio database</h2>
+<p>MongoDB, Supabase, Firebase and SQL Server appear as Hassan's skills or as technologies used inside showcased games. This portfolio itself does not use them to store visitor chats or contact submissions. Redis is used for counters and public embedding cache; Resend handles email.</p>
+</section>
+<section id="chapter-4"><h1>Folders and where to find them</h1>
+<p>All relative paths below start at C:/Users/hp/OneDrive/Documents/ChatGPT/WEB3DP Portfolio. Open this folder in the editor, not the generated dist folder.</p>
+<table><tr><th>Folder or file</th><th>What it contains</th></tr>
+<tr><td>index.html</td><td>Page skeleton, static sections, import map, script entry points and contact/chat markup.</td></tr>
+<tr><td>styles.css</td><td>Layout, paper texture, themes, media mounts, CSS book/fold animation and responsive rules.</td></tr>
+<tr><td>Root .js files</td><td>Frontend content and interaction modules; detailed map on the next page.</td></tr>
+<tr><td>api/</td><td>Two server endpoints: chat.mjs and contact.mjs. Secrets are read server-side.</td></tr>
+<tr><td>lib/</td><td>Retrieval math, shared Redis limiter and embedding cache. conversation.mjs is a legacy unused helper.</td></tr>
+<tr><td>assets/</td><td>Approved runtime media, GLBs, source comparisons, CV and vendored Three.js. Some local working files are deliberately untracked.</td></tr>
+<tr><td>tools/</td><td>Build, preview, mocked checks, media preparation, Blender preview and report/archive scripts. Experimental scripts are not all submission files.</td></tr>
+<tr><td>dist/</td><td>Generated website allowlist. Recreated by the build. Never edit this as the source.</td></tr>
+<tr><td>output/</td><td>Reports, screenshots, archive and verification artifacts. Not copied into the public website by default.</td></tr>
+<tr><td>tmp/</td><td>Local temporary work. Not an authoritative source or public asset location.</td></tr>
+<tr><td>.gitignore and .env.example</td><td>Ignored private/build files and a blank configuration template. Real private values are not in the template.</td></tr>
+<tr><td>vercel.json and content-permissions.json</td><td>Deployment/browser headers and internship publishing rules.</td></tr>
+</table>
+</section>
+<section id="chapter-5"><h1>Frontend file map</h1>
+<table><tr><th>Module</th><th>Responsibility</th></tr>
+<tr><td>main.js / projects.js</td><td>Build project chapters, render-room films and study controls; Canvas 2D flight demo. projects.js holds expandable project data.</td></tr>
+<tr><td>two-lights.js</td><td>Flagship chapter, linked light windows, gameplay player and two award photographs.</td></tr>
+<tr><td>internship.js</td><td>Seven-game AIRIDEV field book, 21 approved captures, thumbnail selection, bookmarks, local search and hash opening.</td></tr>
+<tr><td>manual.js / preferences.js</td><td>Opening, skip/replay and reading progress; light default, saved theme and night toggle.</td></tr>
+<tr><td>chapter-finder.js / margin-notes.js</td><td>Searchable chapter dialog with Ctrl/Cmd K; decorative SVG margin drawings.</td></tr>
+<tr><td>scroll-motion.js / story-scenes.js</td><td>Visible section reveals, scroll variables, frame/sketch reveal, pointer paper depth, contextual questions and optional sound cues.</td></tr>
+<tr><td>project-sketches.js / mini-scenes.js</td><td>Lazy bootstrap and one shared Three.js renderer for card miniatures.</td></tr>
+<tr><td>sketch-preview.js / sketch-sea.js</td><td>Lazy bootstrap and procedural scroll-driven whale scene.</td></tr>
+<tr><td>avatar-preview.js / avatar-scene.js</td><td>Lazy bootstrap, GLB avatar viewer, animation mixer, controls and ink tracing.</td></tr>
+<tr><td>companion.js / companion-scene.js</td><td>Chat panel, API calls, saved-note fallback, retry/read-aloud; lazy 3D pencil model.</td></tr>
+<tr><td>portfolio-notes.js</td><td>Approved factual corpus shared by backend retrieval and the browser fallback.</td></tr>
+<tr><td>contact.js / video-controls.js</td><td>Contact submission and delivery polling; explicit player-specific Collapse video lifecycle.</td></tr>
+</table>
+<p>A bootstrap module decides when to load a larger scene module. This keeps the first page lighter and separates presentation, data and server responsibilities.</p>
+</section>
+<section id="chapter-6"><h1>Asset locations and original work</h1>
+<table><tr><th>Relative path under assets/</th><th>Contents and use</th></tr>
+<tr><td>avatar/</td><td>hassan-doodle-rigged.blend is the final Blender source; hassan-doodle-rigged.glb is the web export; hassan-doodle-final-v2.png is the poster; rig-export-validation.json records export checks.</td></tr>
+<tr><td>mascot/</td><td>pencil-web.glb is Doodle&#x27;s deployed asset. README.md records creator, CC BY 4.0 attribution and modification history; older local preparations are not the active viewer.</td></tr>
+<tr><td>vendor/three/</td><td>Three.js 0.180.0 module/core runtime, loaders, orbit controls, outline effect and MIT license.</td></tr>
+<tr><td>blender-motion/ and studies/</td><td>Approved Blender film MP4/poster files; forest.webp, perfume.webp and cube.webp still renders. Films preserve original audio where present.</td></tr>
+<tr><td>process/</td><td>Matched solid/wireframe WebP previews for cave, ocean, AirPods and avatar; stylized sketch SVGs are separate from genuine wireframes.</td></tr>
+<tr><td>two-lights/</td><td>Approved gameplay MP4, gameplay-clear.webp, GameCon photo and evaluation-clear.webp.</td></tr>
+<tr><td>project-frames/ and internship/</td><td>Paper Dash and Behind the Smile covers; 21 approved internship game screenshots.</td></tr>
+<tr><td>documents/ and paper-grain.webp</td><td>hassan-ghaznavi-cv.pdf for download; a small repeating paper grain texture.</td></tr>
+</table>
+<h2>Original source folders supplied by Hassan</h2>
+<p>D:/Projects Videos and Info - original project media.<br/>D:/Unity Internship Projects - internship working projects, not public source.<br/>D:/Documents/Blender projects - cave.blend, stormy ocean.blend and airpods.blend source inputs.<br/>C:/Users/hp/Downloads/Personal/Hassan Ghaznavi CV.pdf - originally supplied CV location; the deployed copy is under assets/documents/.</p>
+<p>The website runs from approved copies inside this repository. It does not depend on visitors having these D: drive folders. Do not upload raw internship recordings or source.</p>
+</section>
+<section id="chapter-7"><h1>The sketchbook interface</h1>
+<h2>Visual vocabulary</h2>
+<p>Warm paper, graphite outlines, red corrections, hand-drawn diagrams, mounted photographs and small 3D objects create the manual theme. The latest framing uses irregular soft corner radii, subtle mount shadows, tape on awards, pencil inset rules and ruled expandable notes. These effects do not generate replacement artwork or blur authentic screenshots.</p>
+<h2>Reading and navigation</h2>
+<p>The manual opening is CSS 3D with a skip button. Session storage suppresses repeated automatic openings in the same session. Replay clears the hash and returns to the start before opening again. The reading line reflects the actual scroll position. Chapter search and the CV download remain independent of the 3D scenes.</p>
+<h2>Light and night paper</h2>
+<p>preferences.js reads a saved explicit theme. A visitor without a saved choice starts in light mode, even if the device prefers dark. CSS custom properties set paper, ink, accent and line colors. Night mode changes surfaces and text, rather than applying a global darkening filter to photographs. Paper grain remains visible.</p>
+<h2>Interactions are placed in context</h2>
+<ul>
+<li>Paper Plane Dash keeps the Unreal project information, gameplay and small browser flight interpretation together.</li>
+<li>The whale belongs to Sunken Greed. Doodle stays at bottom right as the portfolio guide.</li>
+<li>Opening the AIRIDEV book reveals projects. Bookmarks and source links can reveal a target even when the book was closed.</li>
+<li>Film sketch reveals and real wireframe comparisons use sliders; horizontal dragging does not replace normal vertical page scrolling.</li>
+</ul>
+<h2>Accessibility</h2>
+<p>Semantic headings, labeled inputs, buttons, alt text, focus styles, keyboard sliders, Escape close behavior and live status regions support navigation. prefers-reduced-motion bypasses the introduction and reduces motion. This is practical accessibility work, not a claim of a complete WCAG audit.</p>
+</section>
+<section id="chapter-8"><h1>Three.js explained for your evaluation</h1>
+<table><tr><th>Concept</th><th>Example in this project</th></tr>
+<tr><td>Scene</td><td>A collection of geometry, cameras and lights. Each mini-scene has its own Scene.</td></tr>
+<tr><td>Geometry and mesh</td><td>Geometry supplies vertices and triangles; a mesh combines geometry with material. Trees use cones and cylinders; the bottle uses extruded rounded shapes.</td></tr>
+<tr><td>Material</td><td>MeshToonMaterial gives simplified shading. Paper hatching modifies shader code; edge lines reinforce the drawing style.</td></tr>
+<tr><td>Camera</td><td>Perspective cameras project the 3D scene onto a 2D canvas. Camera aspect updates to the visible region dimensions.</td></tr>
+<tr><td>Lighting</td><td>Hemisphere and directional lighting make volumes readable. Lightweight flat shadow meshes suggest contact without expensive shadow maps.</td></tr>
+<tr><td>Transforms and groups</td><td>Position, rotation and scale are applied to groups; e.g. cube layer groups rotate their cubies together.</td></tr>
+<tr><td>Renderer</td><td>WebGLRenderer draws using the GPU. Alpha permits the paper background to show behind scenes.</td></tr>
+<tr><td>AnimationMixer</td><td>Plays imported skeletal/object animation clips in the avatar and pencil models.</td></tr>
+<tr><td>OrbitControls</td><td>Allows dragging the avatar view and resetting the camera.</td></tr>
+<tr><td>GLTFLoader and OutlineEffect</td><td>Load the exported GLB; add an ink-like silhouette around the avatar/whale.</td></tr>
+</table>
+<p>The runtime is vendored locally and resolved by index.html's import map. The project uses plain ES modules, HTML and CSS, not React or a required npm framework build.</p>
+<p>The small Paper Plane Dash browser demo in main.js uses a Canvas 2D context with manual perspective projection and facet drawing. The original game was made in Unreal. Do not present this browser interpretation as a port or as a Three.js scene.</p>
+</section>
+<section id="chapter-9"><h1>Scroll scenes and performance</h1>
+<h2>How scroll controls an object</h2>
+<p>The scene measures its section with getBoundingClientRect, maps its position to a clamped progress value from 0 to 1, and uses that value for transforms. The whale links section progress to travel; delta-time smoothing reduces abrupt jumps. The Blender study figures similarly drive forest growth, perfume-cap lift and cube-layer turns. A manual range control can override progress; Follow my scroll restores automatic control.</p>
+<h2>Why a shared renderer matters</h2>
+<p>mini-scenes.js uses one transparent fixed canvas with viewport and scissor regions. Each card still has a separate scene and camera, but only its matching part of the shared canvas is drawn. This avoids a separate WebGL context for every card. The avatar, whale and Doodle have separate viewers with different lifecycles.</p>
+<h2>Where the budget is saved</h2>
+<ul>
+<li>IntersectionObserver tracks visibility; hidden tabs and offscreen viewers stop work.</li>
+<li>Dynamic imports delay large scene code and GLB loading. Videos use click-to-load, not automatic full downloads.</li>
+<li>Miniatures cap pixel ratio at 1 on small screens and 1.25 on larger screens; avatar caps are 1.25 and 1.5. The whale cap is 1.4.</li>
+<li>The avatar uses a modest 30 fps budget on small screens; desktop follows display frames. Other scenes use their own visibility and motion policies.</li>
+<li>WebP assets reduce media size. YouTube embeds load on request. Pause controls and reduced-motion behavior avoid unnecessary movement.</li>
+</ul>
+<h2>Be precise about performance</h2>
+<p>These are optimizations in the source, not a universal 60 fps guarantee. A 390px responsive browser check is not equivalent to profiling a physical phone. Device GPU, thermal limits, scroll behavior and browser UI can still affect rendering.</p>
+</section>
+<section id="chapter-10"><h1>The avatar and Doodle are different assets</h1>
+<h2>Hassan avatar</h2>
+<p>The final custom source is assets/avatar/hassan-doodle-rigged.blend. Blender exports the model, materials, skin weights, skeleton and clips into hassan-doodle-rigged.glb. The recorded validation reports 18 skin joints, all primitives skinned, and the Idle, Draw and Point clips. Sampled source/export bounding errors were approximately 0.000003 Blender units; that is a sampled export check, not exhaustive proof of every possible pose.</p>
+<p>avatar-scene.js uses AnimationMixer and action transitions. The head slider adds a limited Y-axis rotation on top of the animation pose, rather than replacing the full skeleton. Draw samples the moving pencil tip to build a red ink trace. Orbit, reset, pause, outline controls and a poster fallback make the viewer usable.</p>
+<h2>Doodle pencil companion</h2>
+<p>Doodle uses assets/mascot/pencil-web.glb. The pencil is an adapted third-party Pencil (TPOT) model by JossyBoy, under CC BY 4.0. Attribution is kept in the panel and asset notes. Material preparation and a whole-character wake motion were added for this portfolio. Do not claim that this pencil was sculpted from scratch or has an independently rigged finger/limb system.</p>
+<p>companion-scene.js loads the GLB only on first panel opening, plays its animation clips and stops active rendering when closed or hidden. This is the visual companion; companion.js and api/chat.mjs implement its intelligence separately.</p>
+<h2>Ideas still separate from implemented functionality</h2>
+<p>The full sequence where Hassan becomes a sketch, draws Doodle and returns has not been completed as an integrated final cinematic. The portfolio's animated opening and live avatar do not imply that this transformation or the AE promotional video is already finished.</p>
+</section>
+<section id="chapter-11"><h1>Doodle RAG step by step</h1>
+<ul>
+<li>1. Source selection: portfolio-notes.js holds approved facts about projects, contribution, skills, education and achievements. Raw private project folders are not indexed.</li>
+<li>2. Chunking: makeIndex splits each note into windows of up to 140 words, stepping by 100 words. Longer notes therefore overlap by 40 words. Many present notes fit in one chunk.</li>
+<li>3. Corpus embeddings: gemini-embedding-001 turns source title plus chunk text into 768-dimensional document vectors using RETRIEVAL_DOCUMENT.</li>
+<li>4. Query embedding: the current question is embedded with RETRIEVAL_QUERY. No full chat history is sent.</li>
+<li>5. Ranking: cosine similarity ranks vectors. A small 0.06 boost favors chunks also found by lexical retrieval. Results scoring at least 0.3 are limited to the top three.</li>
+<li>6. Generation: gemini-3.5-flash-lite receives system instructions, the question and retrieved source chunks. It is asked for short English answers in structured JSON.</li>
+<li>7. Validation: the handler checks answer shape/length and retains only source IDs from retrieved context. Factual responses without a valid retrieved citation are replaced by an unknown-information reply.</li>
+<li>8. Display: the browser renders text with textContent and approved internal source links. Clicking a source takes the visitor to the relevant portfolio chapter.</li>
+</ul>
+<h2>Where the vectors are stored</h2>
+<p>The active vector index is an in-memory array per function instance. Redis caches the approved corpus vectors for 24 hours, keyed by a SHA-256 hash of the corpus, model and dimensions. Redis here is not performing a vector similarity search; the function performs cosine ranking. A changed corpus produces a different cache key.</p>
+<p>Cosine similarity is dot(query, document) divided by the product of their lengths. Lexical recovery normalizes TF-IDF vectors: frequent local terms are weighted, common corpus terms are downweighted, and results above 0.16 are limited to three chunks. This is distinct from semantic embeddings.</p>
+<p>Explain RAG as retrieval plus generation. It is not fine-tuning: Hassan's documents do not retrain the Gemini model.</p>
+</section>
+<section id="chapter-12"><h1>RAG grounding and failure recovery</h1>
+<h2>Guardrails around model behavior</h2>
+<p>System instructions limit factual claims to the retrieved notes and prohibit inferring unsupported personal details or solo credit. The question and sources are serialized as data. JSON output requests responseType, answer and sourceIds. Conversation mode allows brief social exchanges; portfolio answers require supporting retrieved IDs. The model is not given tools to access files, execute code, browse arbitrary URLs or send email.</p>
+<h2>Three paths you must distinguish</h2>
+<table><tr><th>Path</th><th>What really happens</th></tr>
+<tr><td>Normal vector RAG</td><td>Embedding succeeds, cosine ranking selects context, Gemini writes the response.</td></tr>
+<tr><td>Server keyword recovery</td><td>A transient embedding problem triggers normalized TF-IDF retrieval; Gemini still generates from the matched public notes. Authentication and quota failures are not bypassed.</td></tr>
+<tr><td>Browser saved-note fallback</td><td>If generation/API communication fails, companion.js may show the matching saved note, labeled From my saved portfolio notes. This is retrieval only, not an LLM answer.</td></tr>
+</table>
+<h2>Why Gemini can pass once and fail later</h2>
+<p>Earlier diagnostics showed 503 responses and timeouts. A working key does not guarantee capacity or quota. The code allows at most two attempts per provider operation for selected transient HTTP failures and timeout/abort errors, with about one second of backoff and jitter. It does not automatically retry quota or authentication failures. The provider budget is 42 seconds; embedding work has a smaller 9-second budget. The browser POST timeout is 55 seconds.</p>
+<p>The API returns 429 for free quota exhaustion or throttling and a recoverable 502 for generation/provider failure. Retry AI answer is user initiated. No paid fallback is enabled. GET /api/chat only indicates configuration readiness; it does not prove Gemini is responding.</p>
+<p>Citation validation checks membership, not semantic truth. A valid source ID does not mathematically prove every word of an answer. Prompt injection risk is reduced, not eliminated.</p>
+</section>
+<section id="chapter-13"><h1>Email from form to confirmed receipt</h1>
+<h2>Frontend sequence</h2>
+<p>The browser checks form validity, collects name, email, subject and message, and adds a request UUID, form start time and honeypot field. contact.js posts JSON to /api/contact. Preview paper fold is visual only and never sends the note.</p>
+<h2>Server sequence</h2>
+<ul>
+<li>Check allowed origin, content type, payload size and field bounds. Reject header newlines, filled honeypot or implausible form timing.</li>
+<li>Apply shared Redis and per-instance contact limits. Build a plain-text email with a fixed configured recipient and sender. The visitor's email is reply_to, not the sender identity.</li>
+<li>Call Resend server-side. A hash of request UUID plus message fields becomes an idempotency key, reducing duplicate sending when the same accepted request is retried.</li>
+<li>Return HTTP 202 with a signed receipt containing only provider email ID and timestamp. Acceptance is not treated as confirmed delivery.</li>
+<li>Poll delivery using that receipt. The browser makes up to ten status checks. The handler maps provider events into pending, delivered or failed. The paper folds only after delivered/opened/clicked is reported.</li>
+</ul>
+<h2>Receipt protection</h2>
+<p>HMAC-SHA256 signs the receipt using the server-side Resend key. timingSafeEqual compares signatures. Tokens expire after ten minutes and future timestamps are bounded. The signature prevents changing the email ID to enumerate arbitrary messages. The token is signed, not encrypted: treat it as a short-lived bearer capability.</p>
+<p>Delivery means the receiving mail server accepted the email; it does not guarantee primary-inbox placement or that a human read it. Pending/failed states preserve the note and avoid claiming success. The app does not implement a general contact-message database.</p>
+<p>Sending limits are 4 valid POST requests per ten-minute per-IP window. The receipt GET route is token protected but does not currently use the same shared rate limiter; this is a remaining hardening opportunity.</p>
+</section>
+<section id="chapter-14"><h1>Environment and production deployment</h1>
+<table><tr><th>Variable name</th><th>Purpose</th></tr>
+<tr><td>GEMINI_API_KEY</td><td>Server credential for embeddings and generation. Never put it in frontend code.</td></tr>
+<tr><td>GEMINI_FREE_TIER_CONFIRMED</td><td>Must be the string true to allow outgoing Gemini calls. It is a code gate, not a billing-system control.</td></tr>
+<tr><td>RESEND_API_KEY</td><td>Server credential used for email send, delivery retrieval and receipt signing. Must allow required provider operations.</td></tr>
+<tr><td>CONTACT_TO_EMAIL</td><td>Fixed destination inbox, kept in private configuration.</td></tr>
+<tr><td>CONTACT_FROM_EMAIL</td><td>Sender identity permitted by the email provider; a Gmail receiver is not automatically a verified sender.</td></tr>
+<tr><td>SITE_URL</td><td>Explicit production origin, or localhost origin in a private local setup.</td></tr>
+<tr><td>UPSTASH_REDIS_REST_URL and UPSTASH_REDIS_REST_TOKEN</td><td>Private Redis REST endpoint and access credential for shared counters/cache.</td></tr>
+<tr><td>VERCEL_URL</td><td>Vercel-provided deployment host used in the origin allowlist.</td></tr>
+</table>
+<h2>Build and publishing</h2>
+<p>vercel.json runs node tools/build-site.mjs and serves dist. The build recreates only the known generated dist directory, then copies an explicit file/media allowlist. API handlers are deployed separately by Vercel from api/. The final .blend is tracked for evaluation but is not copied into website assets.</p>
+<p>A main-branch push triggers the connected production deployment. The live URL and repository URL stay the same when the latest deployment succeeds. Environment-variable edits need a new deployment to take effect. Do not print private values or export them into JavaScript.</p>
+<h2>GitHub and releases</h2>
+<p>The repository is public. Teachers can inspect tracked code and approved assets, including the final Blender source. Ignored/untracked files on the laptop are not automatically visible. A tag/release remains a fixed snapshot; editing main does not update an old release archive. The older v0.9.0 release predates this handbook.</p>
+</section>
+<section id="chapter-15"><h1>Security controls A to H</h1>
+<table><tr><th>Control</th><th>Implementation and limits</th></tr>
+<tr><td>A API credentials</td><td>Read only via process.env in server functions. .env files are ignored; .env.example is blank. Never put a real key in code, screenshots, browser storage or the handbook.</td></tr>
+<tr><td>B Build boundary</td><td>tools/build-site.mjs copies approved frontend assets only. Git publication and static deployment are separate boundaries: a tracked source file can be on GitHub without being in dist.</td></tr>
+<tr><td>C Content and citations</td><td>Only curated public notes enter RAG. Output source IDs must match retrieved chunks; frontend links must match internal hash syntax. This limits forged links, not all hallucinations.</td></tr>
+<tr><td>D Distributed throttling</td><td>Redis uses an atomic Lua INCR plus 600-second expiry for per-IP counters. Chat allows 15 and contact 4 POST requests. Separate scopes prevent one endpoint using the other&#x27;s allowance.</td></tr>
+<tr><td>E Email validation</td><td>Server repeats client validation. Name 2-80, subject 3-120, message 10-4000, email up to 254 characters; regex checks syntax and rejects header newlines. It does not verify visitor ownership of that address.</td></tr>
+<tr><td>F Fail closed</td><td>If configured Redis fails, protected POST requests return 503 before calling a provider. When Redis is absent, shared limiting is skipped and only bounded per-instance throttling remains.</td></tr>
+<tr><td>G Guardrails</td><td>System prompt restricts scope, unknown facts and contribution claims. Structured output and retrieved-ID checks add layers. These are not an injection-proof sandbox or a semantic fact checker.</td></tr>
+<tr><td>H Headers</td><td>nosniff; strict-origin-when-cross-origin referrer policy; DENY framing; CSP frame-ancestors none, object-src none, base-uri self and form-action self. Full policy limits are on the next pages.</td></tr>
+</table>
+</section>
+<section id="chapter-16"><h1>Security controls I to Q</h1>
+<table><tr><th>Control</th><th>Implementation and limits</th></tr>
+<tr><td>I Idempotency</td><td>A SHA-256 digest of request ID and fields is sent as the Resend idempotency key. Reusing the same accepted request reduces duplicate email. Editing its contents creates a different digest.</td></tr>
+<tr><td>J JSON and size limits</td><td>Chat requires JSON, body length checks around 2400 and a 2-500 character question. Contact checks around 12000 and validates fields. These application checks are not a replacement for platform request-size limits.</td></tr>
+<tr><td>K Key rotation</td><td>Production secrets can be replaced in Vercel and redeployed. A key that was exposed must be revoked at its provider; .gitignore cannot undo exposure. This guide does not certify all historical keys were revoked.</td></tr>
+<tr><td>L Logs</td><td>Chat logs limited stage/status/error type, not raw prompts, credentials or full provider responses. Contact does not log form contents. Hosting/providers can maintain their own operational records.</td></tr>
+<tr><td>M Method and origin checks</td><td>Only GET and POST are accepted. POST Origin must match approved hosts. Origin checking reduces browser cross-site abuse; non-browser callers can forge Origin, so it is not authentication.</td></tr>
+<tr><td>N No model actions</td><td>Doodle is a question-answering service, not an autonomous tool-using agent. It cannot use a prompt to read private local files, invoke the email handler or run shell commands.</td></tr>
+<tr><td>O Output rendering</td><td>Chat text uses textContent instead of inserting LLM HTML. User input sent by email is plain text. Trusted static templates still use innerHTML; do not extend them to accept untrusted HTML.</td></tr>
+<tr><td>P Prompt injection</td><td>Question/source text is treated as data and constrained by system instructions. A malicious prompt may still influence generation. Restrict sources, validate output and avoid adding privileged tools.</td></tr>
+<tr><td>Q Quota and free-only</td><td>Allowlisted models and free-tier confirmation gate; no paid fallback or automatic quota bypass. Account billing must still be checked by the owner. Request limits are abuse controls, not a contractual spend cap.</td></tr>
+</table>
+</section>
+<section id="chapter-17"><h1>Security controls R to Z</h1>
+<table><tr><th>Control</th><th>Implementation and limits</th></tr>
+<tr><td>R Receipt signing</td><td>HMAC-SHA256 with timing-safe comparison, ten-minute expiry, provider ID pattern check and small token bound. Signing prevents tampering; it does not hide the receipt payload.</td></tr>
+<tr><td>S Spam controls</td><td>Honeypot website field and 2-second to 24-hour form timing check supplement rate limits. Bots can imitate both. No CAPTCHA, Turnstile or Cloudflare proxy is configured by this project.</td></tr>
+<tr><td>T Transport</td><td>Production API and provider requests use HTTPS. The local preview uses loopback HTTP. The source does not define its own HSTS header; do not claim one was added here.</td></tr>
+<tr><td>U User and database access</td><td>There are no visitor accounts, SQL queries, writable content database or public admin dashboard in this portfolio. Database row-level security is therefore not implemented or required by this architecture.</td></tr>
+<tr><td>V Vector and cache privacy</td><td>Redis embedding cache stores only public corpus vectors, keyed by model/dimensions/content hash, TTL 24 hours. Query vectors, API keys and chat history are not written by that cache.</td></tr>
+<tr><td>W Web permissions</td><td>Permissions-Policy disables camera, microphone and geolocation. Read-aloud needs no microphone. Public media embeds still involve third parties after being loaded.</td></tr>
+<tr><td>X Cross-site framing</td><td>X-Frame-Options DENY and CSP frame-ancestors none prevent other sites embedding this portfolio. They do not prohibit its own YouTube embeds. CSP lacks default-src/script-src and is only a baseline policy.</td></tr>
+<tr><td>Y Your content permissions</td><td>AIRIDEV images allowed; raw source and gameplay forbidden. A public GitHub repository must follow the same permissions even for files not used by the site.</td></tr>
+<tr><td>Z Zero absolute guarantees</td><td>No full penetration test, complete dependency audit, formal WCAG certification or injection-proof claim. Known limitations and test evidence must be stated honestly.</td></tr>
+</table>
+</section>
+<section id="chapter-18"><h1>Privacy and remaining security work</h1>
+<h2>What leaves the visitor device</h2>
+<table><tr><th>Action</th><th>Destination and data</th></tr>
+<tr><td>Ask Doodle</td><td>The question goes to the portfolio API; embedding and generation requests send it and selected public notes to Google. Backend does not send the browser&#x27;s full chat transcript.</td></tr>
+<tr><td>Submit contact</td><td>Name, email, subject and message go to the API and Resend, then the fixed configured inbox. Receipt polling uses a short-lived signed token in the request URL.</td></tr>
+<tr><td>Load public media</td><td>YouTube video requests are click initiated and use youtube-nocookie embeds. Google Fonts is requested by the CSS import. Vendor privacy/storage behavior is outside app control.</td></tr>
+<tr><td>Rate limiting</td><td>The server hashes the forwarded client IP into a counter key. SHA-256 is unsalted pseudonymization here, not guaranteed anonymity. Shared keys expire after 600 seconds.</td></tr>
+<tr><td>Browser preferences</td><td>localStorage saves the chosen theme; sessionStorage records whether the introduction opened. Browser chat display is capped and is not persisted by the app.</td></tr>
+</table>
+<h2>Hardening opportunities, not completed features</h2>
+<ul>
+<li>Add verified bot challenges only if abuse justifies them; Cloudflare is optional infrastructure, not a prerequisite for Vercel functions.</li>
+<li>Consider receipt polling throttling, a separate receipt signing secret and tighter provider credential scopes.</li>
+<li>A stronger CSP requires inventorying inline import maps, remote fonts, frames and WebGL-related needs before enforcing script/connect/font restrictions.</li>
+<li>Guardrails can reject unsupported IDs, but semantic support and prompt-injection resistance need adversarial evaluation. Broader hardening should be a separate measured change.</li>
+<li>Review provider project billing/privacy settings and credential rotation privately. No local code flag can guarantee an external account's settings.</li>
+</ul>
+<p>Do not tell the examiner that Redis, origin checks or a private env file alone make the system fully secure. Explain the threat each control reduces and the cases it does not cover.</p>
+</section>
+<section id="chapter-19"><h1>Run and inspect the project locally</h1>
+<h2>Static website preview</h2>
+<pre>node tools/build-site.mjs
+python -m http.server 4174 --bind 127.0.0.1 --directory dist</pre>
+<p>Open http://127.0.0.1:4174/. This serves files only. It does not execute /api handlers; chatbot and email should not be judged as production services from this static server.</p>
+<h2>Preview with the API handlers</h2>
+<pre>node tools/build-site.mjs
+node tools/serve-story-preview.mjs</pre>
+<p>Open http://127.0.0.1:4175/. For private local provider testing, create an ignored .env.local from the blank .env.example, set SITE_URL=http://127.0.0.1:4175, and start with:</p>
+<pre>node --env-file=.env.local tools/serve-story-preview.mjs</pre>
+<p>Use a recent Node version that supports ES modules, fetch, AbortSignal.timeout and --env-file. The site is buildless plain JavaScript; there is no package.json-based npm start workflow to invent. API functions rely on the Vercel Node runtime in production.</p>
+<h2>Low-cost verification commands</h2>
+<pre>node tools/check-chat.mjs
+node tools/check-chat-resilience.mjs
+node tools/check-contact.mjs
+node tools/check-video-controls.mjs
+node tools/build-site.mjs</pre>
+<p>These backend checks replace provider fetch with mocks. They do not send real email or consume Gemini quota. Passing mocks verifies selected code behavior, not current external service uptime. Rebuild dist after source changes. The preview server contains range handling for video playback and a path boundary check.</p>
+</section>
+<section id="chapter-20"><h1>How to expand and maintain the portfolio</h1>
+<h2>Add a new personal project</h2>
+<ul>
+<li>Add a stable id and factual title, tools, role, contribution and overview to projects.js. Optional fields include cover, youtubeId, rule/correction and mechanics. Use collection more when appropriate.</li>
+<li>Place approved compressed screenshots in the relevant assets folder. Add explicit copies to tools/build-site.mjs if the destination folder is not already allowed.</li>
+<li>Add the factual source note, search terms and a correct internal href to portfolio-notes.js. A source-note change automatically changes the embedding-cache key.</li>
+<li>For a major chapter, update static index links and the chapter-finder.js chapter list. Keep the project demo with its own information.</li>
+<li>For a new miniature, add a kind to mini-scenes.js and a matching data-mini-sketch region. Reuse the shared renderer and visibility behavior.</li>
+</ul>
+<h2>Add an internship entry</h2>
+<p>Use internship.js entries, approved screenshots and the publishing permission record. Existing capture naming is assets/internship/{slug}-play-{0,1,2}.webp, with three screenshots per game. Update the build allowlist and Doodle facts. Collection counts derive from entries, but the current seven-experiments title and any other written totals also need editing.</p>
+<h2>Update the avatar or a film</h2>
+<p>Preserve the Idle, Draw and Point clip names and expected head/pencil objects, export GLB, then validate after rig changes. For a film, prepare a compressed MP4 with audio retained where present, poster and optional comparison assets; do not silently replace a real source comparison with generated sketch art.</p>
+<h2>Source package and releases</h2>
+<p>tools/package-submission.py creates the explicit source ZIP and SHA-256 manifest. Its allowlist must be updated when new required files are added. Rebuilding a ZIP locally does not update a GitHub release attachment. Keep final AE .aep/MP4 and any new submission snapshot explicitly organized.</p>
+</section>
+<section id="chapter-21"><h1>A focused evaluation demonstration</h1>
+<table><tr><th>Time</th><th>What to show and explain</th></tr>
+<tr><td>0:00-0:45</td><td>Open the manual, skip/replay if needed, introduce the theme, role and portfolio purpose. Use the stable live URL.</td></tr>
+<tr><td>0:45-1:45</td><td>Two Lights: demonstrate scroll-linked light windows, full scene, clear screenshots, two award records and your team contribution.</td></tr>
+<tr><td>1:45-2:45</td><td>Paper Plane Dash and Sunken Greed: distinguish the original game from the Canvas demo; scroll the whale and explain geometry/camera/transforms.</td></tr>
+<tr><td>2:45-3:45</td><td>Render room: scrub forest/perfume/cube; show a film and Collapse video; reveal real source wireframe comparison.</td></tr>
+<tr><td>3:45-4:30</td><td>Open AIRIDEV book, search one title, select another screenshot, close the collection. Explain image-only permissions.</td></tr>
+<tr><td>4:30-5:30</td><td>Avatar: choose Draw/Point, turn the head, orbit and reset. Open final .blend and GLB paths if asked.</td></tr>
+<tr><td>5:30-6:30</td><td>Doodle: ask Which game won twice? Open its citation. Ask an unsupported detail such as a salary and explain unknown/fallback handling. Avoid rapid repeated requests.</td></tr>
+<tr><td>6:30-7:30</td><td>Contact: demonstrate validation and fold preview. Use a labeled real delivery test only if needed; explain accepted versus delivered.</td></tr>
+<tr><td>7:30-8:30</td><td>Show API handlers, env names without values, Redis limiter and build allowlist. Toggle night paper and demonstrate keyboard chapter search/CV.</td></tr>
+</table>
+<h2>Prepare before presenting</h2>
+<p>Use a fresh tab to avoid stale cached files, confirm the production build loaded, and keep local source and final avatar files ready. Have screenshots of a previously successful cited answer and email delivery available in case a provider is unavailable. Explain an outage honestly rather than presenting a saved-note response as live AI.</p>
+</section>
+<section id="chapter-22"><h1>Questions your examiner may ask</h1>
+<h2>Why Three.js instead of only videos</h2>
+<p>Three.js lets the viewer explore real geometry and lets scroll/pointer input change objects at runtime. Videos are used for authentic project footage; they cannot replace interactive scene transformations.</p>
+<h2>Is Doodle just a hard-coded chatbot</h2>
+<p>The normal API route performs embeddings, retrieval and Gemini generation. A separate browser fallback searches saved notes when the provider fails. The fallback is explicitly identified and is not presented as an LLM response.</p>
+<h2>Where is the vector database</h2>
+<p>The small corpus is searched through an in-memory vector index. Redis persists cached corpus vectors for 24 hours; it does not run vector search. A dedicated vector database would be a future scaling choice, not a current dependency.</p>
+<h2>How do you avoid invented facts</h2>
+<p>Curated source notes, scoped instructions, short structured answers and retrieved-source ID validation reduce unsupported output. Unknown information is acknowledged. These measures improve grounding; they are not a proof that every answer is correct.</p>
+<h2>Where is the backend deployed</h2>
+<p>Both api handlers deploy as Vercel Node functions from the same repository. The frontend is generated into dist. The production hostname routes API requests and static assets without needing a separate server URL.</p>
+<h2>Can someone steal the key from the browser</h2>
+<p>The browser calls my API, which reads credentials server-side. Public assets do not contain the keys. This protects direct disclosure, while rate limits and validation reduce misuse of the public endpoint. Exposed keys still need revocation and rotation.</p>
+<h2>What is original and what is credited</h2>
+<p>The custom Hassan avatar and procedural scene motifs are portfolio work. Doodle's pencil comes from a credited CC BY asset. Team games retain team credit and specific contributions. Internship projects show only approved screenshots. Be transparent about AI/automation assistance if asked.</p>
+</section>
+<section id="chapter-23"><h1>Troubleshooting during evaluation</h1>
+<table><tr><th>Symptom</th><th>First checks</th></tr>
+<tr><td>Doodle reports connection failure</td><td>Do not assume invalid key. Check live /api/chat readiness, Vercel function stage/status logs, provider status/quota and recent deployment. A 503/timeout differs from 401/403 credential restrictions.</td></tr>
+<tr><td>Doodle uses saved notes</td><td>Generation failed or readiness was unavailable. Refresh after recovery and use Retry AI answer; do not remove the honest fallback label.</td></tr>
+<tr><td>429 response</td><td>Can be local/shared throttling or provider quota. Avoid repeated requests; inspect the server error classification privately. No paid bypass is configured.</td></tr>
+<tr><td>503 before a provider call</td><td>Configured Redis might be unavailable and the limiter fails closed. Check Redis connectivity/configuration without exposing its token.</td></tr>
+<tr><td>Contact accepted but not delivered</td><td>Wait for status. Verify permitted sender, provider event and destination. Do not repeatedly resend an accepted message or claim inbox placement.</td></tr>
+<tr><td>Video has no sound</td><td>Start playback with a user gesture, inspect player volume and system/site audio, and confirm the current exported MP4 contains an audio track. Source clips differ.</td></tr>
+<tr><td>3D viewer missing</td><td>Check WebGL support, lazy loading, GLB path and console errors. Poster/static content remains available. Pause and reduced-motion settings can make a scene stationary.</td></tr>
+<tr><td>Source changes invisible</td><td>Rebuild dist locally. For production, inspect the latest deployment and cache-version URL. Environment edits require redeployment.</td></tr>
+<tr><td>Night layout looks wrong</td><td>Check saved theme, theme custom properties and specific surface/text overrides. Do not solve contrast by globally filtering screenshots.</td></tr>
+</table>
+<h2>Useful HTTP meanings</h2>
+<p>400 invalid input; 403 wrong origin; 405 method not allowed; 413 body bound; 415 non-JSON; 429 throttle/quota; 502 upstream/response failure; 503 unconfigured or temporarily unavailable dependency. Exact route messages determine which condition occurred.</p>
+</section>
+<section id="chapter-24"><h1>Evidence and final submission checklist</h1>
+<h2>What this handbook verifies</h2>
+<p>The explanations were prepared from the current repository files: index.html, frontend modules, api/chat.mjs, api/contact.mjs, lib/retrieval.mjs, lib/shared-limit.mjs, lib/embedding-cache.mjs, vercel.json, the build allowlist, .gitignore, asset attribution and rig-export-validation.json. No secrets are included and no new paid AI or email calls are needed to generate it.</p>
+<h2>Earlier evidence versus current availability</h2>
+<p>Previous project records show a real cited AI response and Resend delivery verified on 22 November, followed by intermittent Gemini 503/timeouts. The 25 November interface pass checked desktop and 390px study layouts. These are dated observations, not continuous uptime or a complete security audit. output/screenshots contains the retained browser evidence.</p>
+<h2>Before final submission</h2>
+<ul>
+<li>Submit the stable live URL and public repository link. Make sure the latest deployment succeeds.</li>
+<li>Retain the final original .blend and animated GLB with the source. Use the correct files under assets/avatar/.</li>
+<li>Add the final promotional MP4, embed it, and retain the native .aep; this remains the deferred module.</li>
+<li>Consolidate the final project report and screenshots. The older implementation PDF is a historical working report; this newer handbook explains the current system.</li>
+<li>Capture successful source-linked chat, unknown answer behavior, delivered email, core interactions, light/night and mobile views.</li>
+<li>Check content credits, internship publishing restrictions and key rotation privately. Do not show env values during evaluation.</li>
+<li>Test on a physical phone and PC. Keep honest notes about provider dependence and performance limits.</li>
+<li>Create a new tag/release only when you want a new fixed snapshot; existing release assets do not follow main automatically.</li>
+</ul>
+<h2>Files you should open if asked to prove the design</h2>
+<p>Three.js: mini-scenes.js and avatar-scene.js.<br/>RAG: api/chat.mjs, portfolio-notes.js and lib/retrieval.mjs.<br/>Security: lib/shared-limit.mjs, api/contact.mjs and vercel.json.<br/>Deployment: tools/build-site.mjs and README.md.<br/>Model: assets/avatar/hassan-doodle-rigged.blend and .glb.</p>
+<p>The strongest evaluation answer connects a visible interaction to its source code, explains why the design was chosen, and states its limits.</p>
+</section>
+</main></html>

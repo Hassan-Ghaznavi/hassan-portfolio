@@ -12,12 +12,14 @@ for name in ['index.html','styles.css','README.md','vercel.json','.gitattributes
  files.append((root/name,'source/'+name))
 for folder in ['api','lib']:
  for p in (root/folder).glob('*.mjs'):files.append((p,'source/'+str(p.relative_to(root)).replace('\\','/')))
-for name in ['build-site.mjs','serve-story-preview.mjs','check-chat.mjs','check-contact.mjs','validate-rig-export.py','build-report.py','package-submission.py','prepare-game-captures.py','render-project-process.py','render-process-pair.py']:
+for name in ['build-site.mjs','serve-story-preview.mjs','check-chat.mjs','check-chat-resilience.mjs','check-contact.mjs','check-video-controls.mjs','validate-rig-export.py','build-report.py','build-evaluation-guide.py','package-submission.py','prepare-game-captures.py','render-project-process.py','render-process-pair.py']:
  files.append((root/'tools'/name,'source/tools/'+name))
 files.append((root/'assets/avatar/hassan-doodle-rigged.blend','source/assets/avatar/hassan-doodle-rigged.blend'))
 files.append((root/'assets/avatar/rig-export-validation.json','evidence/avatar-export-validation.json'))
 files.append((root/'assets/mascot/README.md','source/assets/mascot/README.md'))
 files.append((root/'output/pdf/hassan-portfolio-implementation-report.pdf','report/hassan-portfolio-implementation-report.pdf'))
+for name in ['hassan-portfolio-evaluation-guide.pdf','hassan-portfolio-evaluation-guide.html']:
+ files.append((root/'output/pdf'/name,'report/'+name))
 for p in (root/'output/screenshots').glob('*.jpg'):files.append((p,'evidence/screenshots/'+p.name))
 notes='THE MANUAL IS WRONG - CURRENT SOURCE PACKAGE\nHassan Ghaznavi | Web3D portfolio | 24 November 2026\n\nStart: open source/README.md, then run node tools/build-site.mjs and\nnode tools/serve-story-preview.mjs from source/.\n\nIncludes approved frontend media, backend API routes, rigged Blender source,\nanimated GLB, report, screenshots and validation tools. The rigged .blend is\nsource/assets/avatar/hassan-doodle-rigged.blend.\n\nSERVICE STATUS AND REMAINING DELIVERABLES\n- Gemini configured; successful cited answer verified, later intermittent provider 503.\n- Resend configured; provider-confirmed delivery verified.\n- Physical phone testing by the student.\n- Promotional MP4 and After Effects .aep: intentionally deferred.\n\nCredentials, receiving email configuration, raw internship source and gameplay,\nprivate asset collections and unrelated files are not part of this archive.\n'
 manifest=[]
