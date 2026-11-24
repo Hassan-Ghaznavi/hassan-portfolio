@@ -736,3 +736,28 @@ canvas.mini-scenes-layer { position:fixed; inset:0; width:100%; height:100%; min
 .chapter-finder nav a:hover,.chapter-finder nav a:focus-visible { padding-left:1rem; background:#8a7c6d22; }
 .chapter-finder small { display:block; font-size:.75rem; margin-top:.2rem; }
 @media(prefers-reduced-motion:reduce) { .chapter-finder nav a { transition:none; } }
+
+/* Compact companion: the conversation scrolls while the question stays reachable. */
+.pencil-panel:not([hidden]) { display:flex; flex-direction:column; gap:.4rem; height:min(660px,calc(100dvh - 135px)); overflow:hidden; }
+.pencil-panel header,.pencil-panel #pencil-form,.doodle-speech-controls { flex:none; }
+.pencil-panel h2 { margin:.1rem 0; }
+.pencil-model { flex:none; height:80px; }
+.pencil-model canvas { height:80px; }
+.pencil-panel .guide-note { margin:0; padding:.45rem 0; font-size:.68rem; }
+.pencil-messages { flex:1 1 140px; min-height:72px; max-height:none; overflow:auto; overscroll-behavior:contain; scrollbar-width:thin; padding-right:.3rem; }
+.pencil-panel #pencil-form { margin:0; }
+.pencil-input { margin:.35rem 0; }
+.doodle-speech-controls { display:flex; flex-wrap:wrap; gap:.35rem; }
+.doodle-speech-controls .button { padding:.4rem .6rem; font-size:.7rem; }
+.pencil-panel .sketch-credit { max-height:65px; overflow:auto; margin:0; flex:none; }
+.pencil-panel .sketch-credit p { margin:.3rem 0; }
+.guide-answer { padding:.6rem .7rem; background:#e3d3b22e; border:1px solid #8a7c6d33; border-radius:0 8px 8px 8px; }
+.guide-question { margin-left:1rem!important; }
+@media(max-height:650px) { .pencil-model { display:none; } .pencil-panel:not([hidden]) { height:calc(100dvh - 110px); } .pencil-panel .guide-note { font-size:.6rem; } }
+@media(max-width:720px) { .pencil-panel:not([hidden]) { height:min(610px,calc(100dvh - 120px)); } }
+/* Fine draft marks add depth without obscuring the actual project media. */
+.film-card,.study-gallery>figure { position:relative; }
+.film-card::before { content:''; position:absolute; width:30px; height:5px; left:1rem; top:-3px; background:var(--red); opacity:.65; transform:rotate(-3deg); pointer-events:none; }
+.study-gallery>figure { border-bottom:1px solid #8a7c6d66; padding-bottom:1rem; }
+.mini-sketch { border-radius:50% 50% 5% 5%; }
+@media(hover:hover) and (prefers-reduced-motion:no-preference) { .capture-thumbs button:hover { transform:translateY(-3px) rotate(-2deg); } }
