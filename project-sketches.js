@@ -5,7 +5,7 @@ function start(){
  const observer=new IntersectionObserver(entries=>{
   if(started||!entries.some(e=>e.isIntersecting))return;
   started=true;observer.disconnect();
-  import('./mini-scenes.js').then(m=>m.mountMiniScenes(regions)).catch(error=>console.warn('3D margin sketches unavailable:',error));
+  import('./mini-scenes.js?v=scroll-studies-13').then(m=>m.mountMiniScenes(regions)).catch(error=>console.warn('3D margin sketches unavailable:',error));
  },{rootMargin:'160px'});
  regions.forEach(node=>observer.observe(node));
 }

@@ -1,6 +1,6 @@
 import {attachVideoClose} from './video-controls.js';
 import { decorateFilmScreen, buildSourceComparison } from './story-scenes.js?v=single-story-6';
-import { projects } from './projects.js?v=flow-4';
+import { projects } from './projects.js?v=clear-images-13';
 import { buildTwoLights } from './two-lights.js';
 
 function addText(parent, tag, content, className) {
@@ -86,11 +86,15 @@ for (const project of projects) {
     const pauseSketches=document.createElement('button');pauseSketches.type='button';pauseSketches.className='button outline sketches-control';pauseSketches.dataset.miniPause='';pauseSketches.setAttribute('aria-pressed','false');pauseSketches.textContent='Pause 3D sketches';chapter.append(pauseSketches,films);
     const gallery=document.createElement('div');gallery.className='study-gallery';
     for(const study of project.studies){
-      const figure=document.createElement('figure');figure.dataset.motionScene=study.id;
+      const figure=document.createElement('figure');figure.dataset.motionScene=study.id;figure.classList.add('study-spread');
       const frame=document.createElement('div');frame.className='study-image';
       const miniature=document.createElement('div');miniature.className='mini-sketch study-mini';miniature.dataset.miniSketch={forest:'forest',perfume:'bottle',cube:'cube'}[study.id];miniature.setAttribute('aria-hidden','true');figure.append(miniature);
       const image=document.createElement('img');image.src=`assets/studies/${study.id}.webp`;image.alt=study.title+' — Hassan’s 3D render';image.loading='lazy';image.decoding='async';frame.append(image);
-      const caption=document.createElement('figcaption');const title=document.createElement('h4');title.textContent=study.title;const note=document.createElement('p');note.textContent=study.note;caption.append(title,note);figure.append(frame,caption);gallery.append(figure);
+      const caption=document.createElement('figcaption');const title=document.createElement('h4');title.textContent=study.title;const note=document.createElement('p');note.textContent=study.note;caption.append(title,note);figure.append(frame,caption);
+      const control=document.createElement('label');control.className='study-scrub';control.textContent={forest:'Grow the paper forest',perfume:'Uncap a little atmosphere',cube:'One turn changes everything'}[study.id];
+      const slider=document.createElement('input');slider.type='range';slider.min='0';slider.max='100';slider.value='0';slider.setAttribute('aria-label',study.title+' animation progress');
+      slider.addEventListener('input',()=>{figure.dataset.studyScrub=String(Number(slider.value)/100);figure.style.setProperty('--study-progress',figure.dataset.studyScrub);});
+      const resume=document.createElement('button');resume.type='button';resume.className='study-scroll-resume';resume.textContent='Follow my scroll';resume.addEventListener('click',()=>{delete figure.dataset.studyScrub;window.dispatchEvent(new Event('scroll'));});control.append(slider,resume);figure.append(control);gallery.append(figure);
     }
     chapter.append(gallery);chapter.classList.add('render-collection');
   }

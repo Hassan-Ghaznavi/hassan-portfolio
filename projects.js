@@ -10,7 +10,7 @@ export const projects = [
       title: 'Every detour costs energy.',
       text: 'Flight energy drains over time. Pickups refill it, so you have to steer around obstacles while choosing when to change lanes for a refill.'
     },
-    cover:{src:'assets/project-frames/paper-dash.webp',alt:'Actual Paper Plane Dash gameplay inside an oversized house.'},
+    cover:{src:'assets/project-frames/paper-dash-clear.webp',alt:'Actual Paper Plane Dash gameplay inside an oversized house.'},
     demo: '#flight',
     chapterLabel: '02 / Flight notes',
     rule: 'A house is not a flight path.',

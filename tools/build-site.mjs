@@ -34,3 +34,5 @@ await mkdir(new URL('lib/',target),{recursive:true});
 await copyFile(new URL('lib/retrieval.mjs',root),new URL('lib/retrieval.mjs',target));
 
 await copyFile(new URL('lib/conversation.mjs',root),new URL('lib/conversation.mjs',target));
+
+await copyFile(new URL('assets/project-frames/paper-dash-clear.webp',root),new URL('assets/project-frames/paper-dash-clear.webp',target));
