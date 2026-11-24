@@ -32,3 +32,5 @@ for(const slug of ['paper-dash','behind-smile'])await copyFile(new URL(`assets/p
 
 await mkdir(new URL('lib/',target),{recursive:true});
 await copyFile(new URL('lib/retrieval.mjs',root),new URL('lib/retrieval.mjs',target));
+
+await copyFile(new URL('lib/conversation.mjs',root),new URL('lib/conversation.mjs',target));

@@ -1,3 +1,4 @@
+import {conversationalReply} from '../lib/conversation.mjs';
 import {sharedLimited} from '../lib/shared-limit.mjs';
 import {createHash} from 'node:crypto';
 import {notes} from '../portfolio-notes.js';
@@ -25,6 +26,7 @@ export default async function handler(req,res){
  if(Number(req.headers['content-length']||0)>2400)return send(413,{error:'The question is too long.'});
  let body;try{body=typeof req.body==='string'?JSON.parse(req.body):req.body;if(JSON.stringify(body).length>2400)throw Error();}catch{return send(400,{error:'The question could not be read.'});}
  const question=typeof body?.question==='string'?body.question.trim():'';if(question.length<2||question.length>500)return send(400,{error:'Ask a question between 2 and 500 characters.'});
+ const greeting=conversationalReply(question);if(greeting)return send(200,{answer:greeting,sources:[]});
  if(!configured())return send(503,{error:'AI is not configured. Local portfolio notes remain available.'});
  try{if(await sharedLimited(req,'chat',15))return send(429,{error:'Too many requests. Please try again later.'});}catch{return send(503,{error:'Please try again shortly.'});}
  if(limited(req))return send(429,{error:'Doodle needs a short break. Try again in ten minutes.'});

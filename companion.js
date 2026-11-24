@@ -1,3 +1,4 @@
+import {conversationalReply} from './lib/conversation.mjs';
 import {notes} from './portfolio-notes.js';
 import {makeIndex,retrieve} from './lib/retrieval.mjs';
 const launcher=document.querySelector('#pencil-launcher');
@@ -28,6 +29,8 @@ document.querySelector('#pencil-form').addEventListener('submit',async event=>{
  busy=true;state.dataset.state='thinking';const button=event.currentTarget.querySelector('button');button.disabled=true;message(question,'guide-question');input.value='';
  const thinking=message('Doodle is checking his notes…','guide-thinking');log.scrollTop=log.scrollHeight;
  try{
+  const greeting=conversationalReply(question);
+  if(greeting){reply(greeting);state.dataset.state='happy';return;}
   await readiness;
   if(aiReady){const response=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({question}),signal:AbortSignal.timeout(55000)});const data=await response.json();if(!response.ok){const failure=Error('AI unavailable');failure.status=response.status;throw failure;}reply(data.answer,data.sources);}
   else{const matches=retrieve(question,localIndex);if(matches.length)reply(matches[0].text,[matches[0]]);else reply('That detail isn’t in my notes yet. Try a project name, skills, education, or awards.');}
