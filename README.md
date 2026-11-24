@@ -158,3 +158,8 @@ The promotional MP4 and native After Effects .aep are still in production with t
 Run node tools/build-site.mjs, node tools/check-chat.mjs, node tools/check-contact.mjs and node tools/check-video-controls.mjs for local checks. Backend checks use mocks and do not send email or spend AI quota.
 
 A release is a fixed, tagged submission snapshot. Future main-branch commits continue updating the same live URL; they do not change an existing release’s tagged source. Use a new release for a later snapshot.
+
+
+## Doodle provider recovery
+
+AI requests have a 42-second provider budget, one retry with backoff/jitter for transient 5xx responses and timeouts, and no automatic retry for quota/authentication failures. The approved public-note embedding index is cached in Redis for 24 hours and keyed by a hash of the corpus, embedding model and dimensions; note edits invalidate it automatically. Visitor questions and API keys are not stored in this cache. Cache failures fall back to generating vectors; the separate configured Redis rate limiter still fails closed. Diagnostics record the failing stage/status/type, never questions or credential values. Run node tools/check-chat-resilience.mjs for mocked timeout, 503 and cold-instance cache checks.
