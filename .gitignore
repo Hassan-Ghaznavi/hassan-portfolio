@@ -34,3 +34,7 @@ assets/controller.webp
 
 # Approved personal Blender animation exports
 !assets/blender-motion/*.mp4
+
+# Final student-authored submission model only; old experiments remain local.
+!assets/avatar/hassan-doodle-rigged.blend
+!assets/avatar/rig-export-validation.json

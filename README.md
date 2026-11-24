@@ -138,3 +138,23 @@ Each project has a keyboard-accessible bookmark at the top of the open field boo
 The AI provider was changed to Gemini at Hassan’s explicit free-only request. Do not add billing, automatic recharge or a paid fallback. Provider quotas and availability remain outside the portfolio’s control; always verify the project’s actual billing tier before enabling credentials.
 
 The film-card sketch reveals also support a horizontal rub gesture with an eraser marker. The native labeled slider remains available for keyboard and touch users; vertical page scrolling remains enabled. This reveals real project frames under the sketch treatment.
+
+
+## Submission snapshot — 24 November 2026
+
+Live portfolio: https://hassan-portfolio-two-rho.vercel.app/
+Repository: https://github.com/Hassan-Ghaznavi/hassan-portfolio
+
+The frontend and serverless backend are deployed together on Vercel. Gemini RAG and Resend are configured using private Production variables. One real cited AI answer and email delivery were verified on 22 November. Gemini subsequently returned a provider 503; bounded retry and an explicitly identified local-notes fallback are implemented. Continuous provider availability is not claimed.
+
+Shared Redis rate limiting is configured for chat (15 requests per ten minutes per IP) and contact (4). Set UPSTASH_REDIS_REST_URL and UPSTASH_REDIS_REST_TOKEN privately to enable it on another deployment. With configured Redis unavailable, protected requests fail closed. Without Redis configuration, only per-instance limits apply. Use a free plan with auto-upgrade disabled.
+
+Security includes input bounds, plain-text answer rendering, curated public retrieval notes, validated source links, origin checks, contact honeypot/timing checks, idempotency and signed delivery receipts, plus baseline browser headers. Origin checks are not authentication, prompt guardrails are not injection-proof, and CAPTCHA/bot verification is not implemented. API keys never belong in browser code or Git. Resend requires a key capable of both sending and retrieving delivery status.
+
+Final avatar source: assets/avatar/hassan-doodle-rigged.blend; web export: assets/avatar/hassan-doodle-rigged.glb. The final source is intentionally tracked; rejected iterations, backups, raw internship source/gameplay and local credentials remain excluded. The build allowlist excludes the Blender source from web delivery.
+
+The promotional MP4 and native After Effects .aep are still in production with the student’s collaborator and are not included as completed deliverables. The existing PDF is a working implementation report dated 22 November; this README records later changes. Final report/evidence consolidation and physical-device acceptance remain outstanding.
+
+Run node tools/build-site.mjs, node tools/check-chat.mjs, node tools/check-contact.mjs and node tools/check-video-controls.mjs for local checks. Backend checks use mocks and do not send email or spend AI quota.
+
+A release is a fixed, tagged submission snapshot. Future main-branch commits continue updating the same live URL; they do not change an existing release’s tagged source. Use a new release for a later snapshot.

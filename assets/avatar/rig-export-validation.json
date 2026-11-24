@@ -1,0 +1,103 @@
+{
+  "clips": [
+    "Idle",
+    "Draw",
+    "Point"
+  ],
+  "skin_joints": 18,
+  "all_primitives_skinned": true,
+  "samples": [
+    {
+      "clip": "Idle",
+      "frame": 1,
+      "max_bounds_error": 2.9802322387695312e-06,
+      "worst_object": "Crossed shoe"
+    },
+    {
+      "clip": "Idle",
+      "frame": 19,
+      "max_bounds_error": 2.9802322387695312e-06,
+      "worst_object": "Crossed shoe"
+    },
+    {
+      "clip": "Idle",
+      "frame": 37,
+      "max_bounds_error": 2.9802322387695312e-06,
+      "worst_object": "Crossed shoe"
+    },
+    {
+      "clip": "Idle",
+      "frame": 55,
+      "max_bounds_error": 2.9802322387695312e-06,
+      "worst_object": "Crossed shoe"
+    },
+    {
+      "clip": "Idle",
+      "frame": 73,
+      "max_bounds_error": 2.9802322387695312e-06,
+      "worst_object": "Crossed shoe"
+    },
+    {
+      "clip": "Draw",
+      "frame": 1,
+      "max_bounds_error": 2.9802322387695312e-06,
+      "worst_object": "Crossed shoe"
+    },
+    {
+      "clip": "Draw",
+      "frame": 19,
+      "max_bounds_error": 2.9802322387695312e-06,
+      "worst_object": "Crossed shoe"
+    },
+    {
+      "clip": "Draw",
+      "frame": 37,
+      "max_bounds_error": 2.9802322387695312e-06,
+      "worst_object": "Crossed shoe"
+    },
+    {
+      "clip": "Draw",
+      "frame": 55,
+      "max_bounds_error": 2.9802322387695312e-06,
+      "worst_object": "Crossed shoe"
+    },
+    {
+      "clip": "Draw",
+      "frame": 73,
+      "max_bounds_error": 2.9802322387695312e-06,
+      "worst_object": "Crossed shoe"
+    },
+    {
+      "clip": "Point",
+      "frame": 1,
+      "max_bounds_error": 2.9802322387695312e-06,
+      "worst_object": "Crossed shoe"
+    },
+    {
+      "clip": "Point",
+      "frame": 19,
+      "max_bounds_error": 2.9802322387695312e-06,
+      "worst_object": "Crossed shoe"
+    },
+    {
+      "clip": "Point",
+      "frame": 37,
+      "max_bounds_error": 2.9802322387695312e-06,
+      "worst_object": "Crossed shoe"
+    },
+    {
+      "clip": "Point",
+      "frame": 55,
+      "max_bounds_error": 2.9802322387695312e-06,
+      "worst_object": "Crossed shoe"
+    },
+    {
+      "clip": "Point",
+      "frame": 73,
+      "max_bounds_error": 2.9802322387695312e-06,
+      "worst_object": "Crossed shoe"
+    }
+  ],
+  "max_bounds_error": 2.9802322387695312e-06,
+  "passed": true
+}
