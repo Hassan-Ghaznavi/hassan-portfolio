@@ -20,7 +20,8 @@ def api(method,path,data=None):
 base='/repos/'+REPO+'/releases'
 if '--publish' in sys.argv:
  record=json.loads((out/'github-release.json').read_text())
- release=api('PATCH',base+'/'+str(record['id']),{'draft':False,'target_commitish':'main'})
+ revision=subprocess.run(['git','rev-parse','HEAD'],capture_output=True,text=True,check=True).stdout.strip()
+ release=api('PATCH',base+'/'+str(record['id']),{'draft':False,'tag_name':TAG,'target_commitish':revision})
  print(json.dumps({'published':not release['draft'],'url':release['html_url'],'assets':[(a['name'],a['size']) for a in release['assets']]}),flush=True)
  raise SystemExit()
 
