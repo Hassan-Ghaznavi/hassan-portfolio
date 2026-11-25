@@ -45,14 +45,14 @@
 <table><tr><th>Requirement</th><th>Implementation and evidence</th></tr>
 <tr><td>Module 1 Web portfolio</td><td>Profile, About, skills, projects, achievements, journey and contact; responsive layouts; navigation, CV download and interactive scenes. index.html, main.js and styles.css.</td></tr>
 <tr><td>Module 2 Blender avatar</td><td>Final rigged .blend and exported GLB; Idle, Draw and Point; head rotation, orbit, pause and outlines. assets/avatar and avatar-scene.js.</td></tr>
-<tr><td>Module 3 After Effects</td><td>Final 30-60 second promotional MP4 and native .aep remain deferred with the collaborator. The CSS manual opening does not replace this requirement.</td></tr>
+<tr><td>Module 3 After Effects</td><td>The supplied 60-second 1080p film is integrated near the cover. Full AE folder, including native .aep revisions, is provided as a separate GitHub release ZIP. The intended editable revision still needs an AE opening check.</td></tr>
 <tr><td>Module 4 RAG chatbot</td><td>Curated notes, overlapping chunks, Gemini embeddings, cosine ranking and grounded generation with linked source IDs. API and browser fallback paths are implemented.</td></tr>
 <tr><td>Module 5 Email</td><td>Validated form, Resend server route, signed delivery receipt and status polling. A successful delivery was recorded earlier; the guide does not send a new test.</td></tr>
 <tr><td>Module 6 Submission</td><td>Public Vercel URL and GitHub repository, README, PDF reports, screenshots and a source packaging script. Existing release v0.9.0 is a fixed older snapshot.</td></tr>
 </table>
 <h2>Extra credit already represented</h2>
 <p>Light and night themes; pointer-responsive 3D and paper depth; animated avatar actions; project/collection search; chapter finder; keyboard and reduced-motion support; Doodle source links; optional read-aloud answers. Read-aloud is speech output, not microphone-based voice input. Urdu support was deliberately removed.</p>
-<p>Analytics, a task ordering system, microphone chat and CAPTCHA are not implemented. Physical-device performance acceptance and the final AE deliverables still need to be retained as submission evidence.</p>
+<p>Analytics, a task ordering system, microphone chat and CAPTCHA are not implemented. Retain physical-device acceptance and the valid final AE revision with its dependencies as submission evidence.</p>
 </section>
 <section id="chapter-3"><h1>Architecture and request flow</h1>
 <p>Browser → Vercel API → Google Gemini / Resend / Redis. Responses return through the API.</p>
@@ -93,7 +93,7 @@
 <tr><td>avatar-preview.js / avatar-scene.js</td><td>Lazy bootstrap, GLB avatar viewer, animation mixer, controls and ink tracing.</td></tr>
 <tr><td>companion.js / companion-scene.js</td><td>Chat panel, API calls, saved-note fallback, retry/read-aloud; lazy 3D pencil model.</td></tr>
 <tr><td>portfolio-notes.js</td><td>Approved factual corpus shared by backend retrieval and the browser fallback.</td></tr>
-<tr><td>contact.js / video-controls.js</td><td>Contact submission and delivery polling; explicit player-specific Collapse video lifecycle.</td></tr>
+<tr><td>promo-film.js / contact.js / video-controls.js</td><td>Promotional film, contact submission and delivery polling; explicit player-specific Collapse video lifecycle.</td></tr>
 </table>
 <p>A bootstrap module decides when to load a larger scene module. This keeps the first page lighter and separates presentation, data and server responsibilities.</p>
 </section>
@@ -106,7 +106,7 @@
 <tr><td>process/</td><td>Matched solid/wireframe WebP previews for cave, ocean, AirPods and avatar; stylized sketch SVGs are separate from genuine wireframes.</td></tr>
 <tr><td>two-lights/</td><td>Approved gameplay MP4, gameplay-clear.webp, GameCon photo and evaluation-clear.webp.</td></tr>
 <tr><td>project-frames/ and internship/</td><td>Paper Dash and Behind the Smile covers; 21 approved internship game screenshots.</td></tr>
-<tr><td>documents/ and paper-grain.webp</td><td>hassan-ghaznavi-cv.pdf for download; a small repeating paper grain texture.</td></tr>
+<tr><td>promo/, documents/ and paper-grain.webp</td><td>Optimized 1080p manual-film.mp4 with audio, poster and source/export hashes; CV download and repeating paper texture.</td></tr>
 </table>
 <h2>Original source folders supplied by Hassan</h2>
 <p>D:/Projects Videos and Info - original project media.<br/>D:/Unity Internship Projects - internship working projects, not public source.<br/>D:/Documents/Blender projects - cave.blend, stormy ocean.blend and airpods.blend source inputs.<br/>C:/Users/hp/Downloads/Personal/Hassan Ghaznavi CV.pdf - originally supplied CV location; the deployed copy is under assets/documents/.</p>
@@ -169,7 +169,7 @@
 <p>Doodle uses assets/mascot/pencil-web.glb. The pencil is an adapted third-party Pencil (TPOT) model by JossyBoy, under CC BY 4.0. Attribution is kept in the panel and asset notes. Material preparation and a whole-character wake motion were added for this portfolio. Do not claim that this pencil was sculpted from scratch or has an independently rigged finger/limb system.</p>
 <p>companion-scene.js loads the GLB only on first panel opening, plays its animation clips and stops active rendering when closed or hidden. This is the visual companion; companion.js and api/chat.mjs implement its intelligence separately.</p>
 <h2>Ideas still separate from implemented functionality</h2>
-<p>The full sequence where Hassan becomes a sketch, draws Doodle and returns has not been completed as an integrated final cinematic. The portfolio's animated opening and live avatar do not imply that this transformation or the AE promotional video is already finished.</p>
+<p>The supplied AE promotional film now plays near the cover as a taped storyboard sheet. The separate fully interactive sequence where the live 3D avatar becomes a sketch and draws Doodle has not been implemented as a real-time transformation. The film and live avatar remain separate presentation systems.</p>
 </section>
 <section id="chapter-11"><h1>Doodle RAG step by step</h1>
 <ul>
@@ -232,7 +232,7 @@
 <p>vercel.json runs node tools/build-site.mjs and serves dist. The build recreates only the known generated dist directory, then copies an explicit file/media allowlist. API handlers are deployed separately by Vercel from api/. The final .blend is tracked for evaluation but is not copied into website assets.</p>
 <p>A main-branch push triggers the connected production deployment. The live URL and repository URL stay the same when the latest deployment succeeds. Environment-variable edits need a new deployment to take effect. Do not print private values or export them into JavaScript.</p>
 <h2>GitHub and releases</h2>
-<p>The repository is public. Teachers can inspect tracked code and approved assets, including the final Blender source. Ignored/untracked files on the laptop are not automatically visible. A tag/release remains a fixed snapshot; editing main does not update an old release archive. The older v0.9.0 release predates this handbook.</p>
+<p>The repository is public. Teachers can inspect tracked code and approved assets, including the final Blender source. Ignored/untracked files on the laptop are not automatically visible. The AE Video heading links a complete 356-file, 911,832,721-byte project ZIP in GitHub release assets. That large archive is excluded from the Vercel build. A tag/release is fixed; editing main does not update an old release archive. The older v0.9.0 release predates this handbook.</p>
 </section>
 <section id="chapter-15"><h1>Security controls A to H</h1>
 <table><tr><th>Control</th><th>Implementation and limits</th></tr>
@@ -374,14 +374,14 @@ node tools/build-site.mjs</pre>
 </section>
 <section id="chapter-24"><h1>Evidence and final submission checklist</h1>
 <h2>What this handbook verifies</h2>
-<p>The explanations were prepared from the current repository files: index.html, frontend modules, api/chat.mjs, api/contact.mjs, lib/retrieval.mjs, lib/shared-limit.mjs, lib/embedding-cache.mjs, vercel.json, the build allowlist, .gitignore, asset attribution and rig-export-validation.json. No secrets are included and no new paid AI or email calls are needed to generate it.</p>
+<p>The explanations were prepared from the current repository files: index.html, frontend modules, api/chat.mjs, api/contact.mjs, lib/retrieval.mjs, lib/shared-limit.mjs, lib/embedding-cache.mjs, vercel.json, the build allowlist, .gitignore, asset attribution and rig-export-validation.json. The film integration uses MAIN_The_Manual_Is_Wrong_1080p.mp4, optimized to about 20.9 MB with stereo audio. No secrets or new live provider calls are included in this guide.</p>
 <h2>Earlier evidence versus current availability</h2>
 <p>Previous project records show a real cited AI response and Resend delivery verified on 22 November, followed by intermittent Gemini 503/timeouts. The 25 November interface pass checked desktop and 390px study layouts. These are dated observations, not continuous uptime or a complete security audit. output/screenshots contains the retained browser evidence.</p>
 <h2>Before final submission</h2>
 <ul>
 <li>Submit the stable live URL and public repository link. Make sure the latest deployment succeeds.</li>
 <li>Retain the final original .blend and animated GLB with the source. Use the correct files under assets/avatar/.</li>
-<li>Add the final promotional MP4, embed it, and retain the native .aep; this remains the deferred module.</li>
+<li>Use the integrated film and complete AE release ZIP. Open the intended .aep revision in After Effects and check dependencies; the ZIP also preserves alternate and corrupt backups exactly as supplied.</li>
 <li>Consolidate the final project report and screenshots. The older implementation PDF is a historical working report; this newer handbook explains the current system.</li>
 <li>Capture successful source-linked chat, unknown answer behavior, delivered email, core interactions, light/night and mobile views.</li>
 <li>Check content credits, internship publishing restrictions and key rotation privately. Do not show env values during evaluation.</li>

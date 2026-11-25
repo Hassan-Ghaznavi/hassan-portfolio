@@ -2,6 +2,18 @@
 
 Hassan Ghaznavi's game development and 3D environment art portfolio.
 
+## AE Video
+
+The 60-second promotional film is embedded near the cover as a taped storyboard sheet: [watch it in the portfolio](https://hassan-portfolio-two-rho.vercel.app/#portfolio-film). It uses the supplied **MAIN_The_Manual_Is_Wrong_1080p.mp4**, optimized to 1920x1080 H.264/AAC with its audio retained. The player loads only on request, supports native playback/sound/fullscreen controls, pauses offscreen, and collapses back to the illustrated poster. promo-film.js owns this player; assets/promo/ contains the web copy and source/export hashes.
+
+**Complete After Effects folder:** [download The_Manual_Is_Wrong_AE.zip](https://github.com/Hassan-Ghaznavi/hassan-portfolio/releases/download/ae-video-2026-11-25/The_Manual_Is_Wrong_AE.zip) from the [AE Video release](https://github.com/Hassan-Ghaznavi/hassan-portfolio/releases/tag/ae-video-2026-11-25).
+
+The archive preserves all 356 supplied files under The_Manual_Is_Wrong_AE/, including the original 1080p export, reference video, native .aep versions, assets, audio, scripts, frame sequences, backups and logs. It is 911,832,721 bytes; it lives in release assets rather than the normal Git history or Vercel build. The release includes SHA256SUMS.txt and ae-package-manifest.json for integrity verification. The manifest is also retained under output/ae-video/. Multiple .aep revisions and a clearly named corrupt backup are preserved exactly as supplied; open the intended valid revision in After Effects before presenting it as the final editable project.
+
+Archive SHA-256: `1bf046dcc43ed8a4d09b457ad9373bde7f5bc3d7f5567a7543e4160d8fe578fd`.
+
+This section records the completed film integration and supersedes the historical deferred-video statements further below. Existing v0.9.0 release assets remain their older snapshot. The complete archive is provided with the student's explicit permission; the website build receives only the small approved film assets.
+
 ## Run locally
 
     node tools/build-site.mjs

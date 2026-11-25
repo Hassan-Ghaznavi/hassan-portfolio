@@ -12,7 +12,7 @@ for name in ['index.html','styles.css','README.md','vercel.json','.gitattributes
  files.append((root/name,'source/'+name))
 for folder in ['api','lib']:
  for p in (root/folder).glob('*.mjs'):files.append((p,'source/'+str(p.relative_to(root)).replace('\\','/')))
-for name in ['build-site.mjs','serve-story-preview.mjs','check-chat.mjs','check-chat-resilience.mjs','check-contact.mjs','check-video-controls.mjs','validate-rig-export.py','build-report.py','build-evaluation-guide.py','package-submission.py','prepare-game-captures.py','render-project-process.py','render-process-pair.py']:
+for name in ['build-site.mjs','serve-story-preview.mjs','check-chat.mjs','check-chat-resilience.mjs','check-contact.mjs','check-video-controls.mjs','validate-rig-export.py','build-report.py','build-evaluation-guide.py','package-submission.py','prepare-ae-delivery.py','prepare-game-captures.py','render-project-process.py','render-process-pair.py']:
  files.append((root/'tools'/name,'source/tools/'+name))
 files.append((root/'assets/avatar/hassan-doodle-rigged.blend','source/assets/avatar/hassan-doodle-rigged.blend'))
 files.append((root/'assets/avatar/rig-export-validation.json','evidence/avatar-export-validation.json'))

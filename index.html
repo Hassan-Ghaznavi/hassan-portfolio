@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Hassan Ghaznavi's game development and 3D environment art portfolio.">
   <title>The Manual Is Wrong. | Hassan Ghaznavi</title>
-  <link rel="stylesheet" href="styles.css?v=sketchbook-mounts-15">
+  <link rel="stylesheet" href="styles.css?v=manual-film-16">
   <script type="importmap">{"imports":{"three":"./assets/vendor/three/build/three.module.js","three/addons/":"./assets/vendor/three/addons/"}}</script>
   <script type="module" src="main.js?v=scroll-studies-13"></script>
   <script type="module" src="avatar-preview.js?v=ink-1"></script>
@@ -19,6 +19,7 @@
   <script type="module" src="chapter-finder.js"></script>
   <script type="module" src="manual.js"></script>
   <script type="module" src="margin-notes.js"></script>
+  <script type="module" src="promo-film.js"></script>
 </head>
 <body>
   <div class="manual-intro" id="manual-intro" hidden>
@@ -86,6 +87,21 @@
           <a class="button outline" href="#flight" id="try-flying">Try flying <span aria-hidden="true">▸</span></a>
         </figcaption>
       </figure>
+    </section>
+
+    <section id="portfolio-film" class="section promo-film" aria-labelledby="promo-title">
+      <div class="promo-copy">
+        <p class="eyebrow">A short film / The Manual Is Wrong</p>
+        <h2 id="promo-title">Every world<br>starts with a line.</h2>
+        <p>Before you turn the page, take a minute inside the margins. A little story about the games, worlds, and ideas I make.</p>
+        <div class="promo-actions"><button id="promo-play" type="button" class="button ink" aria-expanded="false" aria-controls="promo-screen"><span class="promo-play-mark" aria-hidden="true">▷</span> Play the film <small>01:00</small></button><span class="promo-handnote" aria-hidden="true">This page moves.</span></div>
+        <p class="promo-status" role="status" aria-live="polite">A minute inside the margins.</p>
+      </div>
+      <figure class="promo-mount">
+        <div id="promo-screen" class="promo-screen"><img src="assets/promo/manual-film.webp" width="1280" height="720" loading="lazy" alt="The Manual Is Wrong film opens on Hassan’s illustrated sketchbook cover."></div>
+        <figcaption><span>Notes on making worlds</span><span>60 seconds · Sound on play</span></figcaption>
+      </figure>
+      <noscript><p><a href="assets/promo/manual-film.mp4">Watch The Manual Is Wrong film</a></p></noscript>
     </section>
 
     <nav class="chapter-index" aria-label="Project index">

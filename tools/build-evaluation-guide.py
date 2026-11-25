@@ -38,13 +38,13 @@ page('How the semester requirements map to the build',
 table(['Requirement','Implementation and evidence'],
 ['Module 1 Web portfolio','Profile, About, skills, projects, achievements, journey and contact; responsive layouts; navigation, CV download and interactive scenes. index.html, main.js and styles.css.'],
 ['Module 2 Blender avatar','Final rigged .blend and exported GLB; Idle, Draw and Point; head rotation, orbit, pause and outlines. assets/avatar and avatar-scene.js.'],
-['Module 3 After Effects','Final 30-60 second promotional MP4 and native .aep remain deferred with the collaborator. The CSS manual opening does not replace this requirement.'],
+['Module 3 After Effects','The supplied 60-second 1080p film is integrated near the cover. Full AE folder, including native .aep revisions, is provided as a separate GitHub release ZIP. The intended editable revision still needs an AE opening check.'],
 ['Module 4 RAG chatbot','Curated notes, overlapping chunks, Gemini embeddings, cosine ranking and grounded generation with linked source IDs. API and browser fallback paths are implemented.'],
 ['Module 5 Email','Validated form, Resend server route, signed delivery receipt and status polling. A successful delivery was recorded earlier; the guide does not send a new test.'],
 ['Module 6 Submission','Public Vercel URL and GitHub repository, README, PDF reports, screenshots and a source packaging script. Existing release v0.9.0 is a fixed older snapshot.']),
 h('Extra credit already represented'),
 p('Light and night themes; pointer-responsive 3D and paper depth; animated avatar actions; project/collection search; chapter finder; keyboard and reduced-motion support; Doodle source links; optional read-aloud answers. Read-aloud is speech output, not microphone-based voice input. Urdu support was deliberately removed.'),
-p('Analytics, a task ordering system, microphone chat and CAPTCHA are not implemented. Physical-device performance acceptance and the final AE deliverables still need to be retained as submission evidence.'))
+p('Analytics, a task ordering system, microphone chat and CAPTCHA are not implemented. Retain physical-device acceptance and the valid final AE revision with its dependencies as submission evidence.'))
 
 page('Architecture and request flow',
 ('diagram',None),
@@ -84,7 +84,7 @@ table(['Module','Responsibility'],
 ['avatar-preview.js / avatar-scene.js','Lazy bootstrap, GLB avatar viewer, animation mixer, controls and ink tracing.'],
 ['companion.js / companion-scene.js','Chat panel, API calls, saved-note fallback, retry/read-aloud; lazy 3D pencil model.'],
 ['portfolio-notes.js','Approved factual corpus shared by backend retrieval and the browser fallback.'],
-['contact.js / video-controls.js','Contact submission and delivery polling; explicit player-specific Collapse video lifecycle.']),
+['promo-film.js / contact.js / video-controls.js','Promotional film, contact submission and delivery polling; explicit player-specific Collapse video lifecycle.']),
 p('A bootstrap module decides when to load a larger scene module. This keeps the first page lighter and separates presentation, data and server responsibilities.'))
 
 page('Asset locations and original work',
@@ -96,7 +96,7 @@ table(['Relative path under assets/','Contents and use'],
 ['process/','Matched solid/wireframe WebP previews for cave, ocean, AirPods and avatar; stylized sketch SVGs are separate from genuine wireframes.'],
 ['two-lights/','Approved gameplay MP4, gameplay-clear.webp, GameCon photo and evaluation-clear.webp.'],
 ['project-frames/ and internship/','Paper Dash and Behind the Smile covers; 21 approved internship game screenshots.'],
-['documents/ and paper-grain.webp','hassan-ghaznavi-cv.pdf for download; a small repeating paper grain texture.']),
+['promo/, documents/ and paper-grain.webp','Optimized 1080p manual-film.mp4 with audio, poster and source/export hashes; CV download and repeating paper texture.']),
 h('Original source folders supplied by Hassan'),
 p('D:/Projects Videos and Info - original project media.<br/>D:/Unity Internship Projects - internship working projects, not public source.<br/>D:/Documents/Blender projects - cave.blend, stormy ocean.blend and airpods.blend source inputs.<br/>C:/Users/hp/Downloads/Personal/Hassan Ghaznavi CV.pdf - originally supplied CV location; the deployed copy is under assets/documents/.'),
 p('The website runs from approved copies inside this repository. It does not depend on visitors having these D: drive folders. Do not upload raw internship recordings or source.'))
@@ -146,7 +146,7 @@ h('Doodle pencil companion'),
 p('Doodle uses assets/mascot/pencil-web.glb. The pencil is an adapted third-party Pencil (TPOT) model by JossyBoy, under CC BY 4.0. Attribution is kept in the panel and asset notes. Material preparation and a whole-character wake motion were added for this portfolio. Do not claim that this pencil was sculpted from scratch or has an independently rigged finger/limb system.'),
 p('companion-scene.js loads the GLB only on first panel opening, plays its animation clips and stops active rendering when closed or hidden. This is the visual companion; companion.js and api/chat.mjs implement its intelligence separately.'),
 h('Ideas still separate from implemented functionality'),
-p('The full sequence where Hassan becomes a sketch, draws Doodle and returns has not been completed as an integrated final cinematic. The portfolio\'s animated opening and live avatar do not imply that this transformation or the AE promotional video is already finished.'))
+p('The supplied AE promotional film now plays near the cover as a taped storyboard sheet. The separate fully interactive sequence where the live 3D avatar becomes a sketch and draws Doodle has not been implemented as a real-time transformation. The film and live avatar remain separate presentation systems.'))
 
 page('Doodle RAG step by step',
 bullets('1. Source selection: portfolio-notes.js holds approved facts about projects, contribution, skills, education and achievements. Raw private project folders are not indexed.', '2. Chunking: makeIndex splits each note into windows of up to 140 words, stepping by 100 words. Longer notes therefore overlap by 40 words. Many present notes fit in one chunk.', '3. Corpus embeddings: gemini-embedding-001 turns source title plus chunk text into 768-dimensional document vectors using RETRIEVAL_DOCUMENT.', '4. Query embedding: the current question is embedded with RETRIEVAL_QUERY. No full chat history is sent.', '5. Ranking: cosine similarity ranks vectors. A small 0.06 boost favors chunks also found by lexical retrieval. Results scoring at least 0.3 are limited to the top three.', '6. Generation: gemini-3.5-flash-lite receives system instructions, the question and retrieved source chunks. It is asked for short English answers in structured JSON.', '7. Validation: the handler checks answer shape/length and retains only source IDs from retrieved context. Factual responses without a valid retrieved citation are replaced by an unknown-information reply.', '8. Display: the browser renders text with textContent and approved internal source links. Clicking a source takes the visitor to the relevant portfolio chapter.'),
@@ -192,7 +192,7 @@ h('Build and publishing'),
 p('vercel.json runs node tools/build-site.mjs and serves dist. The build recreates only the known generated dist directory, then copies an explicit file/media allowlist. API handlers are deployed separately by Vercel from api/. The final .blend is tracked for evaluation but is not copied into website assets.'),
 p('A main-branch push triggers the connected production deployment. The live URL and repository URL stay the same when the latest deployment succeeds. Environment-variable edits need a new deployment to take effect. Do not print private values or export them into JavaScript.'),
 h('GitHub and releases'),
-p('The repository is public. Teachers can inspect tracked code and approved assets, including the final Blender source. Ignored/untracked files on the laptop are not automatically visible. A tag/release remains a fixed snapshot; editing main does not update an old release archive. The older v0.9.0 release predates this handbook.'))
+p('The repository is public. Teachers can inspect tracked code and approved assets, including the final Blender source. Ignored/untracked files on the laptop are not automatically visible. The AE Video heading links a complete 356-file, 911,832,721-byte project ZIP in GitHub release assets. That large archive is excluded from the Vercel build. A tag/release is fixed; editing main does not update an old release archive. The older v0.9.0 release predates this handbook.'))
 
 page('Security controls A to H',
 table(['Control','Implementation and limits'],
@@ -310,11 +310,11 @@ p('400 invalid input; 403 wrong origin; 405 method not allowed; 413 body bound; 
 
 page('Evidence and final submission checklist',
 h('What this handbook verifies'),
-p('The explanations were prepared from the current repository files: index.html, frontend modules, api/chat.mjs, api/contact.mjs, lib/retrieval.mjs, lib/shared-limit.mjs, lib/embedding-cache.mjs, vercel.json, the build allowlist, .gitignore, asset attribution and rig-export-validation.json. No secrets are included and no new paid AI or email calls are needed to generate it.'),
+p('The explanations were prepared from the current repository files: index.html, frontend modules, api/chat.mjs, api/contact.mjs, lib/retrieval.mjs, lib/shared-limit.mjs, lib/embedding-cache.mjs, vercel.json, the build allowlist, .gitignore, asset attribution and rig-export-validation.json. The film integration uses MAIN_The_Manual_Is_Wrong_1080p.mp4, optimized to about 20.9 MB with stereo audio. No secrets or new live provider calls are included in this guide.'),
 h('Earlier evidence versus current availability'),
 p('Previous project records show a real cited AI response and Resend delivery verified on 22 November, followed by intermittent Gemini 503/timeouts. The 25 November interface pass checked desktop and 390px study layouts. These are dated observations, not continuous uptime or a complete security audit. output/screenshots contains the retained browser evidence.'),
 h('Before final submission'),
-bullets('Submit the stable live URL and public repository link. Make sure the latest deployment succeeds.', 'Retain the final original .blend and animated GLB with the source. Use the correct files under assets/avatar/.', 'Add the final promotional MP4, embed it, and retain the native .aep; this remains the deferred module.', 'Consolidate the final project report and screenshots. The older implementation PDF is a historical working report; this newer handbook explains the current system.', 'Capture successful source-linked chat, unknown answer behavior, delivered email, core interactions, light/night and mobile views.', 'Check content credits, internship publishing restrictions and key rotation privately. Do not show env values during evaluation.', 'Test on a physical phone and PC. Keep honest notes about provider dependence and performance limits.', 'Create a new tag/release only when you want a new fixed snapshot; existing release assets do not follow main automatically.'),
+bullets('Submit the stable live URL and public repository link. Make sure the latest deployment succeeds.', 'Retain the final original .blend and animated GLB with the source. Use the correct files under assets/avatar/.', 'Use the integrated film and complete AE release ZIP. Open the intended .aep revision in After Effects and check dependencies; the ZIP also preserves alternate and corrupt backups exactly as supplied.', 'Consolidate the final project report and screenshots. The older implementation PDF is a historical working report; this newer handbook explains the current system.', 'Capture successful source-linked chat, unknown answer behavior, delivered email, core interactions, light/night and mobile views.', 'Check content credits, internship publishing restrictions and key rotation privately. Do not show env values during evaluation.', 'Test on a physical phone and PC. Keep honest notes about provider dependence and performance limits.', 'Create a new tag/release only when you want a new fixed snapshot; existing release assets do not follow main automatically.'),
 h('Files you should open if asked to prove the design'),
 p('Three.js: mini-scenes.js and avatar-scene.js.<br/>RAG: api/chat.mjs, portfolio-notes.js and lib/retrieval.mjs.<br/>Security: lib/shared-limit.mjs, api/contact.mjs and vercel.json.<br/>Deployment: tools/build-site.mjs and README.md.<br/>Model: assets/avatar/hassan-doodle-rigged.blend and .glb.'),
 p('The strongest evaluation answer connects a visible interaction to its source code, explains why the design was chosen, and states its limits.'))

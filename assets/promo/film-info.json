@@ -1,0 +1,10 @@
+{
+  "source": "MAIN_The_Manual_Is_Wrong_1080p.mp4",
+  "source_sha256": "3a43c4c470b42b9dc75c1295c4f24589b8f422a564ca5efabf9fc307d2d61b73",
+  "web_export": "manual-film.mp4",
+  "web_sha256": "6c7f829bb0a549c329c8167b92d9a850296ee7045ab5465beab38baca18054e4",
+  "duration_seconds": 60.0,
+  "resolution": "1920x1080",
+  "audio": "AAC stereo, retained from source",
+  "optimization": "H.264 CRF 22; AAC 160k; faststart; click-to-load"
+}
